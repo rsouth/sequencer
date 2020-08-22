@@ -75,7 +75,7 @@ Coming soon
 
 ## :pray: Credits / Attributions
 
-#### Inspiration
+#### :bulb: Inspiration
 
 [WebSequenceDiagrams](https://www.websequencediagrams.com/) which is an online text-based sequence diagram generator with a commercial offering.
 
