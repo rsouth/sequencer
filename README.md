@@ -53,6 +53,16 @@ See the [wiki](https://github.com/rsouth/sequencer/wiki/Grammar) for the current
 </div>
 
 
+## Building
+
+```Batchfile
+qmake
+nmake release
+```
+
+https://github.com/rsouth/sequencer/wiki/Building
+
+
 ## Download
 
 Coming soon :cherries:
