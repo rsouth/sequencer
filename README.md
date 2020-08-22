@@ -3,7 +3,7 @@
   <h3>sequencer is a simple diagramming tool to make it easy for developers to share ideas</h3>
   <p>
     <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/rsouth/sequencer">
-    <img alt="GitHub" src="https://img.shields.io/github/license/rsouth/sequencer">
+    <img alt="GPL v3 License" src="https://img.shields.io/github/license/rsouth/sequencer">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/rsouth/sequencer">
   </p>
 </div>
