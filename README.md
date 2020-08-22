@@ -47,7 +47,7 @@ Copy the diagram to your clipboard to paste straight in to chat or email.
 See the [wiki](https://github.com/rsouth/sequencer/wiki/Grammar) for the current grammar.
 
 
-#### :movie_camera: Demo
+## :movie_camera: Demo
 
 <div align="center" style="display: flex; flex-direction: column;">
   <p>
