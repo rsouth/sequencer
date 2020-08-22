@@ -29,7 +29,14 @@ QPixmap RenderingJob::do_render_diagram(const std::string input)
 	renderable_diagram.calculate_diagram_size(hxw);
 
 	img.resize(hxw[1], hxw[0], 1, 3);
-	img.fill(222); // 255 for white...
+#ifdef NDEBUG
+	// fill white for release build
+	img.fill(255);
+#else
+	// fill grey for debug build
+	img.fill(222);
+#endif
+	
 
 	// draw the diagram to the CImg
 	renderable_diagram.draw();
