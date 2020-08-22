@@ -113,12 +113,12 @@ auto RenderableInteraction::render_interaction_message(const int interaction_fro
 	if (!this->interaction_.get_message().empty())
 	{
 		const bool right_facing = interaction_from_x < interaction_to_x;
-		const int message_width = this->rendering_utils_->get_font_rendered_width(this->interaction_.get_message(), this->message_font_height_);
+		const int message_width = this->rendering_utils_->get_font_rendered_width(this->interaction_.get_message(), this->text_font_height_);
 		const int label_x = right_facing
 			                    ? interaction_from_x + LayoutConstants::MESSAGE_X_PADDING
-			                    : interaction_from_x - (message_width + LayoutConstants::MESSAGE_X_PADDING);
+			                    : interaction_from_x - message_width - LayoutConstants::MESSAGE_X_PADDING;
 
-		this->img_->draw_text(label_x, interaction_from_y, this->interaction_.get_message().c_str(),
+		this->img_->draw_text(label_x, interaction_from_y - this->text_font_height_, this->interaction_.get_message().c_str(),
 		                      RenderingUtils::BLACK, RenderingUtils::WHITE, 1, this->text_font_height_);
 	}
 }
@@ -126,7 +126,7 @@ auto RenderableInteraction::render_interaction_message(const int interaction_fro
 auto RenderableInteraction::get_rightmost_x() const -> int
 {
 	const auto line_from_x = get_participant_x(this->interaction_.get_from());
-	const auto font_rendered_width = this->rendering_utils_->get_font_rendered_width(this->interaction_.get_message(), this->message_font_height_);
+	const auto font_rendered_width = this->rendering_utils_->get_font_rendered_width(this->interaction_.get_message(), this->text_font_height_);
 	return 100 + line_from_x + font_rendered_width + LayoutConstants::MESSAGE_X_PADDING + (2 * LayoutConstants::DIAGRAM_MARGIN);
 }
 

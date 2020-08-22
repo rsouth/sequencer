@@ -24,7 +24,7 @@ private:
 	Interaction interaction_;
 	RenderingUtils* rendering_utils_;
 	cimg_library::CImg<unsigned char>* img_;
-	int message_font_height_ = 13;
+	unsigned int text_font_height_ = 23;
 
 
 	auto draw_self_referential_interaction(int y_offset) const -> void;
@@ -42,6 +42,5 @@ private:
 
 	auto draw_string(int x, int y, const std::string& text, int font_height) const -> void;
 
-	unsigned int text_font_height_ = 23;
 };
 
