@@ -113,6 +113,7 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <QtMoc Include="AboutDialog.h" />
     <ClInclude Include="CImg.h" />
     <ClInclude Include="Diagram.h" />
     <ClInclude Include="Interaction.h" />
@@ -127,10 +128,13 @@
     <ClInclude Include="RenderingJob.h" />
     <QtMoc Include="RenderingThread.h" />
     <ClInclude Include="RenderingUtils.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="StringUtils.h" />
     <QtRcc Include="Sequencer.qrc" />
+    <QtUic Include="AboutDialog.ui" />
     <QtUic Include="Sequencer.ui" />
     <QtMoc Include="Sequencer.h" />
+    <ClCompile Include="AboutDialog.cpp" />
     <ClCompile Include="Diagram.cpp" />
     <ClCompile Include="DiagramParser.cpp" />
     <ClCompile Include="Interaction.cpp" />
@@ -165,6 +169,9 @@
   <ItemGroup>
     <None Include="Sequencer.pri" />
     <None Include="Sequencer.pro" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Sequencer.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -1,9 +1,9 @@
 #pragma once
 
 
-//#include <qmainwindow.h>
-
 #include <QtWidgets/qmainwindow.h>
+
+#include "AboutDialog.h"
 
 #include "RenderingThread.h"
 #include "ui_Sequencer.h"
@@ -35,6 +35,8 @@ public slots:
 
 	// ReSharper disable once CppInconsistentNaming
 	void on_actionSave_As_triggered();
+
+	void on_actionAbout_triggered();
 
 	// ReSharper disable once CppInconsistentNaming
 	void on_actionSave_triggered();
