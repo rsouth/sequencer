@@ -62,3 +62,5 @@ QMAKE_CXXFLAGS_DEBUG += /MTd
 QMAKE_CXXFLAGS_RELEASE += /MT
 
 CONFIG += static
+
+RC_ICONS = resources/sequencer.ico
