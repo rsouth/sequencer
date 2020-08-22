@@ -118,7 +118,7 @@ auto RenderableInteraction::render_interaction_message(const int interaction_fro
 			                    ? interaction_from_x + LayoutConstants::MESSAGE_X_PADDING
 			                    : interaction_from_x - (message_width + LayoutConstants::MESSAGE_X_PADDING);
 
-		this->img_->draw_text(label_x, interaction_from_y, this->interaction_.get_message().c_str(),
+		this->img_->draw_text(label_x, interaction_from_y - this->text_font_height_, this->interaction_.get_message().c_str(),
 		                      RenderingUtils::BLACK, RenderingUtils::WHITE, 1, this->text_font_height_);
 	}
 }
