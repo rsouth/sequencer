@@ -17,7 +17,7 @@
   <a href="#license">License</a>
 </p>
 
-## What is sequencer?
+## :white_check_mark: What is sequencer?
 
 Sequencer allows you to create **simple and clear sequence diagrams**, based on a simple grammar. Your diagram is **drawn in real-time** as you type, and is designed to be:
 
@@ -25,9 +25,9 @@ Sequencer allows you to create **simple and clear sequence diagrams**, based on 
  - easy to **share**
  - easy to **version control**
 
-## Simple to get started
+## :zap: Simple to get started
 
-#### Describe your sequence
+#### :speech_balloon: Describe your sequence
 
 ```
 Client -> Server: Request
@@ -38,7 +38,7 @@ Server -> Client: Response
 ```
 
 
-#### Your diagram is ready to go
+#### :boom: Your diagram is ready to go
 
 <img src="https://i.ibb.co/FDT8kNL/sequencer-example-2020-08-07.png" alt="sequencer-example-2020-08-07" border="0" />
 
@@ -53,7 +53,7 @@ See the [wiki](https://github.com/rsouth/sequencer/wiki/Grammar) for the current
 </div>
 
 
-## Building
+## :hammer: Building
 
 ```Batchfile
 qmake
@@ -63,17 +63,17 @@ nmake release
 https://github.com/rsouth/sequencer/wiki/Building
 
 
-## Download
+## :rocket: Download
 
-Coming soon :cherries:
+Coming soon
 
 
-## Contributing
+## :thumbsup: Contributing
 
 **Pull requests are welcome**. For major changes, please open an issue first to discuss what you would like to change.
 
 
-## Credits / Attributions
+## :pray: Credits / Attributions
 
 #### Inspiration
 
@@ -82,7 +82,7 @@ Coming soon :cherries:
 Sequencer is a C++ re-write of my own project [jSequencer](https://github.com/rsouth/jsequencer).
 
 
-## License
+## :blue_book: License
 
 This project is licensed under the terms of the GNU General Public License v3.0.
 
