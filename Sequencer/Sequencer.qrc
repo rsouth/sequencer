@@ -11,5 +11,6 @@
         <file>resources/icon-title.png</file>
         <file>resources/icon-grammar.png</file>
         <file>resources/icon-info.png</file>
+        <file>resources/logo-square.png</file>
     </qresource>
 </RCC>

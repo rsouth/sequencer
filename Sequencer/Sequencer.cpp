@@ -1,4 +1,5 @@
 #include "Sequencer.h"
+//#include "AboutDialog.h"
 
 #include <QtWidgets/qfiledialog.h>
 #include "qclipboard.h"
@@ -90,10 +91,10 @@ void Sequencer::on_actionExample_File_triggered()
 
 void Sequencer::on_actionCopy_Diagram_to_Clipboard_triggered()
 {
-	const QPixmap* pixmap = ui.label->pixmap();
-	if (pixmap)
+	const QPixmap pixmap = this->ui.label->pixmap(Qt::ReturnByValueConstant::ReturnByValue);
+	if (!pixmap.isNull())
 	{
-		QImage image(pixmap->toImage());
+		QImage image(pixmap.toImage());
 		QClipboard* clipboard = QApplication::clipboard();
 		if (clipboard && !image.isNull()) {
 			clipboard->setImage(image, QClipboard::Mode::Clipboard);
@@ -123,6 +124,14 @@ void Sequencer::on_actionSave_As_triggered()
 {
 	QString file_name = QFileDialog::getSaveFileName(this, tr("Save File"), nullptr, tr("Sequencer Files (*.seq)"));
 	this->save_to_file(file_name.toStdString());
+}
+
+void Sequencer::on_actionAbout_triggered()
+{
+	AboutDialog* about_dialog = new AboutDialog();
+	about_dialog->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint & ~Qt::WindowMinimizeButtonHint);
+	about_dialog->setAttribute(Qt::WA_DeleteOnClose);
+	about_dialog->show();
 }
 
 void Sequencer::on_actionSave_triggered()
