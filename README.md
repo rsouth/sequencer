@@ -42,7 +42,9 @@ Server -> Client: Response
 
 <img src="https://i.ibb.co/FDT8kNL/sequencer-example-2020-08-07.png" alt="sequencer-example-2020-08-07" border="0" />
 
-Copy the diagram to your clipboard to paste straight in to chat or email.
+ - paste right in to chat, email, your wiki page
+ - export as a .png file
+ - share the source, or better yet - version control it!
 
 See the [wiki](https://github.com/rsouth/sequencer/wiki/Grammar) for the current grammar.
 
