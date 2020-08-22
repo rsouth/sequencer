@@ -1,7 +1,5 @@
 #include "Interaction.h"
 
-#include <utility>
-
 Interaction::Interaction(int index, Participant& from_participant, Participant& to_participant,
                          const std::string& message):
 	index_(index),
