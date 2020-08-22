@@ -46,11 +46,16 @@ Copy the diagram to your clipboard to paste straight in to chat or email.
 
 See the [wiki](https://github.com/rsouth/sequencer/wiki/Grammar) for the current grammar.
 
+
+#### :movie_camera: Demo
+
 <div align="center" style="display: flex; flex-direction: column;">
   <p>
     <img src="https://s7.gifyu.com/images/sequence-gizmo-6.gif" alt="sequence-gizmo-6.gif" border="0" />
   </p>
 </div>
+
+_(Demo is recorded from jSequencer, I will replace with a recording of the Sequencer C++ re-write soon)_
 
 
 ## :hammer: Building
