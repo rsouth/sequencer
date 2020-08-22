@@ -82,7 +82,7 @@ Coming soon
 
 #### :art: Icons
 
-Toolbar icons <div>made by <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+Toolbar icons made by [Dave Gandy](https://www.flaticon.com/authors/dave-gandy) from [www.flaticon.com](https://www.flaticon.com/).
 
 
 #### :bulb: Inspiration
