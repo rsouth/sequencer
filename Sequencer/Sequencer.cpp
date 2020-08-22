@@ -1,6 +1,7 @@
 #include "Sequencer.h"
 
 #include <QtWidgets/qfiledialog.h>
+#include "qclipboard.h"
 
 #include "RenderableDiagram.h"
 #include "RenderingJob.h"
@@ -89,6 +90,15 @@ void Sequencer::on_actionExample_File_triggered()
 
 void Sequencer::on_actionCopy_Diagram_to_Clipboard_triggered()
 {
+	const QPixmap* pixmap = ui.label->pixmap();
+	if (pixmap)
+	{
+		QImage image(pixmap->toImage());
+		QClipboard* clipboard = QApplication::clipboard();
+		if (clipboard && !image.isNull()) {
+			clipboard->setImage(image, QClipboard::Mode::Clipboard);
+		}
+	}
 }
 
 void Sequencer::on_actionExport_Diagram_As_triggered()
