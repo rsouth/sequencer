@@ -80,6 +80,11 @@ Coming soon
 
 ## :pray: Credits / Attributions
 
+#### :art: Icons
+
+Toolbar icons <div>made by <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+
 #### :bulb: Inspiration
 
 [WebSequenceDiagrams](https://www.websequencediagrams.com/) which is an online text-based sequence diagram generator with a commercial offering.

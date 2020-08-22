@@ -1,5 +1,15 @@
 <RCC>
     <qresource prefix="/Sequencer">
+        <file>resources/icon-author.png</file>
+        <file>resources/icon-calendar.png</file>
+        <file>resources/icon-copy.png</file>
+        <file>resources/icon-example.png</file>
+        <file>resources/icon-export.png</file>
+        <file>resources/icon-new-file.png</file>
         <file>resources/icon-open.png</file>
+        <file>resources/icon-save.png</file>
+        <file>resources/icon-title.png</file>
+        <file>resources/icon-grammar.png</file>
+        <file>resources/icon-info.png</file>
     </qresource>
 </RCC>
