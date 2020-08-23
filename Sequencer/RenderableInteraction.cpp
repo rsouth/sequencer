@@ -34,7 +34,7 @@ auto RenderableInteraction::draw_point_to_point_interaction(const int y_offset) 
 	const auto line_y = y_offset + (this->interaction_.get_index() * LayoutConstants::INTERACTION_GAP) + LayoutConstants::INTERACTION_GAP;
 
 	// draw line
-	this->draw_line(line_from_x, line_y, line_to_x, line_y);
+	this->draw_line(line_from_x, line_y, line_to_x, line_y, this->interaction_.is_reply());
 
 	// draw message
 	this->render_interaction_message(line_from_x, line_y, line_to_x);
@@ -52,13 +52,13 @@ auto RenderableInteraction::draw_self_referential_interaction(const int y_offset
 	const int to_line_y = from_line_y + (LayoutConstants::INTERACTION_GAP);
 
 	// render line
-	this->draw_line(line_from_x, from_line_y, line_to_x, from_line_y);
+	this->draw_line(line_from_x, from_line_y, line_to_x, from_line_y, this->interaction_.is_reply());
 
 	// vertical line
-	this->draw_line(line_to_x, from_line_y, line_to_x, to_line_y);
+	this->draw_line(line_to_x, from_line_y, line_to_x, to_line_y, this->interaction_.is_reply());
 
 	// second line
-	this->draw_line(line_from_x, to_line_y, line_to_x, to_line_y);
+	this->draw_line(line_from_x, to_line_y, line_to_x, to_line_y, this->interaction_.is_reply());
 
 	// Render message
 	this->render_interaction_message(line_from_x, from_line_y, line_to_x);
@@ -137,7 +137,7 @@ auto RenderableInteraction::draw_string(const int x, const int y, const std::str
 	this->img_->draw_text(x, y, text.c_str(), RenderingUtils::BLACK, RenderingUtils::WHITE, 1, font_height);
 }
 
-auto RenderableInteraction::draw_line(const int x0, const int y0, const int x1, const int y1) const -> void
+auto RenderableInteraction::draw_line(const int x0, const int y0, const int x1, const int y1, bool dashed) const -> void
 {
 	this->img_->draw_line(
 		x0,
@@ -145,8 +145,9 @@ auto RenderableInteraction::draw_line(const int x0, const int y0, const int x1, 
 		x1,
 		y1,
 		RenderingUtils::BLACK,
-		1,
-		~0U);
+		1, // opacity
+		dashed ? 0xFFFFFF00 : 0xFFFFFFFF
+	);
 }
 
 auto RenderableInteraction::get_participant_x(const Participant& participant) -> int

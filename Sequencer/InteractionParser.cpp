@@ -17,7 +17,7 @@ std::list<Interaction> InteractionParser::parse(const std::list<Participant>& pa
 			// lines with -> are 'interactions'
 			if (StringUtils::contains(line, "->"))
 			{
-				auto token = StringUtils::contains(line, "-->") ? "-->" : "->";
+				std::string token = StringUtils::contains(line, "-->") ? "-->" : "->";
 				auto line_split = StringUtils::split(line, token);
 				auto from_name = StringUtils::trim_copy(line_split[0]);
 				auto to_name = StringUtils::trim_copy(line_split[1]);
@@ -45,7 +45,7 @@ std::list<Interaction> InteractionParser::parse(const std::list<Participant>& pa
 					auto from_lane = lane_by_name(participants, from_name);
 					auto to_lane = lane_by_name(participants, to_name);
 
-					bool is_reply = token == "-->";
+					bool is_reply = token.compare("-->") == 0;
 					auto interaction = Interaction(interaction_count, from_lane, to_lane, message, is_reply);
 					interactions.emplace_back(interaction);
 					interaction_count++;
