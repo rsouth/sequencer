@@ -1,11 +1,11 @@
 #include "Interaction.h"
 
 Interaction::Interaction(int index, Participant& from_participant, Participant& to_participant,
-                         const std::string& message):
+                         const std::string& message, bool is_reply):
 	index_(index),
 	from_participant_(std::move(from_participant)),
 	to_participant_(std::move(to_participant)),
-	message_(message)
+	message_(message), is_reply_(is_reply)
 {
 }
 
@@ -32,4 +32,9 @@ Participant Interaction::get_to() const
 int Interaction::get_index() const
 {
 	return this->index_;
+}
+
+bool Interaction::is_reply() const
+{
+	return this->is_reply_;
 }
