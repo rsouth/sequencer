@@ -78,7 +78,7 @@ public:
 	{
 		const size_t start_pos = str.find(from);
 		if (start_pos == std::string::npos)
-			return nullptr;
+			return str;
 		str.replace(start_pos, from.length(), to);
 		return str;
 	}
@@ -118,5 +118,32 @@ public:
 				return a + join_with + b;
 			}
 		);
+	}
+
+	static void replace_token_and_value(std::vector<std::string>& lines, std::string token, std::string value)
+	{
+		bool replaced = false;
+
+		// create the full ":token value" string
+		std::string full_string = token;
+		if (!value.empty()) {
+			full_string += value;
+		}
+
+		// look for an existing ":token" line, and replace if found
+		for (int i = 0; i < lines.size(); i++)
+		{
+			auto line = lines.at(i);
+			if (StringUtils::starts_with(line, token)) {
+				lines.at(i) = full_string;
+				replaced = true;
+			}
+		}
+
+		// if no existing line was found, insert one at the top
+		if (!replaced)
+		{
+			lines.insert(lines.begin(), 1, full_string);
+		}
 	}
 };

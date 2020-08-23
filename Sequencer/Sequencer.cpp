@@ -15,9 +15,8 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 #include "Sequencer.h"
-//#include "AboutDialog.h"
 
-#include <QtWidgets/qfiledialog.h>
+#include "qfiledialog.h"
 #include "qclipboard.h"
 #include "qdesktopservices.h"
 #include "qinputdialog.h"
@@ -35,12 +34,12 @@ Sequencer::Sequencer(QWidget* parent) : QMainWindow(parent)
 	ui.splitter->setStretchFactor(0, 1);
 	ui.splitter->setStretchFactor(1, 20);
 
-	connect(&this->worker_thread_, &RenderingThread::render_completed, this, &Sequencer::update_ui);
+	connect(&this->worker_thread_, &RenderingThread::render_completed, this, &Sequencer::update_diagram);
 }
 
 Sequencer::~Sequencer()
 {
-	disconnect(&this->worker_thread_, &RenderingThread::render_completed, this, &Sequencer::update_ui);
+	disconnect(&this->worker_thread_, &RenderingThread::render_completed, this, &Sequencer::update_diagram);
 
 	this->worker_thread_.requestInterruption();
 	if (!this->worker_thread_.wait(100))
@@ -121,7 +120,7 @@ void Sequencer::on_actionExport_Diagram_As_triggered()
 void Sequencer::on_actionSave_As_triggered()
 {
 	QString file_name = QFileDialog::getSaveFileName(this, tr("Save File"), nullptr, tr("Sequencer Files (*.seq)"));
-	this->save_to_file(file_name.toStdString());
+	this->save_source_to_file(file_name.toStdString());
 }
 
 void Sequencer::on_actionAbout_triggered()
@@ -146,7 +145,25 @@ void Sequencer::on_actionSave_triggered()
 	}
 	else
 	{
-		this->save_to_file(document_title.toStdString());
+		this->save_source_to_file(document_title.toStdString());
+	}
+}
+
+void Sequencer::save_source_to_file(const std::string file_name)
+{
+	QFile output_file(file_name.c_str());
+	if (output_file.open(QIODevice::WriteOnly))
+	{
+		// get source text from UI
+		auto text = this->ui.textBrowser->toPlainText();
+
+		// write out to the file
+		QTextStream out(&output_file);
+		out << text;
+		output_file.close();
+
+		// update the document's title with the file name
+		this->ui.textBrowser->setDocumentTitle(file_name.c_str());
 	}
 }
 
@@ -175,59 +192,24 @@ void Sequencer::on_actionAdd_Date_triggered()
 	replace_header_token(":date", "");
 }
 
-void Sequencer::save_to_file(const std::string file_name)
-{
-	QFile output_file(file_name.c_str());
-	if (output_file.open(QIODevice::WriteOnly))
-	{
-		// get lines from txt box as string
-		auto text = this->ui.textBrowser->toPlainText();
-
-		// std::list<std::string> lines;
-		QTextStream out(&output_file);
-		out << text;
-		output_file.close();
-
-		this->ui.textBrowser->setDocumentTitle(file_name.c_str());
-
-	}
-	else
-	{
-		// pop up some error msg?
-	}
-}
-
 void Sequencer::replace_header_token(std::string token, std::string replacement)
 {
+	// get source text from the UI
 	auto text = this->ui.textBrowser->toPlainText();
 	auto lines = StringUtils::split(text.toStdString(), "\n");
-	bool replaced = false;
+	
+	// add or replace the token line, using replacement as the value
+	StringUtils::replace_token_and_value(lines, token, replacement);
 
-	std::string full_string = token;
-	if (!replacement.empty()) {
-		full_string += replacement;
-	}
-
-	for (int i = 0; i < lines.size(); i++)
-	{
-		auto line = lines.at(i);
-		if (StringUtils::starts_with(line, token)) {
-			lines.at(i) = full_string;
-			replaced = true;
-		}
-	}
-	if (!replaced)
-	{
-		lines.insert(lines.begin(), 1, full_string);
-	}
-
+	// join the lines back to a string and push back to the UI
 	const auto joinedLines = StringUtils::join(lines, "\n");
 	this->ui.textBrowser->setText(QString(joinedLines.c_str()));
 }
 
 
-// slot: update_ui
-void Sequencer::update_ui(const QPixmap img)
+// slot: update_diagram
+// updates the UI with the new QPixmap holding the diagram
+void Sequencer::update_diagram(const QPixmap img)
 {
 	ui.label->setPixmap(img);
 	ui.label->setFixedSize(img.width(), img.height());

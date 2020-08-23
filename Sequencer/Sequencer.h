@@ -16,12 +16,11 @@
  */
 #pragma once
 
-
-#include <QtWidgets/qmainwindow.h>
+#include "qmainwindow.h"
 
 #include "AboutDialog.h"
-
 #include "RenderingThread.h"
+
 #include "ui_Sequencer.h"
 
 class Sequencer final : public QMainWindow
@@ -30,7 +29,6 @@ class Sequencer final : public QMainWindow
 
 public:
 	explicit Sequencer(QWidget* parent = Q_NULLPTR);
-
 	~Sequencer();
 
 public slots:
@@ -61,18 +59,24 @@ public slots:
 	// ReSharper disable once CppInconsistentNaming
 	void on_actionSave_triggered();
 
+	// ReSharper disable once CppInconsistentNaming
 	void on_actionAdd_Author_triggered();
+
+	// ReSharper disable once CppInconsistentNaming
 	void on_actionAdd_Title_triggered();
+
+	// ReSharper disable once CppInconsistentNaming
 	void on_actionAdd_Date_triggered();
 
-	void update_ui(const QPixmap img);
+	// update the UI with the new diagram
+	void update_diagram(const QPixmap img);
 
 private:
 	Ui::SequencerClass ui;
 
 	RenderingThread worker_thread_;
 
-	void save_to_file(const std::string file_name);
+	void save_source_to_file(const std::string file_name);
 
 	void replace_header_token(std::string token, std::string replacement);
 	
