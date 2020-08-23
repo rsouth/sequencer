@@ -54,7 +54,6 @@ void Sequencer::on_actionOpen_triggered()
 		// give lines to the textArea
 		this->ui.textBrowser->setText(QString(joinedLines.c_str()));
 		this->ui.textBrowser->setDocumentTitle(file_name);
-
 	}
 }
 
@@ -142,16 +141,22 @@ void Sequencer::on_actionAdd_Author_triggered()
 		tr("Author name:"), QLineEdit::Normal, "", &ok);
 	if (ok && !text.isEmpty())
 	{
-		replace_header_token(":author", text.toStdString());
+		replace_header_token(":author ", text.toStdString());
 	}
 }
 
 void Sequencer::on_actionAdd_Title_triggered()
 {
+	bool ok;
+	QString text = QInputDialog::getText(this, tr("Diagram Title"), tr("Diagram title:"), QLineEdit::Normal, "", &ok);
+	if (ok && !text.isEmpty()) {
+		replace_header_token(":title ", text.toStdString());
+	}
 }
 
 void Sequencer::on_actionAdd_Date_triggered()
 {
+	replace_header_token(":date", "");
 }
 
 void Sequencer::save_to_file(const std::string file_name)
@@ -181,17 +186,23 @@ void Sequencer::replace_header_token(std::string token, std::string replacement)
 	auto text = this->ui.textBrowser->toPlainText();
 	auto lines = StringUtils::split(text.toStdString(), "\n");
 	bool replaced = false;
+
+	std::string full_string = token;
+	if (!replacement.empty()) {
+		full_string += replacement;
+	}
+
 	for (int i = 0; i < lines.size(); i++)
 	{
 		auto line = lines.at(i);
 		if (StringUtils::starts_with(line, token)) {
-			lines.at(i) = token + " " + replacement;
+			lines.at(i) = full_string;
 			replaced = true;
 		}
 	}
 	if (!replaced)
 	{
-		lines.insert(lines.begin(), 1, token + " " + replacement);
+		lines.insert(lines.begin(), 1, full_string);
 	}
 
 	const auto joinedLines = StringUtils::join(lines, "\n");
