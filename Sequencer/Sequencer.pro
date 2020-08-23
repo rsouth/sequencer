@@ -7,6 +7,14 @@ TARGET = Sequencer
 INCLUDEPATH += .
 QT += core gui widgets
 
+RC_ICONS = resources/sequencer.ico
+
+VERSION = 0.0.0.1
+QMAKE_TARGET_COMPANY = https://github.com/rsouth
+QMAKE_TARGET_PRODUCT = Sequencer
+QMAKE_TARGET_DESCRIPTION = Simple sequence diagrams
+QMAKE_TARGET_COPYRIGHT = 2020 github.com/rsouth
+
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # Please consult the documentation of the deprecated API in order to know
@@ -65,5 +73,3 @@ QMAKE_CXXFLAGS_DEBUG += /MTd
 QMAKE_CXXFLAGS_RELEASE += /MT
 
 CONFIG += static
-
-RC_ICONS = resources/sequencer.ico
