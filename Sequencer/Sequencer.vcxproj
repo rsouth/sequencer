@@ -119,6 +119,7 @@
     <ClInclude Include="Interaction.h" />
     <ClInclude Include="InteractionParser.h" />
     <ClInclude Include="LayoutConstants.h" />
+    <ClInclude Include="ParsingUtils.h" />
     <ClInclude Include="Participant.h" />
     <ClInclude Include="ParticipantsParser.h" />
     <ClInclude Include="RenderableDiagram.h" />

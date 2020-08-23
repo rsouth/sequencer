@@ -5,6 +5,7 @@
 
 #include "Participant.h"
 #include "StringUtils.h"
+#include "ParsingUtils.h"
 
 std::list<Participant> ParticipantsParser::parse(const std::string& input)
 {
@@ -20,7 +21,7 @@ std::list<Participant> ParticipantsParser::parse(const std::string& input)
 		{
 			if (StringUtils::contains(line, "->"))
 			{
-				auto token = StringUtils::contains(line, "-->") ? "-->" : "->";
+				auto token = ParsingUtils::parse_token(line);
 				auto participant_names = parse_lane_lanes(line, token);
 				known_participants.insert(known_participants.end(), participant_names.begin(), participant_names.end());
 			}

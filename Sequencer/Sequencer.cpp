@@ -82,8 +82,8 @@ void Sequencer::on_actionExample_File_triggered()
 		"# diagram\n"
 		"Client -> Server: Request\n"
 		"Server -> Server: Parses request\n"
-		"Server -> Service: Query\n"
-		"Service --> Server: Data\n"
+		"Server ->> Service: Query\n"
+		"Service -->> Server: Data\n"
 		"Server --> Client: Response\n";
 	
 	this->ui.textBrowser->setText(text);

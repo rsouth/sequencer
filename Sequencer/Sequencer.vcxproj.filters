@@ -169,6 +169,9 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ParsingUtils.h">
+      <Filter>Header Files\parsing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="RenderingThread.h">
