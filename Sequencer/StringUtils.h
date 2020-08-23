@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <numeric>
 
 class StringUtils
 {
@@ -89,5 +90,17 @@ public:
 	static bool contains(const std::string& input, const std::string& search_for)
 	{
 		return input.find(search_for) != std::string::npos;
+	}
+
+	static std::string join(std::vector<std::string> lines, std::string join_with) {
+		return std::accumulate(
+			std::next(lines.begin()),
+			lines.end(),
+			lines.front(),
+			[join_with](std::string a, std::string b)
+			{
+				return a + join_with + b;
+			}
+		);
 	}
 };

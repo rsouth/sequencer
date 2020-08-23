@@ -36,10 +36,18 @@ public slots:
 	// ReSharper disable once CppInconsistentNaming
 	void on_actionSave_As_triggered();
 
+	// ReSharper disable once CppInconsistentNaming
 	void on_actionAbout_triggered();
 
 	// ReSharper disable once CppInconsistentNaming
+	void on_actionGrammar_triggered();
+
+	// ReSharper disable once CppInconsistentNaming
 	void on_actionSave_triggered();
+
+	void on_actionAdd_Author_triggered();
+	void on_actionAdd_Title_triggered();
+	void on_actionAdd_Date_triggered();
 
 	void update_ui(const QPixmap img);
 
@@ -49,5 +57,7 @@ private:
 	RenderingThread worker_thread_;
 
 	void save_to_file(const std::string file_name);
+
+	void replace_header_token(std::string token, std::string replacement);
 	
 };

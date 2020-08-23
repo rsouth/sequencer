@@ -3,9 +3,12 @@
 
 #include <QtWidgets/qfiledialog.h>
 #include "qclipboard.h"
+#include "qdesktopservices.h"
+#include "qinputdialog.h"
 
 #include "RenderableDiagram.h"
 #include "RenderingJob.h"
+#include "StringUtils.h"
 
 using namespace cimg_library;
 
@@ -36,7 +39,7 @@ void Sequencer::on_actionOpen_triggered()
 	QFile input_file(file_name);
 	if (input_file.open(QIODevice::ReadOnly))
 	{
-		std::list<std::string> lines;
+		std::vector<std::string> lines;
 		QTextStream in(&input_file);
 		while (!in.atEnd())
 		{
@@ -46,18 +49,9 @@ void Sequencer::on_actionOpen_triggered()
 		input_file.close();
 
 		// concat the lines
-		const auto joinedLines = std::accumulate(
-			std::next(lines.begin()),
-			lines.end(),
-			lines.front(),
-			[](std::string a, std::string b)
-			{
-				return a + "\n" + b;
-			}
-		);
+		const auto joinedLines = StringUtils::join(lines, "\n");
 
 		// give lines to the textArea
-		// auto* object = findChild<QTextBrowser*>("textBrowser");
 		this->ui.textBrowser->setText(QString(joinedLines.c_str()));
 		this->ui.textBrowser->setDocumentTitle(file_name);
 
@@ -123,6 +117,11 @@ void Sequencer::on_actionAbout_triggered()
 	about_dialog->show();
 }
 
+void Sequencer::on_actionGrammar_triggered()
+{
+	QDesktopServices::openUrl(QUrl(QString("https://github.com/rsouth/sequencer/wiki/Grammar")));
+}
+
 void Sequencer::on_actionSave_triggered()
 {
 	QString document_title = this->ui.textBrowser->documentTitle();
@@ -134,6 +133,25 @@ void Sequencer::on_actionSave_triggered()
 	{
 		this->save_to_file(document_title.toStdString());
 	}
+}
+
+void Sequencer::on_actionAdd_Author_triggered()
+{
+	bool ok;
+	QString text = QInputDialog::getText(this, tr("Author Name"),
+		tr("Author name:"), QLineEdit::Normal, "", &ok);
+	if (ok && !text.isEmpty())
+	{
+		replace_header_token(":author", text.toStdString());
+	}
+}
+
+void Sequencer::on_actionAdd_Title_triggered()
+{
+}
+
+void Sequencer::on_actionAdd_Date_triggered()
+{
 }
 
 void Sequencer::save_to_file(const std::string file_name)
@@ -156,6 +174,28 @@ void Sequencer::save_to_file(const std::string file_name)
 	{
 		// pop up some error msg?
 	}
+}
+
+void Sequencer::replace_header_token(std::string token, std::string replacement)
+{
+	auto text = this->ui.textBrowser->toPlainText();
+	auto lines = StringUtils::split(text.toStdString(), "\n");
+	bool replaced = false;
+	for (int i = 0; i < lines.size(); i++)
+	{
+		auto line = lines.at(i);
+		if (StringUtils::starts_with(line, token)) {
+			lines.at(i) = token + " " + replacement;
+			replaced = true;
+		}
+	}
+	if (!replaced)
+	{
+		lines.insert(lines.begin(), 1, token + " " + replacement);
+	}
+
+	const auto joinedLines = StringUtils::join(lines, "\n");
+	this->ui.textBrowser->setText(QString(joinedLines.c_str()));
 }
 
 
