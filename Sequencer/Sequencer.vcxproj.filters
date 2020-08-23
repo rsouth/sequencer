@@ -187,6 +187,7 @@
   <ItemGroup>
     <None Include="Sequencer.pri" />
     <None Include="Sequencer.pro" />
+    <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Sequencer.rc">
