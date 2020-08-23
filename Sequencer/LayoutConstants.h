@@ -34,5 +34,5 @@ public:
 
 	static const int MESSAGE_X_PADDING = 5;
 
-	static const int ARROWHEAD_LINE_LENGTH = 20;
+	static const int ARROWHEAD_LINE_LENGTH = 10;
 };
