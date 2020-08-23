@@ -31,7 +31,7 @@ private:
 
 	auto draw_arrowhead(int line_end_x, int line_end_y) const -> void;
 
-	auto draw_line(int x0, int y0, int x1, int y1) const -> void;
+	auto draw_line(int x0, int y0, int x1, int y1, bool dashed = false) const -> void;
 
 	static auto get_participant_x(const Participant& participant) -> int;
 	auto draw_point_to_point_interaction(int y_offset) const -> void;
