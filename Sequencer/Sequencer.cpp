@@ -104,20 +104,9 @@ void Sequencer::on_actionCopy_Diagram_to_Clipboard_triggered()
 
 void Sequencer::on_actionExport_Diagram_As_triggered()
 {
-	QString file_name = QFileDialog::getSaveFileName(this, tr("Export File"), nullptr, tr("Images (*.png)"));
-
-
-	QFile output_file(file_name);
-	if (output_file.open(QIODevice::WriteOnly))
-	{
-		// get lines from txt box as strin
-		auto text = this->ui.textBrowser->toPlainText();
-		
-		// std::list<std::string> lines;
-		QTextStream out(&output_file);
-		out << text;
-		output_file.close();
-	}
+	QString file_name = QFileDialog::getSaveFileName(this, tr("Export File"), nullptr, tr("Portable Network Graphics (PNG) (*.png)"));
+	QPixmap pic = this->ui.label->pixmap(Qt::ReturnByValueConstant::ReturnByValue);
+	pic.save(file_name, "PNG");
 }
 
 void Sequencer::on_actionSave_As_triggered()
