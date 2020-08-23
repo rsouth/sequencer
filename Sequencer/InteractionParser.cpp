@@ -88,13 +88,11 @@ std::list<Interaction> InteractionParser::parse(const std::list<Participant>& pa
 
 Participant InteractionParser::lane_by_name(const std::list<Participant>& participants, const std::string& name)
 {
-	for (auto participant : participants)
-	{
-		if (participant.get_name() == name)
-		{
-			return participant;
-		}
+	auto participant_iter = std::find_if(participants.begin(), participants.end(), [name](const Participant& participant) { return participant.get_name().compare(name) == 0;});
+	if (participant_iter == end(participants)) {
+		const std::string msg("No participant found with name " + name + "]");
+		throw std::exception(msg.c_str());
 	}
 
-	throw std::exception("no participant found");
+	return *participant_iter;
 }
