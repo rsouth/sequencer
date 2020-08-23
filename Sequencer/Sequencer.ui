@@ -694,6 +694,9 @@
    <property name="text">
     <string>Exit</string>
    </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionAdd_Title">
    <property name="icon">
