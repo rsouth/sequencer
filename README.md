@@ -9,12 +9,13 @@
 </div>
 
 <p align="center">
-  <a href="#what-is-sequencer">Highlights</a> •
-  <a href="#simple-to-get-started">Get Started</a> •
-  <a href="#download">Download</a> •
-  <a href="#contributing">Contributing</a> •
-  <a href="#credits--attributions">Credits</a> •
-  <a href="#license">License</a>
+  <a href="#white_check_mark-what-is-sequencer">Highlights</a> •
+  <a href="#zap-simple-to-get-started">Get Started</a> •
+  <a href="#movie_camera-demo">Demo</a> •
+  <a href="#rocket-download">Download</a> •
+  <a href="#thumbsup-contributing">Contributing</a> •
+  <a href="#pray-credits--attributions">Credits</a> •
+  <a href="#blue_book-license">License</a>
 </p>
 
 ## :white_check_mark: What is sequencer?
@@ -24,6 +25,8 @@ Sequencer allows you to create **simple and clear sequence diagrams**, based on 
  - easy to **edit**
  - easy to **share**
  - easy to **version control**
+
+Sequencer is **free** and **open-source**, distributed as a **single .exe (no installer)**, and has just the features you need to share and document your idea quickly.
 
 ## :zap: Simple to get started
 
