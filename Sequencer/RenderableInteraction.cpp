@@ -75,34 +75,65 @@ auto RenderableInteraction::draw_arrowhead(const int line_end_x, const int line_
 	const boolean is_pointing_right = from_lane_index < to_lane_index;
 	if (is_pointing_right)
 	{
-		// draw >
-		this->draw_line(
-			line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH,
-			line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
-			line_end_x,
-			line_end_y);
+		if (this->interaction_.is_async()) {
+			// draw down-right
+			this->draw_line(
+				line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH,
+				line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
+				line_end_x,
+				line_end_y);
 
-		// draw <
-		this->draw_line(
-			line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH,
-			line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH,
-			line_end_x,
-			line_end_y);
+			// draw /
+			this->draw_line(
+				line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH,
+				line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH,
+				line_end_x,
+				line_end_y);
+		} else {
+			CImg<int> points(3, 2);
+			int arrowhead_points[] = {
+				line_end_x, line_end_y,
+				line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
+				line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH
+			};
+			int* iterator = arrowhead_points;
+
+			cimg_forX(points, i) {
+				points(i, 0) = *(iterator++); points(i, 1) = *(iterator++);
+			}
+			this->img_->draw_polygon(points, RenderingUtils::BLACK);
+		}
 	}
 	else
 	{
-		// draw <
-		this->draw_line(
-			line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH,
-			line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
-			line_end_x,
-			line_end_y);
-		// draw >
-		this->draw_line(
-			line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH,
-			line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH,
-			line_end_x,
-			line_end_y);
+		if (this->interaction_.is_async()) {
+			// draw /
+			this->draw_line(
+				line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH,
+				line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
+				line_end_x,
+				line_end_y);
+			// draw down-right
+			this->draw_line(
+				line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH,
+				line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH,
+				line_end_x,
+				line_end_y);
+		} else {
+			// draw filled polygon for synchronous calls
+			CImg<int> points(3, 2);
+			int arrowhead_points[] = {
+				line_end_x, line_end_y,
+				line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
+				line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH
+			};
+			int* iterator = arrowhead_points;
+
+			cimg_forX(points, i) {
+				points(i, 0) = *(iterator++); points(i, 1) = *(iterator++);
+			}
+			this->img_->draw_polygon(points, RenderingUtils::BLACK);
+		}
 	}
 }
 
