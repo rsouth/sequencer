@@ -108,7 +108,7 @@ public:
 		return input.find(search_for) != std::string::npos;
 	}
 
-	static std::string join(std::vector<std::string> lines, std::string join_with) {
+	static std::string join(const std::vector<std::string>& lines, const std::string join_with) {
 		return std::accumulate(
 			std::next(lines.begin()),
 			lines.end(),
