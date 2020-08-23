@@ -83,8 +83,6 @@ Please download the [latest](https://github.com/rsouth/sequencer/releases/latest
 
 #### [v0.0.1 pre-alpha](https://github.com/rsouth/sequencer/releases/tag/v0.0.1-pre-alpha) :cherries:
 
-## Sequencer v0.0.1 pre-alpha
-
  - Grammar parity with jSequencer
     - Participants and messages
     - Synchronous and asynchronous messages
