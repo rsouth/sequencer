@@ -75,7 +75,12 @@ https://github.com/rsouth/sequencer/wiki/Building
 
 ## :rocket: Download
 
+#### Latest
+
+Please download the [latest](https://github.com/rsouth/sequencer/releases/latest) release.
+
 #### v0.0.1 pre-alpha
+
 Check the [releases](https://github.com/rsouth/sequencer/releases) page :cherries:
 
 
