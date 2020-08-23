@@ -92,8 +92,6 @@ Please download the [latest](https://github.com/rsouth/sequencer/releases/latest
  - Qt UI implementation
  - Sharing options (clipboard, .png export)
 
-_note_ pre-alpha version **does not** check the state of the document before quitting, opening a new file etc - you **will** lose work **!!**
-
 
 ## :thumbsup: Contributing
 
