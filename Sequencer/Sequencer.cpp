@@ -104,7 +104,7 @@ void Sequencer::on_actionCopy_Diagram_to_Clipboard_triggered()
 
 void Sequencer::on_actionExport_Diagram_As_triggered()
 {
-	QString file_name = QFileDialog::getSaveFileName(this, tr("Export File"), nullptr, tr("Images (*.png)"));
+	QString file_name = QFileDialog::getSaveFileName(this, tr("Export File"), nullptr, tr("Portable Network Graphics (PNG) (*.png)"));
 	QPixmap pic = this->ui.label->pixmap(Qt::ReturnByValueConstant::ReturnByValue);
 	pic.save(file_name, "PNG");
 }
