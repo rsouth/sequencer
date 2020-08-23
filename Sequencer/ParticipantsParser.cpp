@@ -76,12 +76,11 @@ std::list<Participant> ParticipantsParser::parse(const std::string& input)
 }
 
 
-std::list<std::string> ParticipantsParser::parse_lane_lanes(const std::string& line, const std::string token)
+std::list<std::string> ParticipantsParser::parse_lane_lanes(const std::string& line, const std::string& token)
 {
 	std::list<std::string> lane_names;
 	try
 	{
-		// todo if (isValid(line)) {
 		auto lanes_split = StringUtils::split(line, token);
 
 		// 'from' lane is the first entry
@@ -101,8 +100,6 @@ std::list<std::string> ParticipantsParser::parse_lane_lanes(const std::string& l
 				lane_names.emplace_back(StringUtils::trim_copy(to_node_and_msg.at(0)));
 			}
 		}
-
-		// }
 	}
 	catch (const std::exception& e)
 	{
