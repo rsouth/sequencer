@@ -3,21 +3,22 @@
   <h3>sequencer is a simple diagramming tool to make it easy for developers to share ideas</h3>
   <p>
     <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/rsouth/sequencer">
-    <img alt="GitHub" src="https://img.shields.io/github/license/rsouth/sequencer">
+    <img alt="GPL v3 License" src="https://img.shields.io/github/license/rsouth/sequencer">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/rsouth/sequencer">
   </p>
 </div>
 
 <p align="center">
-  <a href="#what-is-sequencer">Highlights</a> •
-  <a href="#simple-to-get-started">Get Started</a> •
-  <a href="#download">Download</a> •
-  <a href="#contributing">Contributing</a> •
-  <a href="#credits--attributions">Credits</a> •
-  <a href="#license">License</a>
+  <a href="#white_check_mark-what-is-sequencer">Highlights</a> •
+  <a href="#zap-simple-to-get-started">Get Started</a> •
+  <a href="#movie_camera-demo">Demo</a> •
+  <a href="#rocket-download">Download</a> •
+  <a href="#thumbsup-contributing">Contributing</a> •
+  <a href="#pray-credits--attributions">Credits</a> •
+  <a href="#blue_book-license">License</a>
 </p>
 
-## What is sequencer?
+## :white_check_mark: What is sequencer?
 
 Sequencer allows you to create **simple and clear sequence diagrams**, based on a simple grammar. Your diagram is **drawn in real-time** as you type, and is designed to be:
 
@@ -25,9 +26,11 @@ Sequencer allows you to create **simple and clear sequence diagrams**, based on 
  - easy to **share**
  - easy to **version control**
 
-## Simple to get started
+Sequencer is **free** and **open-source**, distributed as a **single .exe (no installer)**, and has just the features you need to share and document your idea quickly.
 
-#### Describe your sequence
+## :zap: Simple to get started
+
+#### :speech_balloon: Describe your sequence
 
 ```
 Client -> Server: Request
@@ -38,13 +41,18 @@ Server -> Client: Response
 ```
 
 
-#### Your diagram is ready to go
+#### :boom: Your diagram is ready to go
 
 <img src="https://i.ibb.co/FDT8kNL/sequencer-example-2020-08-07.png" alt="sequencer-example-2020-08-07" border="0" />
 
-Copy the diagram to your clipboard to paste straight in to chat or email.
+ - paste right in to chat, email, your wiki page
+ - export as a .png file
+ - share the source, or better yet - version control it!
 
 See the [wiki](https://github.com/rsouth/sequencer/wiki/Grammar) for the current grammar.
+
+
+## :movie_camera: Demo
 
 <div align="center" style="display: flex; flex-direction: column;">
   <p>
@@ -52,27 +60,44 @@ See the [wiki](https://github.com/rsouth/sequencer/wiki/Grammar) for the current
   </p>
 </div>
 
-
-## Download
-
-Coming soon :cherries:
+_(Demo is recorded from jSequencer, I will replace with a recording of the Sequencer C++ re-write soon)_
 
 
-## Contributing
+## :hammer: Building
+
+```Batchfile
+qmake
+nmake release
+```
+
+https://github.com/rsouth/sequencer/wiki/Building
+
+
+## :rocket: Download
+
+Coming soon
+
+
+## :thumbsup: Contributing
 
 **Pull requests are welcome**. For major changes, please open an issue first to discuss what you would like to change.
 
 
-## Credits / Attributions
+## :pray: Credits / Attributions
 
-#### Inspiration
+#### :art: Icons
+
+Toolbar icons made by [Dave Gandy](https://www.flaticon.com/authors/dave-gandy) from [www.flaticon.com](https://www.flaticon.com/).
+
+
+#### :bulb: Inspiration
 
 [WebSequenceDiagrams](https://www.websequencediagrams.com/) which is an online text-based sequence diagram generator with a commercial offering.
 
 Sequencer is a C++ re-write of my own project [jSequencer](https://github.com/rsouth/jsequencer).
 
 
-## License
+## :blue_book: License
 
 This project is licensed under the terms of the GNU General Public License v3.0.
 

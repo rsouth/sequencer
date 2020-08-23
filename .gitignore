@@ -589,3 +589,4 @@ MigrationBackup/
 # End of https://www.toptal.com/developers/gitignore/api/windows,qt,qtcreator,visualstudio,clion,c++
 *.diagsession
 .qmake.stash
+Sequencer/Sequencer_resource.rc

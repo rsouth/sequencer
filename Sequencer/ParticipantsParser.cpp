@@ -5,6 +5,7 @@
 
 #include "Participant.h"
 #include "StringUtils.h"
+#include "ParsingUtils.h"
 
 std::list<Participant> ParticipantsParser::parse(const std::string& input)
 {
@@ -20,7 +21,8 @@ std::list<Participant> ParticipantsParser::parse(const std::string& input)
 		{
 			if (StringUtils::contains(line, "->"))
 			{
-				auto participant_names = parse_lane_lanes(line);
+				auto token = ParsingUtils::parse_token(line);
+				auto participant_names = parse_lane_lanes(line, token);
 				known_participants.insert(known_participants.end(), participant_names.begin(), participant_names.end());
 			}
 		}
@@ -58,13 +60,13 @@ std::list<Participant> ParticipantsParser::parse(const std::string& input)
 }
 
 
-std::list<std::string> ParticipantsParser::parse_lane_lanes(const std::string& line)
+std::list<std::string> ParticipantsParser::parse_lane_lanes(const std::string& line, const std::string token)
 {
 	std::list<std::string> lane_names;
 	try
 	{
 		// todo if (isValid(line)) {
-		auto lanes_split = StringUtils::split(line, "->");
+		auto lanes_split = StringUtils::split(line, token);
 
 		// 'from' lane is the first entry
 		if (!lanes_split.empty())

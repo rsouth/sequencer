@@ -1,9 +1,14 @@
 #include "Sequencer.h"
+//#include "AboutDialog.h"
 
 #include <QtWidgets/qfiledialog.h>
+#include "qclipboard.h"
+#include "qdesktopservices.h"
+#include "qinputdialog.h"
 
 #include "RenderableDiagram.h"
 #include "RenderingJob.h"
+#include "StringUtils.h"
 
 using namespace cimg_library;
 
@@ -34,7 +39,7 @@ void Sequencer::on_actionOpen_triggered()
 	QFile input_file(file_name);
 	if (input_file.open(QIODevice::ReadOnly))
 	{
-		std::list<std::string> lines;
+		std::vector<std::string> lines;
 		QTextStream in(&input_file);
 		while (!in.atEnd())
 		{
@@ -44,21 +49,11 @@ void Sequencer::on_actionOpen_triggered()
 		input_file.close();
 
 		// concat the lines
-		const auto joinedLines = std::accumulate(
-			std::next(lines.begin()),
-			lines.end(),
-			lines.front(),
-			[](std::string a, std::string b)
-			{
-				return a + "\n" + b;
-			}
-		);
+		const auto joinedLines = StringUtils::join(lines, "\n");
 
 		// give lines to the textArea
-		// auto* object = findChild<QTextBrowser*>("textBrowser");
 		this->ui.textBrowser->setText(QString(joinedLines.c_str()));
 		this->ui.textBrowser->setDocumentTitle(file_name);
-
 	}
 }
 
@@ -79,40 +74,51 @@ void Sequencer::on_actionExample_File_triggered()
 		"\n"
 		"# diagram\n"
 		"Client -> Server: Request\n"
-		"Server -> Server: Thinks\n"
-		"Server -> Service: Query\n"
-		"Service -> Server: Data\n"
-		"Server -> Client: Response\n";
+		"Server -> Server: Parses request\n"
+		"Server ->> Service: Query\n"
+		"Service -->> Server: Data\n"
+		"Server --> Client: Response\n";
 	
 	this->ui.textBrowser->setText(text);
 }
 
 void Sequencer::on_actionCopy_Diagram_to_Clipboard_triggered()
 {
+	const QPixmap pixmap = this->ui.label->pixmap(Qt::ReturnByValueConstant::ReturnByValue);
+	if (!pixmap.isNull())
+	{
+		QImage image(pixmap.toImage());
+		QClipboard* clipboard = QApplication::clipboard();
+		if (clipboard && !image.isNull()) {
+			clipboard->setImage(image, QClipboard::Mode::Clipboard);
+		}
+	}
 }
 
 void Sequencer::on_actionExport_Diagram_As_triggered()
 {
-	QString file_name = QFileDialog::getSaveFileName(this, tr("Export File"), nullptr, tr("Images (*.png)"));
-
-
-	QFile output_file(file_name);
-	if (output_file.open(QIODevice::WriteOnly))
-	{
-		// get lines from txt box as strin
-		auto text = this->ui.textBrowser->toPlainText();
-		
-		// std::list<std::string> lines;
-		QTextStream out(&output_file);
-		out << text;
-		output_file.close();
-	}
+	QString file_name = QFileDialog::getSaveFileName(this, tr("Export File"), nullptr, tr("Portable Network Graphics (PNG) (*.png)"));
+	QPixmap pic = this->ui.label->pixmap(Qt::ReturnByValueConstant::ReturnByValue);
+	pic.save(file_name, "PNG");
 }
 
 void Sequencer::on_actionSave_As_triggered()
 {
 	QString file_name = QFileDialog::getSaveFileName(this, tr("Save File"), nullptr, tr("Sequencer Files (*.seq)"));
 	this->save_to_file(file_name.toStdString());
+}
+
+void Sequencer::on_actionAbout_triggered()
+{
+	AboutDialog* about_dialog = new AboutDialog();
+	about_dialog->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint & ~Qt::WindowMinimizeButtonHint);
+	about_dialog->setAttribute(Qt::WA_DeleteOnClose);
+	about_dialog->show();
+}
+
+void Sequencer::on_actionGrammar_triggered()
+{
+	QDesktopServices::openUrl(QUrl(QString("https://github.com/rsouth/sequencer/wiki/Grammar")));
 }
 
 void Sequencer::on_actionSave_triggered()
@@ -126,6 +132,31 @@ void Sequencer::on_actionSave_triggered()
 	{
 		this->save_to_file(document_title.toStdString());
 	}
+}
+
+void Sequencer::on_actionAdd_Author_triggered()
+{
+	bool ok;
+	QString text = QInputDialog::getText(this, tr("Author Name"),
+		tr("Author name:"), QLineEdit::Normal, "", &ok);
+	if (ok && !text.isEmpty())
+	{
+		replace_header_token(":author ", text.toStdString());
+	}
+}
+
+void Sequencer::on_actionAdd_Title_triggered()
+{
+	bool ok;
+	QString text = QInputDialog::getText(this, tr("Diagram Title"), tr("Diagram title:"), QLineEdit::Normal, "", &ok);
+	if (ok && !text.isEmpty()) {
+		replace_header_token(":title ", text.toStdString());
+	}
+}
+
+void Sequencer::on_actionAdd_Date_triggered()
+{
+	replace_header_token(":date", "");
 }
 
 void Sequencer::save_to_file(const std::string file_name)
@@ -148,6 +179,34 @@ void Sequencer::save_to_file(const std::string file_name)
 	{
 		// pop up some error msg?
 	}
+}
+
+void Sequencer::replace_header_token(std::string token, std::string replacement)
+{
+	auto text = this->ui.textBrowser->toPlainText();
+	auto lines = StringUtils::split(text.toStdString(), "\n");
+	bool replaced = false;
+
+	std::string full_string = token;
+	if (!replacement.empty()) {
+		full_string += replacement;
+	}
+
+	for (int i = 0; i < lines.size(); i++)
+	{
+		auto line = lines.at(i);
+		if (StringUtils::starts_with(line, token)) {
+			lines.at(i) = full_string;
+			replaced = true;
+		}
+	}
+	if (!replaced)
+	{
+		lines.insert(lines.begin(), 1, full_string);
+	}
+
+	const auto joinedLines = StringUtils::join(lines, "\n");
+	this->ui.textBrowser->setText(QString(joinedLines.c_str()));
 }
 
 

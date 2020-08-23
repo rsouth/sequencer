@@ -40,17 +40,17 @@
     <Filter Include="Source Files\rendering">
       <UniqueIdentifier>{7450a94d-9944-4ec4-aa14-3634f5a1f7f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gui">
+      <UniqueIdentifier>{fd8bc31a-4a17-482f-b8d3-d51792b44cfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui">
+      <UniqueIdentifier>{1d1b2716-1f61-40c7-baba-4818fa60aa9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="Sequencer.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="Sequencer.ui">
-      <Filter>Resource Files</Filter>
-    </QtUic>
-    <QtMoc Include="Sequencer.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -101,14 +101,17 @@
     <ClCompile Include="RenderingUtils.cpp">
       <Filter>Source Files\rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Sequencer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RenderingJob.cpp">
       <Filter>Source Files\rendering</Filter>
     </ClCompile>
     <ClCompile Include="RenderingThread.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AboutDialog.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Sequencer.cpp">
+      <Filter>Source Files\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,14 +166,39 @@
     <ClInclude Include="RenderingJob.h">
       <Filter>Header Files\rendering</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParsingUtils.h">
+      <Filter>Header Files\parsing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="RenderingThread.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Sequencer.h">
+      <Filter>Header Files\gui</Filter>
+    </QtMoc>
+    <QtMoc Include="AboutDialog.h">
+      <Filter>Header Files\gui</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <None Include="Sequencer.pri" />
     <None Include="Sequencer.pro" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Sequencer.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="AboutDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="Sequencer.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

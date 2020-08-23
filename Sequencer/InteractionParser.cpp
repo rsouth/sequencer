@@ -3,6 +3,7 @@
 
 #include "Interaction.h"
 #include "StringUtils.h"
+#include "ParsingUtils.h"
 
 std::list<Interaction> InteractionParser::parse(const std::list<Participant>& participants, const std::string& input)
 {
@@ -17,7 +18,8 @@ std::list<Interaction> InteractionParser::parse(const std::list<Participant>& pa
 			// lines with -> are 'interactions'
 			if (StringUtils::contains(line, "->"))
 			{
-				auto line_split = StringUtils::split(line, "->");
+				std::string token = ParsingUtils::parse_token(line);
+				auto line_split = StringUtils::split(line, token);
 				auto from_name = StringUtils::trim_copy(line_split[0]);
 				auto to_name = StringUtils::trim_copy(line_split[1]);
 
@@ -44,7 +46,9 @@ std::list<Interaction> InteractionParser::parse(const std::list<Participant>& pa
 					auto from_lane = lane_by_name(participants, from_name);
 					auto to_lane = lane_by_name(participants, to_name);
 
-					auto interaction = Interaction(interaction_count, from_lane, to_lane, message);
+					bool is_reply = StringUtils::contains(token, "--");
+					bool is_async = StringUtils::contains(token, ">>");
+					auto interaction = Interaction(interaction_count, from_lane, to_lane, message, is_reply, is_async);
 					interactions.emplace_back(interaction);
 					interaction_count++;
 

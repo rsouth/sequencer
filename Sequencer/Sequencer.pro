@@ -7,15 +7,24 @@ TARGET = Sequencer
 INCLUDEPATH += .
 QT += core gui widgets
 
+RC_ICONS = resources/sequencer.ico
+
+VERSION = 0.0.0.1
+QMAKE_TARGET_COMPANY = https://github.com/rsouth
+QMAKE_TARGET_PRODUCT = Sequencer
+QMAKE_TARGET_DESCRIPTION = Simple sequence diagrams
+QMAKE_TARGET_COPYRIGHT = 2020 github.com/rsouth
+
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # Please consult the documentation of the deprecated API in order to know
 # how to port your code away from it.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Input
-HEADERS += CImg.h \
+HEADERS += AboutDialog.h \
+           CImg.h \
            Diagram.h \
            DiagramParser.h \
            Interaction.h \
@@ -36,7 +45,9 @@ HEADERS += CImg.h \
            stdafx.h \
            StringUtils.h
 FORMS += Sequencer.ui
-SOURCES += Diagram.cpp \
+FORMS += AboutDialog.ui
+SOURCES += AboutDialog.cpp \
+           Diagram.cpp \
            DiagramParser.cpp \
            Interaction.cpp \
            InteractionParser.cpp \
