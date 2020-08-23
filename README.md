@@ -75,13 +75,26 @@ https://github.com/rsouth/sequencer/wiki/Building
 
 ## :rocket: Download
 
-#### Latest
+[Releases Page](https://github.com/rsouth/sequencer/releases)
+
+#### [Latest](https://github.com/rsouth/sequencer/releases/latest)
 
 Please download the [latest](https://github.com/rsouth/sequencer/releases/latest) release.
 
-#### v0.0.1 pre-alpha
+#### [v0.0.1 pre-alpha](https://github.com/rsouth/sequencer/releases/tag/v0.0.1-pre-alpha) :cherries:
 
-Check the [releases](https://github.com/rsouth/sequencer/releases) page :cherries:
+## Sequencer v0.0.1 pre-alpha
+
+ - Grammar parity with jSequencer
+    - Participants and messages
+    - Synchronous and asynchronous messages
+    - Self-referential messages
+    - Reply messages
+    - Header information (title, author, date)
+ - Qt UI implementation
+ - Sharing options (clipboard, .png export)
+
+_note_ pre-alpha version **does not** check the state of the document before quitting, opening a new file etc - you **will** lose work **!!**
 
 
 ## :thumbsup: Contributing
