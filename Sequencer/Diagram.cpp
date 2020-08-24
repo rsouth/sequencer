@@ -18,8 +18,8 @@
 
 #include <utility>
 
-Diagram::Diagram(MetaData meta_data, std::list<Participant> participants, std::list<Interaction> interactions):
-	meta_data_(std::move(meta_data)),
+Diagram::Diagram(const MetaData& meta_data, std::list<Participant> participants, std::list<Interaction> interactions):
+	meta_data_(meta_data),
 	participants_(std::move(participants)),
 	interactions_(std::move(interactions))
 {

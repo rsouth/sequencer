@@ -26,7 +26,7 @@ class Participant;
 class Diagram
 {
 public:
-	Diagram(MetaData meta_data, std::list<Participant> participants, std::list<Interaction> interactions);
+	Diagram(const MetaData& meta_data, std::list<Participant> participants, std::list<Interaction> interactions);
 
 	MetaData get_meta_data() const;
 	std::list<Participant> get_participants() const;
