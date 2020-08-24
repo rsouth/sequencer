@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Sequencer</string>
   </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonTextUnderIcon</enum>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
@@ -625,12 +628,13 @@
    <addaction name="menuShare"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
    <property name="movable">
     <bool>false</bool>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -661,7 +665,6 @@
    <addaction name="actionExample_File"/>
    <addaction name="actionAbout"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionCreate_New">
    <property name="icon">
     <iconset resource="Sequencer.qrc">
