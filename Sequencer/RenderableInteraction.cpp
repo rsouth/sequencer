@@ -112,7 +112,7 @@ auto RenderableInteraction::draw_arrowhead(const int line_end_x, const int line_
 				line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
 				line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH
 			};
-			int* iterator = arrowhead_points;
+			const int* iterator = arrowhead_points;
 
 			cimg_forX(points, i) {
 				points(i, 0) = *(iterator++); points(i, 1) = *(iterator++);
@@ -143,7 +143,7 @@ auto RenderableInteraction::draw_arrowhead(const int line_end_x, const int line_
 				line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
 				line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH
 			};
-			int* iterator = arrowhead_points;
+			const int* iterator = arrowhead_points;
 
 			cimg_forX(points, i) {
 				points(i, 0) = *(iterator++); points(i, 1) = *(iterator++);
