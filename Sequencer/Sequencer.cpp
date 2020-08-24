@@ -192,7 +192,7 @@ void Sequencer::on_actionAdd_Date_triggered()
 	replace_header_token(":date", "");
 }
 
-void Sequencer::replace_header_token(std::string token, std::string replacement)
+void Sequencer::replace_header_token(const std::string& token, const std::string& replacement)
 {
 	// get source text from the UI
 	auto text = this->ui.textBrowser->toPlainText();

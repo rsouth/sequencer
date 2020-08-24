@@ -78,6 +78,6 @@ private:
 
 	void save_source_to_file(const std::string file_name);
 
-	void replace_header_token(std::string token, std::string replacement);
+	void replace_header_token(const std::string& token, const std::string& replacement);
 	
 };
