@@ -40,7 +40,7 @@ private:
 	Interaction interaction_;
 	RenderingUtils* rendering_utils_;
 	cimg_library::CImg<unsigned char>* img_;
-	unsigned int text_font_height_ = 23;
+	unsigned int text_font_height_ = 18;
 
 
 	auto draw_self_referential_interaction(int y_offset) const -> void;
