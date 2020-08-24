@@ -173,8 +173,14 @@ auto RenderableInteraction::render_interaction_message(const int interaction_fro
 auto RenderableInteraction::get_rightmost_x() const -> int
 {
 	const auto line_from_x = get_participant_x(this->interaction_.get_from());
-	const auto font_rendered_width = this->rendering_utils_->get_font_rendered_width(this->interaction_.get_message(), this->text_font_height_);
-	return 100 + line_from_x + font_rendered_width + LayoutConstants::MESSAGE_X_PADDING + (2 * LayoutConstants::DIAGRAM_MARGIN);
+	if (is_pointing_right()) {
+		const auto font_rendered_width = this->rendering_utils_->get_font_rendered_width(this->interaction_.get_message(), this->text_font_height_);
+		return 100 + line_from_x + font_rendered_width + LayoutConstants::MESSAGE_X_PADDING + (2 * LayoutConstants::DIAGRAM_MARGIN);
+	}
+	else
+	{
+		return line_from_x;
+	}
 }
 
 
@@ -182,6 +188,11 @@ auto RenderableInteraction::draw_string(const int x, const int y, const std::str
                                         const int font_height) const -> void
 {
 	this->img_->draw_text(x, y, text.c_str(), RenderingUtils::BLACK, RenderingUtils::WHITE, 1, font_height);
+}
+
+auto RenderableInteraction::is_pointing_right() const -> bool
+{
+	return interaction_.get_from().get_index() < interaction_.get_to().get_index();	
 }
 
 auto RenderableInteraction::draw_line(const int x0, const int y0, const int x1, const int y1, bool dashed) const -> void

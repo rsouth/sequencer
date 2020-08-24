@@ -45,7 +45,7 @@ private:
 
 	auto draw_self_referential_interaction(int y_offset) const -> void;
 
-	auto draw_arrowhead(int line_end_x, int line_end_y) const -> void;
+	auto draw_arrowhead(const int line_end_x, const int line_end_y) const -> void;
 
 	auto draw_line(int x0, int y0, int x1, int y1, bool dashed = false) const -> void;
 
@@ -58,5 +58,6 @@ private:
 
 	auto draw_string(int x, int y, const std::string& text, int font_height) const -> void;
 
+	auto is_pointing_right() const -> bool;
 };
 
