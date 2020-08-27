@@ -34,7 +34,13 @@ auto RenderingThread::push(RenderingJob const& value) -> void
 {
 	{
 		std::scoped_lock<std::mutex> lock(this->d_mutex);
+		qDebug() << " currently " << d_queue.size() << " jobs";
+		d_queue.clear();
+		qDebug() << " cleared, now have " << d_queue.size() << " jobs";
+
 		d_queue.push_front(value);
+
+		qDebug() << " added job, not have " << d_queue.size() << " jobs";
 	}
 	this->d_condition.notify_one();
 }

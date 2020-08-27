@@ -19,18 +19,13 @@
 #include "Interaction.h"
 #include "RenderingUtils.h"
 
-namespace cimg_library
-{
-	template <typename T>
-	struct CImg;
-}
+#include "qpainter.h"
 
 
 class RenderableInteraction
 {
 public:
-	RenderableInteraction(Interaction interaction, RenderingUtils* rendering_utils,
-	                      cimg_library::CImg<unsigned char>* img);
+	RenderableInteraction(Interaction interaction, QPainter* img);
 
 	auto draw(int y_offset) const -> void;
 	auto get_rightmost_x() const -> int;
@@ -38,8 +33,7 @@ public:
 private:
 
 	Interaction interaction_;
-	RenderingUtils* rendering_utils_;
-	cimg_library::CImg<unsigned char>* img_;
+	QPainter* img_;
 	unsigned int text_font_height_ = 18;
 
 

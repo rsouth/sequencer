@@ -19,17 +19,13 @@
 #include <utility>
 
 
-#include "CImg.h"
 #include "LayoutConstants.h"
 #include "RenderingUtils.h"
 
+#include "qpainter.h"
 
-using namespace cimg_library;
-
-RenderableParticipant::RenderableParticipant(Participant participant, RenderingUtils *rendering_utils,
-                                             CImg<unsigned char>* img):
+RenderableParticipant::RenderableParticipant(Participant participant, QPainter* img):
 	participant_(std::move(participant)),
-	rendering_utils_(rendering_utils),
 	img_(img)
 {
 }
@@ -49,32 +45,22 @@ void RenderableParticipant::draw(const int header_y_offset, const int total_inte
 	const int participant_y1 = participant_y0 + LayoutConstants::LANE_HEIGHT;
 
 	// render rectangle...
-	this->img_->draw_rectangle(
-		participant_x0,
-		participant_y0,
-		participant_x1,
-		participant_y1,
-		RenderingUtils::BLACK,
-		1,
-		~0U);
+	this->img_->drawRect(participant_x0, participant_y0, LayoutConstants::LANE_WIDTH, LayoutConstants::LANE_HEIGHT);
+	
 
 	const std::string partic_name = this->participant_.get_name();
 	const unsigned int font_height = this->font_height_;
 
-	const int text_x = get_participant_x() + (LayoutConstants::LANE_WIDTH / 2) - (this->rendering_utils_->get_font_rendered_width(partic_name, font_height) / 2);
+	QFont title_font("Arial", font_height);
+	const int text_x = get_participant_x() + (LayoutConstants::LANE_WIDTH / 2) - ( RenderingUtils::get_font_rendered_width(partic_name, title_font) / 2);
 
 
-	const int text_y = header_y_offset + LayoutConstants::V_GAP + (LayoutConstants::LANE_HEIGHT / 2) - (this
-	                                                                                                    ->
-	                                                                                                    rendering_utils_
-	                                                                                                    ->get_font_rendered_height(
-		                                                                                                    partic_name,
-		                                                                                                    font_height)
-		/ 2);
+	const int text_y = header_y_offset + LayoutConstants::V_GAP + (LayoutConstants::LANE_HEIGHT / 2) - (RenderingUtils::get_font_rendered_height(partic_name, title_font) / 2);
 
-	this->img_->draw_text(text_x, text_y, partic_name.c_str(), RenderingUtils::BLACK, RenderingUtils::WHITE, 1,
-	                      font_height);
-
+	QFont f = this->img_->font();
+	this->img_->setFont(title_font);
+	this->img_->drawText(text_x, text_y, partic_name.c_str());
+	this->img_->setFont(f);
 
 	// draw vertical line
 	// int totalInteractions = 1; // todo <<<-----
@@ -82,14 +68,11 @@ void RenderableParticipant::draw(const int header_y_offset, const int total_inte
 	const int y2 = y1 + LayoutConstants::INTERACTION_GAP + (total_interactions * (LayoutConstants::INTERACTION_GAP + LayoutConstants::V_GAP));
 	
 	// last VGAP should be a 'lane height padding' type.
-
-	this->img_->draw_line(
+	this->img_->drawLine(
 		participant_x0 + LayoutConstants::LANE_WIDTH / 2,
 		y1,
 		participant_x0 + LayoutConstants::LANE_WIDTH / 2,
-		y2,
-		RenderingUtils::BLACK,
-		1);
+		y2);
 }
 
 int RenderableParticipant::calculate_width()

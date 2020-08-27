@@ -19,15 +19,14 @@
 #include <numeric>
 
 
-#include "CImg.h"
+#include "qpainter.h"
+
 #include "LayoutConstants.h"
 #include "RenderableMetaData.h"
 #include "RenderableParticipant.h"
 
-using namespace cimg_library;
 
-
-RenderableDiagram::RenderableDiagram(const Diagram& diagram, CImg<unsigned char>* img) : diagram_(diagram), img_(img)
+RenderableDiagram::RenderableDiagram(const Diagram& diagram, QPainter* img) : diagram_(diagram), img_(img)
 {
 	
 	initialise_renderables();
@@ -35,7 +34,6 @@ RenderableDiagram::RenderableDiagram(const Diagram& diagram, CImg<unsigned char>
 
 RenderableDiagram::~RenderableDiagram()
 {
-	delete this->rendering_utils_;
 	delete this->renderable_metadata_;
 	for (auto renderable_participant : this->renderable_participants_)
 	{
@@ -85,7 +83,7 @@ auto RenderableDiagram::max_interaction_index() -> int
 	return max_index + 1;
 }
 
-void RenderableDiagram::calculate_diagram_size(int hxw[])
+ void RenderableDiagram::calculate_diagram_size(int hxw[])
 {
 	const int header_width = this->renderable_metadata_->calculate_width();
 
@@ -121,19 +119,19 @@ void RenderableDiagram::calculate_diagram_size(int hxw[])
 void RenderableDiagram::initialise_renderables()
 {
 	// MetaData
-	this->renderable_metadata_ = new RenderableMetaData(this->diagram_.get_meta_data(), this->rendering_utils_, this->img_);
+	this->renderable_metadata_ = new RenderableMetaData(this->diagram_.get_meta_data(), this->img_);
 
 	// Participants
 	const auto participants = this->diagram_.get_participants();
 	for (const auto& participant : participants)
 	{
-		this->renderable_participants_.emplace_back(new RenderableParticipant(participant, this->rendering_utils_, this->img_));
+		this->renderable_participants_.emplace_back(new RenderableParticipant(participant, this->img_));
 	}
 
 	// Interactions
 	const auto interactions = this->diagram_.get_interactions();
 	for (const auto& interaction : interactions)
 	{
-		this->renderable_interactions_.emplace_back(new RenderableInteraction(interaction, this->rendering_utils_, this->img_));
+		this->renderable_interactions_.emplace_back(new RenderableInteraction(interaction, this->img_));
 	}
 }

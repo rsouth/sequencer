@@ -18,9 +18,6 @@
 
 #include <qpixmap.h>
 
-#include "CImg.h"
-
-
 class RenderingJob
 {
 public:
@@ -40,7 +37,5 @@ signals:
 private:
 	std::string input_text_;
 
-	static auto convert_cimg_to_qimage(cimg_library::CImg<unsigned char>* img) -> QImage;
-
-	auto do_render_diagram(std::string input) -> QPixmap;
+	const QPixmap do_render_diagram(const std::string& input) const;
 };

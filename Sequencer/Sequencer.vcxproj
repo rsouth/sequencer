@@ -114,7 +114,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtMoc Include="AboutDialog.h" />
-    <ClInclude Include="CImg.h" />
     <ClInclude Include="Diagram.h" />
     <ClInclude Include="Interaction.h" />
     <ClInclude Include="InteractionParser.h" />
@@ -150,7 +149,6 @@
     <ClCompile Include="RenderableParticipant.cpp" />
     <ClCompile Include="RenderingJob.cpp" />
     <ClCompile Include="RenderingThread.cpp" />
-    <ClCompile Include="RenderingUtils.cpp" />
     <ClCompile Include="Sequencer.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>

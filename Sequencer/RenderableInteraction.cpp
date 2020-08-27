@@ -16,17 +16,13 @@
  */
 #include "RenderableInteraction.h"
 
-#include "CImg.h"
 #include "LayoutConstants.h"
 #include "RenderingUtils.h"
 
+#include "qpainter.h"
 
-using namespace cimg_library;
 
-RenderableInteraction::RenderableInteraction(Interaction interaction, RenderingUtils* rendering_utils,
-                                             CImg<unsigned char>* img): interaction_(std::move(interaction)),
-                                                                        rendering_utils_(std::move(rendering_utils)),
-                                                                        img_(img)
+RenderableInteraction::RenderableInteraction(Interaction interaction, QPainter* img): interaction_(std::move(interaction)), img_(img)
 {
 }
 
@@ -88,7 +84,7 @@ auto RenderableInteraction::draw_arrowhead(const int line_end_x, const int line_
 	const auto from_lane_index = this->interaction_.get_from().get_index();
 	const auto to_lane_index = this->interaction_.get_to().get_index();
 
-	const boolean is_pointing_right = from_lane_index < to_lane_index;
+	const bool is_pointing_right = from_lane_index < to_lane_index;
 	if (is_pointing_right)
 	{
 		if (this->interaction_.is_async()) {
@@ -106,18 +102,13 @@ auto RenderableInteraction::draw_arrowhead(const int line_end_x, const int line_
 				line_end_x,
 				line_end_y);
 		} else {
-			CImg<int> points(3, 2);
-			int arrowhead_points[] = {
-				line_end_x, line_end_y,
-				line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
-				line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH
-			};
-			const int* iterator = arrowhead_points;
-
-			cimg_forX(points, i) {
-				points(i, 0) = *(iterator++); points(i, 1) = *(iterator++);
-			}
-			this->img_->draw_polygon(points, RenderingUtils::BLACK);
+			QPolygon polygon;
+			polygon
+				<< QPoint(line_end_x, line_end_y)
+				<< QPoint(line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH)
+				<< QPoint(line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH);
+			
+			this->img_->drawPolygon(polygon);
 		}
 	}
 	else
@@ -137,18 +128,14 @@ auto RenderableInteraction::draw_arrowhead(const int line_end_x, const int line_
 				line_end_y);
 		} else {
 			// draw filled polygon for synchronous calls
-			CImg<int> points(3, 2);
-			int arrowhead_points[] = {
-				line_end_x, line_end_y,
-				line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
-				line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH
-			};
-			const int* iterator = arrowhead_points;
 
-			cimg_forX(points, i) {
-				points(i, 0) = *(iterator++); points(i, 1) = *(iterator++);
-			}
-			this->img_->draw_polygon(points, RenderingUtils::BLACK);
+			QPolygon polygon;
+			polygon
+				<< QPoint(line_end_x, line_end_y)
+				<< QPoint(line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH)
+				<< QPoint(line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH);
+			
+			this->img_->drawPolygon(polygon);
 		}
 	}
 }
@@ -160,13 +147,12 @@ auto RenderableInteraction::render_interaction_message(const int interaction_fro
 	if (!this->interaction_.get_message().empty())
 	{
 		const bool right_facing = interaction_from_x < interaction_to_x;
-		const int message_width = this->rendering_utils_->get_font_rendered_width(this->interaction_.get_message(), this->text_font_height_);
+		const int message_width = RenderingUtils::get_font_rendered_width(this->interaction_.get_message(), this->img_->font());
 		const int label_x = right_facing
 			                    ? interaction_from_x + LayoutConstants::MESSAGE_X_PADDING
 			                    : interaction_from_x - message_width - LayoutConstants::MESSAGE_X_PADDING;
 
-		this->img_->draw_text(label_x, interaction_from_y - this->text_font_height_, this->interaction_.get_message().c_str(),
-		                      RenderingUtils::BLACK, RenderingUtils::WHITE, 1, this->text_font_height_);
+		this->img_->drawText(label_x, interaction_from_y - this->text_font_height_, this->interaction_.get_message().c_str());
 	}
 }
 
@@ -174,7 +160,7 @@ auto RenderableInteraction::get_rightmost_x() const -> int
 {
 	const auto line_from_x = get_participant_x(this->interaction_.get_from());
 	if (is_pointing_right()) {
-		const auto font_rendered_width = this->rendering_utils_->get_font_rendered_width(this->interaction_.get_message(), this->text_font_height_);
+		const auto font_rendered_width = RenderingUtils::get_font_rendered_width(this->interaction_.get_message(), this->img_->font());
 		return 100 + line_from_x + font_rendered_width + LayoutConstants::MESSAGE_X_PADDING + (2 * LayoutConstants::DIAGRAM_MARGIN);
 	}
 	else
@@ -187,7 +173,7 @@ auto RenderableInteraction::get_rightmost_x() const -> int
 auto RenderableInteraction::draw_string(const int x, const int y, const std::string& text,
                                         const int font_height) const -> void
 {
-	this->img_->draw_text(x, y, text.c_str(), RenderingUtils::BLACK, RenderingUtils::WHITE, 1, font_height);
+	this->img_->drawText(x, y, text.c_str());
 }
 
 auto RenderableInteraction::is_pointing_right() const -> bool
@@ -197,15 +183,19 @@ auto RenderableInteraction::is_pointing_right() const -> bool
 
 auto RenderableInteraction::draw_line(const int x0, const int y0, const int x1, const int y1, bool dashed) const -> void
 {
-	this->img_->draw_line(
+	auto pen = this->img_->pen();
+	if (dashed) {
+		this->img_->setPen(Qt::PenStyle::DashLine);
+	}
+	
+	this->img_->drawLine(
 		x0,
 		y0,
 		x1,
-		y1,
-		RenderingUtils::BLACK,
-		1, // opacity
-		dashed ? 0xFFFFFF00 : 0xFFFFFFFF
+		y1
 	);
+
+	this->img_->setPen(pen);
 }
 
 auto RenderableInteraction::get_participant_x(const Participant& participant) -> int

@@ -15,23 +15,26 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <map>
 #include <string>
+
+
+#include "qfont.h"
+#include "qfontmetrics.h"
 
 class RenderingUtils
 {
 public:
 
-	static const unsigned char BLACK[];
+	static auto RenderingUtils::get_font_rendered_height(const std::string& input, const QFont font) -> int
+	{
+		QFontMetrics fm(font);
+		return fm.height();
+	}
 
-	static const unsigned char WHITE[];
+	static auto RenderingUtils::get_font_rendered_width(const std::string& input, const QFont font) -> int
+	{
+		QFontMetrics fm(font);
+		return fm.horizontalAdvance(input.c_str());
+	}
 
-	auto get_font_rendered_height(const std::string& input, const int font_height) -> int;
-
-	auto get_font_rendered_width(const std::string& input, const int font_height) -> int;
-
-private:
-
-	// cache for the rendered height/width of strings
-	std::map<std::string, int> rendered_size_map_;// = std::map<std::string, int>();
 };

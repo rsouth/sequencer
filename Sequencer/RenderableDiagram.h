@@ -24,27 +24,23 @@
 #include "RenderingUtils.h"
 
 
-namespace cimg_library
-{
-	template <typename T>
-	struct CImg;
-}
+#include "qpainter.h"
 
 class RenderableDiagram
 {
 public:
-	RenderableDiagram(const Diagram& diagram, cimg_library::CImg<unsigned char>* img);
+	RenderableDiagram(const Diagram& diagram, QPainter* img);
 
 	~RenderableDiagram();
 
 	auto draw() -> void;
 	auto max_interaction_index() -> int;
+	
 	auto calculate_diagram_size(int hxw[]) -> void;
 
 private:
 	Diagram diagram_;
-	RenderingUtils* rendering_utils_ = new RenderingUtils();
-	cimg_library::CImg<unsigned char>* img_;
+	QPainter* img_;
 
 	auto initialise_renderables() -> void;
 
