@@ -32,51 +32,61 @@ public:
 	~Sequencer();
 
 public slots:
+
+	// ReSharper disable once CppInconsistentNaming
+	void on_actionCreate_New_triggered();
+
 	// ReSharper disable once CppInconsistentNaming
 	void on_actionOpen_triggered();
-
-	// ReSharper disable once CppInconsistentNaming
-	void on_textBrowser_textChanged();
-
-	// ReSharper disable once CppInconsistentNaming
-	void on_actionExample_File_triggered();
-
-	// ReSharper disable once CppInconsistentNaming
-	void on_actionCopy_Diagram_to_Clipboard_triggered();
-
-	// ReSharper disable once CppInconsistentNaming
-	void on_actionExport_Diagram_As_triggered();
-
-	// ReSharper disable once CppInconsistentNaming
-	void on_actionSave_As_triggered();
-
-	// ReSharper disable once CppInconsistentNaming
-	void on_actionAbout_triggered();
-
-	// ReSharper disable once CppInconsistentNaming
-	void on_actionGrammar_triggered();
 
 	// ReSharper disable once CppInconsistentNaming
 	void on_actionSave_triggered();
 
 	// ReSharper disable once CppInconsistentNaming
-	void on_actionAdd_Author_triggered();
+	void on_actionSave_As_triggered();
 
 	// ReSharper disable once CppInconsistentNaming
 	void on_actionAdd_Title_triggered();
 
 	// ReSharper disable once CppInconsistentNaming
+	void on_actionAdd_Author_triggered();
+
+	// ReSharper disable once CppInconsistentNaming
 	void on_actionAdd_Date_triggered();
 
+	// ReSharper disable once CppInconsistentNaming
+	void on_actionCopy_Diagram_to_Clipboard_triggered() const;
+
+	// ReSharper disable once CppInconsistentNaming
+	void on_actionExport_Diagram_As_triggered();
+
+	// ReSharper disable once CppInconsistentNaming
+	void on_actionGrammar_triggered() const;
+
+	// ReSharper disable once CppInconsistentNaming
+	void on_actionExample_File_triggered();
+
+	// ReSharper disable once CppInconsistentNaming
+	void on_actionAbout_triggered() const;
+
+	// ReSharper disable once CppInconsistentNaming
+	void on_textBrowser_textChanged();
+
 	// update the UI with the new diagram
-	void update_diagram(const QPixmap img);
+	void update_diagram(const QPixmap& img);
 
 private:
 	Ui::SequencerClass ui;
 
 	RenderingThread worker_thread_;
 
-	void save_source_to_file(const std::string file_name);
+	bool do_action_save();
+
+	bool do_action_save_as();
+
+	bool dirty_check();
+
+	bool save_source_to_file(const std::string& file_name);
 
 	void replace_header_token(const std::string& token, const std::string& replacement);
 	
