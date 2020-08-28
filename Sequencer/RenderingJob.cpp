@@ -29,17 +29,17 @@ const QPixmap RenderingJob::do_render_diagram(const std::string& input) const
 {
 	const auto diagram = DiagramParser::parse(input);
 	
-	QPixmap* temp_pixmap = new QPixmap(1000, 1000);
-	QPainter* temp_painter = new QPainter(temp_pixmap);
+	QPixmap temp_pixmap(1000, 1000);
+	QPainter temp_painter(&temp_pixmap);
 
-	RenderableDiagram renderable_diagram(diagram, temp_painter);
+	RenderableDiagram renderable_diagram(diagram, &temp_painter);
 	int hxw[2];
 	renderable_diagram.calculate_diagram_size(hxw);
 
 
-	QPixmap* pix = new QPixmap(hxw[1], hxw[0]);
-	QPainter* paint = new QPainter(pix);
-	RenderableDiagram renderable(diagram, paint);
+	QPixmap pix(hxw[1], hxw[0]);
+	QPainter paint(&pix);
+	RenderableDiagram renderable(diagram, &paint);
 
 #ifdef NDEBUG
 	// fill white for release build
@@ -49,11 +49,11 @@ const QPixmap RenderingJob::do_render_diagram(const std::string& input) const
 	QColor background(Qt::GlobalColor::lightGray);
 #endif
 
-	paint->fillRect(pix->rect(), Qt::BrushStyle::SolidPattern);
+	paint.fillRect(pix.rect(), Qt::BrushStyle::SolidPattern);
 
-	pix->fill(background);
+	pix.fill(background);
 
 	renderable.draw();
 
-	return *pix;
+	return pix;
 }
