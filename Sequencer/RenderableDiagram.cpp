@@ -28,7 +28,6 @@
 
 RenderableDiagram::RenderableDiagram(const Diagram& diagram, QPainter* img) : diagram_(diagram), img_(img)
 {
-	
 	initialise_renderables();
 }
 

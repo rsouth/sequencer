@@ -3,7 +3,6 @@
 # ------------------------------------------------------
 
 HEADERS += ./AboutDialog.h \
-    ./CImg.h \
     ./StringUtils.h \
     ./stdafx.h \
     ./RenderingThread.h \
@@ -40,8 +39,7 @@ SOURCES += ./AboutDialog.cpp \
     ./RenderableInteraction.cpp \
     ./RenderableMetaData.cpp \
     ./RenderableParticipant.cpp \
-    ./RenderingJob.cpp \
-    ./RenderingUtils.cpp
+    ./RenderingJob.cpp
 FORMS += ./Sequencer.ui
 FORMS += ./AboutDialog.ui
 RESOURCES += Sequencer.qrc

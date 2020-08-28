@@ -32,8 +32,6 @@ const QPixmap RenderingJob::do_render_diagram(const std::string& input) const
 	QPixmap* temp_pixmap = new QPixmap(1000, 1000);
 	QPainter* temp_painter = new QPainter(temp_pixmap);
 
-
-
 	RenderableDiagram renderable_diagram(diagram, temp_painter);
 	int hxw[2];
 	renderable_diagram.calculate_diagram_size(hxw);

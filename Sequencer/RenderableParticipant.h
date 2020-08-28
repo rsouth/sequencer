@@ -25,17 +25,17 @@
 class RenderableParticipant
 {
 public:
-	RenderableParticipant(Participant participant, QPainter* img);
+	RenderableParticipant(const Participant& participant, QPainter* img);
 
-	void draw(int header_y_offset, int total_interactions);
-	int calculate_width();
+	auto draw(int header_y_offset, int total_interactions) -> void;
+	auto calculate_width() -> int;
 
 private:
 
 	Participant participant_;
 	QPainter* img_;
+	const int participant_font_height_ = 18;
 
-	int get_participant_x();
+	auto get_participant_x() const -> int;
 
-	unsigned int font_height_ = 23;
 };

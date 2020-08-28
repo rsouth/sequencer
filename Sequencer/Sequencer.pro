@@ -61,7 +61,6 @@ SOURCES += AboutDialog.cpp \
            RenderableParticipant.cpp \
            RenderingJob.cpp \
            RenderingThread.cpp \
-           RenderingUtils.cpp \
            Sequencer.cpp \
            stdafx.cpp
 
