@@ -19,29 +19,23 @@
 #include "Participant.h"
 #include "RenderingUtils.h"
 
-namespace cimg_library
-{
-	template <typename T>
-	struct CImg;
-}
+#include "qpainter.h"
 
 
 class RenderableParticipant
 {
 public:
-	RenderableParticipant(Participant participant, RenderingUtils* rendering_utils,
-	                      cimg_library::CImg<unsigned char>* img);
+	RenderableParticipant(const Participant& participant, QPainter* img);
 
-	void draw(int header_y_offset, int total_interactions);
-	int calculate_width();
+	auto draw(int header_y_offset, int total_interactions) -> void;
+	auto calculate_width() const -> int;
 
 private:
 
 	Participant participant_;
-	RenderingUtils* rendering_utils_;
-	cimg_library::CImg<unsigned char>* img_;
+	QPainter* img_;
+	const int participant_font_height_ = 12;
 
-	int get_participant_x();
+	auto get_participant_x() const -> int;
 
-	unsigned int font_height_ = 23;
 };

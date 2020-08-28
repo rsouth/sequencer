@@ -15,23 +15,90 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <map>
 #include <string>
+
+#include "LayoutConstants.h"
+#include "qfont.h"
+#include "qfontmetrics.h"
+#include "qpainter.h"
+#include "qpainterpath.h"
 
 class RenderingUtils
 {
 public:
 
-	static const unsigned char BLACK[];
+	const enum class ArrowDirection {
+		Right, Left
+	};
 
-	static const unsigned char WHITE[];
+	const enum class ArrowStyle {
+		Open, Closed
+	};
 
-	auto get_font_rendered_height(const std::string& input, const int font_height) -> int;
+	static auto RenderingUtils::get_font_rendered_height(const QFont font) -> int
+	{
+		QFontMetrics fm(font);
+		return fm.ascent();
+	}
 
-	auto get_font_rendered_width(const std::string& input, const int font_height) -> int;
+	static auto RenderingUtils::get_font_rendered_width(const std::string& input, const QFont font) -> int
+	{
+		QFontMetrics fm(font);
+		return fm.horizontalAdvance(input.c_str());
+	}
 
-private:
+	static void RenderingUtils::draw_text(int x, int y, const std::string& text, QPainter& canvas, const int font_size = 12)
+	{
+		canvas.save();
 
-	// cache for the rendered height/width of strings
-	std::map<std::string, int> rendered_size_map_;// = std::map<std::string, int>();
+		QFont font("Arial", font_size);
+		int offset = get_font_rendered_height(font);
+
+		canvas.setFont(font);
+		canvas.drawText(x, y + offset, text.c_str());
+
+		// restore original font
+		canvas.restore();
+	}
+
+	static void RenderingUtils::draw_line(QPoint from, QPoint to, QPainter& canvas, bool dashed = false)
+	{
+		canvas.save();
+		if (dashed)
+		{
+			canvas.setPen(Qt::PenStyle::DashLine);
+		}
+		canvas.drawLine(from, to);
+		canvas.restore();
+	}
+
+	static void RenderingUtils::draw_arrowhead(QPoint point_at, QPainter& canvas, ArrowDirection direction, ArrowStyle filled)
+	{
+		QPolygonF polygon;
+		if (direction == ArrowDirection::Right) {
+			polygon << QPoint(point_at.x() - LayoutConstants::ARROWHEAD_LINE_LENGTH, point_at.y() - LayoutConstants::ARROWHEAD_LINE_LENGTH)
+					<< QPoint(point_at.x(), point_at.y())
+					<< QPoint(point_at.x() - LayoutConstants::ARROWHEAD_LINE_LENGTH, point_at.y() + LayoutConstants::ARROWHEAD_LINE_LENGTH);
+		}
+		else
+		{
+			polygon << QPoint(point_at.x() + LayoutConstants::ARROWHEAD_LINE_LENGTH, point_at.y() + LayoutConstants::ARROWHEAD_LINE_LENGTH)
+					<< QPoint(point_at.x(), point_at.y())
+					<< QPoint(point_at.x() + LayoutConstants::ARROWHEAD_LINE_LENGTH, point_at.y() - LayoutConstants::ARROWHEAD_LINE_LENGTH);
+		}
+
+		canvas.save();
+		if (ArrowStyle::Closed == filled) {
+			// fill the arrowhead
+			QBrush brush(Qt::black, Qt::SolidPattern);
+			QPainterPath path;
+			path.addPolygon(polygon);
+			canvas.fillPath(path, brush);
+		}
+
+		// Draw polygon
+		canvas.drawPolyline(polygon);
+		canvas.restore();
+	}
+
 };

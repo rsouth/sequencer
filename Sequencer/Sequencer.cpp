@@ -25,7 +25,6 @@
 #include "RenderingJob.h"
 #include "StringUtils.h"
 
-using namespace cimg_library;
 
 Sequencer::Sequencer(QWidget* parent) : QMainWindow(parent)
 {

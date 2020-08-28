@@ -19,29 +19,22 @@
 #include "MetaData.h"
 #include "RenderingUtils.h"
 
-namespace cimg_library
-{
-	template <typename T>
-	struct CImg;
-}
+#include "qpainter.h"
 
 class RenderableMetaData
 {
 public:
+	RenderableMetaData(const MetaData& meta_data, QPainter* img);
 
-	RenderableMetaData(MetaData meta_data, RenderingUtils* rendering_utils, cimg_library::CImg<unsigned char>* img);
-
-	void draw() const;
-
-	int calculate_height();
-	int calculate_width();
+	auto draw() const -> void;
+	auto calculate_height() const -> int;
+	auto calculate_width() const -> int;
 
 private:
 	MetaData meta_data_ = MetaData();
-	RenderingUtils* rendering_utils_;
-	cimg_library::CImg<unsigned char>* img_ = nullptr;
+	QPainter* img_ = nullptr;
 
 	// \param font_height_ Height of the text font(exact match for 13, 23, 53, 103, interpolated otherwise).
-	unsigned int title_font_height_ = 53;
-	unsigned int text_font_height_ = 23;
+	const int title_font_height_ = 16;
+	const int text_font_height_ = 8;
 };

@@ -16,17 +16,14 @@
  */
 #include "RenderableInteraction.h"
 
-#include "CImg.h"
 #include "LayoutConstants.h"
 #include "RenderingUtils.h"
 
+#include "qpainter.h"
+#include "qpainterpath.h"
 
-using namespace cimg_library;
 
-RenderableInteraction::RenderableInteraction(Interaction interaction, RenderingUtils* rendering_utils,
-                                             CImg<unsigned char>* img): interaction_(std::move(interaction)),
-                                                                        rendering_utils_(std::move(rendering_utils)),
-                                                                        img_(img)
+RenderableInteraction::RenderableInteraction(const Interaction& interaction, QPainter* img): interaction_(interaction), img_(img)
 {
 }
 
@@ -50,7 +47,7 @@ auto RenderableInteraction::draw_point_to_point_interaction(const int y_offset) 
 	const auto line_y = y_offset + (this->interaction_.get_index() * LayoutConstants::INTERACTION_GAP) + LayoutConstants::INTERACTION_GAP;
 
 	// draw line
-	this->draw_line(line_from_x, line_y, line_to_x, line_y, this->interaction_.is_reply());
+	RenderingUtils::draw_line(QPoint(line_from_x, line_y), QPoint(line_to_x, line_y), *this->img_, this->interaction_.is_reply());
 
 	// draw message
 	this->render_interaction_message(line_from_x, line_y, line_to_x);
@@ -68,13 +65,13 @@ auto RenderableInteraction::draw_self_referential_interaction(const int y_offset
 	const int to_line_y = from_line_y + (LayoutConstants::INTERACTION_GAP);
 
 	// render line
-	this->draw_line(line_from_x, from_line_y, line_to_x, from_line_y, this->interaction_.is_reply());
+	RenderingUtils::draw_line(QPoint(line_from_x, from_line_y), QPoint(line_to_x, from_line_y), *this->img_, this->interaction_.is_reply());
 
 	// vertical line
-	this->draw_line(line_to_x, from_line_y, line_to_x, to_line_y, this->interaction_.is_reply());
+	RenderingUtils::draw_line(QPoint(line_to_x, from_line_y), QPoint(line_to_x, to_line_y), *this->img_, this->interaction_.is_reply());
 
 	// second line
-	this->draw_line(line_from_x, to_line_y, line_to_x, to_line_y, this->interaction_.is_reply());
+	RenderingUtils::draw_line(QPoint(line_from_x, to_line_y), QPoint(line_to_x, to_line_y), *this->img_, this->interaction_.is_reply());
 
 	// Render message
 	this->render_interaction_message(line_from_x, from_line_y, line_to_x);
@@ -88,67 +85,25 @@ auto RenderableInteraction::draw_arrowhead(const int line_end_x, const int line_
 	const auto from_lane_index = this->interaction_.get_from().get_index();
 	const auto to_lane_index = this->interaction_.get_to().get_index();
 
-	const boolean is_pointing_right = from_lane_index < to_lane_index;
+	const bool is_pointing_right = from_lane_index < to_lane_index;
 	if (is_pointing_right)
 	{
 		if (this->interaction_.is_async()) {
-			// draw down-right
-			this->draw_line(
-				line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH,
-				line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
-				line_end_x,
-				line_end_y);
-
-			// draw /
-			this->draw_line(
-				line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH,
-				line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH,
-				line_end_x,
-				line_end_y);
+			// open head arrow for async
+			RenderingUtils::draw_arrowhead(QPoint(line_end_x, line_end_y), *this->img_, RenderingUtils::ArrowDirection::Right, RenderingUtils::ArrowStyle::Open);
 		} else {
-			CImg<int> points(3, 2);
-			int arrowhead_points[] = {
-				line_end_x, line_end_y,
-				line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
-				line_end_x - LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH
-			};
-			const int* iterator = arrowhead_points;
-
-			cimg_forX(points, i) {
-				points(i, 0) = *(iterator++); points(i, 1) = *(iterator++);
-			}
-			this->img_->draw_polygon(points, RenderingUtils::BLACK);
+			// draw filled for sync
+			RenderingUtils::draw_arrowhead(QPoint(line_end_x, line_end_y), *this->img_, RenderingUtils::ArrowDirection::Right, RenderingUtils::ArrowStyle::Closed);
 		}
 	}
 	else
 	{
 		if (this->interaction_.is_async()) {
 			// draw /
-			this->draw_line(
-				line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH,
-				line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
-				line_end_x,
-				line_end_y);
-			// draw down-right
-			this->draw_line(
-				line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH,
-				line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH,
-				line_end_x,
-				line_end_y);
+			RenderingUtils::draw_arrowhead(QPoint(line_end_x, line_end_y), *this->img_, RenderingUtils::ArrowDirection::Left, RenderingUtils::ArrowStyle::Open);
 		} else {
 			// draw filled polygon for synchronous calls
-			CImg<int> points(3, 2);
-			int arrowhead_points[] = {
-				line_end_x, line_end_y,
-				line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y - LayoutConstants::ARROWHEAD_LINE_LENGTH,
-				line_end_x + LayoutConstants::ARROWHEAD_LINE_LENGTH, line_end_y + LayoutConstants::ARROWHEAD_LINE_LENGTH
-			};
-			const int* iterator = arrowhead_points;
-
-			cimg_forX(points, i) {
-				points(i, 0) = *(iterator++); points(i, 1) = *(iterator++);
-			}
-			this->img_->draw_polygon(points, RenderingUtils::BLACK);
+			RenderingUtils::draw_arrowhead(QPoint(line_end_x, line_end_y), *this->img_, RenderingUtils::ArrowDirection::Left, RenderingUtils::ArrowStyle::Closed);
 		}
 	}
 }
@@ -160,13 +115,13 @@ auto RenderableInteraction::render_interaction_message(const int interaction_fro
 	if (!this->interaction_.get_message().empty())
 	{
 		const bool right_facing = interaction_from_x < interaction_to_x;
-		const int message_width = this->rendering_utils_->get_font_rendered_width(this->interaction_.get_message(), this->text_font_height_);
+		const int message_width = RenderingUtils::get_font_rendered_width(this->interaction_.get_message(), QFont("Arial", this->text_font_height_));
 		const int label_x = right_facing
 			                    ? interaction_from_x + LayoutConstants::MESSAGE_X_PADDING
 			                    : interaction_from_x - message_width - LayoutConstants::MESSAGE_X_PADDING;
 
-		this->img_->draw_text(label_x, interaction_from_y - this->text_font_height_, this->interaction_.get_message().c_str(),
-		                      RenderingUtils::BLACK, RenderingUtils::WHITE, 1, this->text_font_height_);
+		int height = LayoutConstants::MESSAGE_X_PADDING + RenderingUtils::get_font_rendered_height(QFont("Arial", this->text_font_height_));
+		RenderingUtils::draw_text(label_x, interaction_from_y - height, this->interaction_.get_message().c_str(), *this->img_, this->text_font_height_);
 	}
 }
 
@@ -174,8 +129,8 @@ auto RenderableInteraction::get_rightmost_x() const -> int
 {
 	const auto line_from_x = get_participant_x(this->interaction_.get_from());
 	if (is_pointing_right()) {
-		const auto font_rendered_width = this->rendering_utils_->get_font_rendered_width(this->interaction_.get_message(), this->text_font_height_);
-		return 100 + line_from_x + font_rendered_width + LayoutConstants::MESSAGE_X_PADDING + (2 * LayoutConstants::DIAGRAM_MARGIN);
+		const auto font_rendered_width = RenderingUtils::get_font_rendered_width(this->interaction_.get_message(), QFont("Arial", this->text_font_height_));
+		return (2 * LayoutConstants::DIAGRAM_MARGIN) + (line_from_x + font_rendered_width) + LayoutConstants::MESSAGE_X_PADDING;
 	}
 	else
 	{
@@ -183,29 +138,9 @@ auto RenderableInteraction::get_rightmost_x() const -> int
 	}
 }
 
-
-auto RenderableInteraction::draw_string(const int x, const int y, const std::string& text,
-                                        const int font_height) const -> void
-{
-	this->img_->draw_text(x, y, text.c_str(), RenderingUtils::BLACK, RenderingUtils::WHITE, 1, font_height);
-}
-
 auto RenderableInteraction::is_pointing_right() const -> bool
 {
 	return interaction_.get_from().get_index() < interaction_.get_to().get_index();	
-}
-
-auto RenderableInteraction::draw_line(const int x0, const int y0, const int x1, const int y1, bool dashed) const -> void
-{
-	this->img_->draw_line(
-		x0,
-		y0,
-		x1,
-		y1,
-		RenderingUtils::BLACK,
-		1, // opacity
-		dashed ? 0xFFFFFF00 : 0xFFFFFFFF
-	);
 }
 
 auto RenderableInteraction::get_participant_x(const Participant& participant) -> int

@@ -21,7 +21,6 @@
 #include <qthread.h>
 #include <queue>
 
-
 #include "RenderingJob.h"
 
 class RenderingThread final : public QThread
@@ -49,7 +48,6 @@ protected:
 			emit render_completed(job.render_diagram());
 		}
 	}
-
 
 private:
 	std::mutex d_mutex;
