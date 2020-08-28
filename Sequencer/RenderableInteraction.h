@@ -34,7 +34,7 @@ private:
 
 	Interaction interaction_;
 	QPainter* img_;
-	unsigned int text_font_height_ = 12;
+	unsigned int text_font_height_ = 10;
 
 
 	auto draw_self_referential_interaction(int y_offset) const -> void;

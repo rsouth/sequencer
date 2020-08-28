@@ -35,6 +35,6 @@ private:
 	QPainter* img_ = nullptr;
 
 	// \param font_height_ Height of the text font(exact match for 13, 23, 53, 103, interpolated otherwise).
-	const int title_font_height_ = 18;
-	const int text_font_height_ = 12;
+	const int title_font_height_ = 16;
+	const int text_font_height_ = 8;
 };

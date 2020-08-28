@@ -130,7 +130,7 @@ auto RenderableInteraction::get_rightmost_x() const -> int
 	const auto line_from_x = get_participant_x(this->interaction_.get_from());
 	if (is_pointing_right()) {
 		const auto font_rendered_width = RenderingUtils::get_font_rendered_width(this->interaction_.get_message(), QFont("Arial", this->text_font_height_));
-		return 100 + line_from_x + font_rendered_width + LayoutConstants::MESSAGE_X_PADDING + (2 * LayoutConstants::DIAGRAM_MARGIN);
+		return (2 * LayoutConstants::DIAGRAM_MARGIN) + (line_from_x + font_rendered_width) + LayoutConstants::MESSAGE_X_PADDING;
 	}
 	else
 	{

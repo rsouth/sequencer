@@ -86,10 +86,11 @@ auto RenderableDiagram::max_interaction_index() -> int
 {
 	const int header_width = this->renderable_metadata_->calculate_width();
 
-	auto participant_width = std::accumulate(this->renderable_participants_.begin(), this->renderable_participants_.end(), 0,
-	[](int acc_, RenderableParticipant* w2) {
-		return acc_ + w2->calculate_width();
-	});
+	int participant_width = std::accumulate(this->renderable_participants_.begin(), this->renderable_participants_.end(), 0,
+		[](int acc_, const RenderableParticipant* rp) {
+			return acc_ + rp->calculate_width();
+		}
+	);
 
 	// get farthest right x of all interaction messages
 	int rightmost_message_x = 0;
@@ -101,7 +102,7 @@ auto RenderableDiagram::max_interaction_index() -> int
 		}
 	}
 
-	const int diagram_width = std::max(rightmost_message_x, participant_width);
+	const int diagram_width = std::max(std::max(rightmost_message_x, participant_width), header_width);
 
 	const int max_height = (2 * LayoutConstants::DIAGRAM_MARGIN) +
 		this->renderable_metadata_->calculate_height() +

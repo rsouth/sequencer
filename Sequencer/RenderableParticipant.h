@@ -28,13 +28,13 @@ public:
 	RenderableParticipant(const Participant& participant, QPainter* img);
 
 	auto draw(int header_y_offset, int total_interactions) -> void;
-	auto calculate_width() -> int;
+	auto calculate_width() const -> int;
 
 private:
 
 	Participant participant_;
 	QPainter* img_;
-	const int participant_font_height_ = 18;
+	const int participant_font_height_ = 12;
 
 	auto get_participant_x() const -> int;
 

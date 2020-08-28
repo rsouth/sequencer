@@ -59,7 +59,7 @@ void RenderableParticipant::draw(const int header_y_offset, const int total_inte
 	RenderingUtils::draw_line(QPoint(participant_x0 + LayoutConstants::LANE_WIDTH / 2, y1), QPoint(participant_x0 + LayoutConstants::LANE_WIDTH / 2, y2), *this->img_);
 }
 
-int RenderableParticipant::calculate_width()
+int RenderableParticipant::calculate_width() const
 {
 	return (2 * LayoutConstants::DIAGRAM_MARGIN) + LayoutConstants::LANE_WIDTH + LayoutConstants::LANE_GAP;
 }
