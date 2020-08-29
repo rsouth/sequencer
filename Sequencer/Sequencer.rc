@@ -54,6 +54,45 @@ END
 // remains consistent on all systems.
 IDI_ICON1               ICON                    "resources\\Sequencer.ico"
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,2,0
+ PRODUCTVERSION 0,0,2,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080904b0"
+        BEGIN
+            VALUE "CompanyName", "https://github.com/rsouth"
+            VALUE "FileDescription", "Simple sequence diagrams"
+            VALUE "FileVersion", "0.0.2.0"
+            VALUE "InternalName", "Sequence.exe"
+            VALUE "LegalCopyright", "Copyright (C) 2020 github.com/rsouth"
+            VALUE "OriginalFilename", "Sequence.exe"
+            VALUE "ProductName", "Sequencer"
+            VALUE "ProductVersion", "0.0.2.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x809, 1200
+    END
+END
+
 #endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
 

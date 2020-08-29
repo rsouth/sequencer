@@ -20,7 +20,7 @@ RenderingThread::RenderingThread(QObject* parent) : QThread(parent)
 {
 }
 
-auto RenderingThread::render(RenderingJob rendering_job) -> void
+auto RenderingThread::render(const RenderingJob& rendering_job) -> void
 {
 	push(rendering_job);
 	if (!isRunning())

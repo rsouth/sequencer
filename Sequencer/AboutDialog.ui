@@ -59,6 +59,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="versionLabel">
+        <property name="text">
+         <string>version</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="hyperlinkLabel">
         <property name="text">
          <string>&lt;a href=&quot;http://github.com/rsouth/sequencer&quot;&gt;http://github.com/rsouth/sequencer&lt;/a&gt;</string>

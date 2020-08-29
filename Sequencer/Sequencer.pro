@@ -13,7 +13,8 @@ VERSION = 0.0.2.0
 QMAKE_TARGET_COMPANY = https://github.com/rsouth
 QMAKE_TARGET_PRODUCT = Sequencer
 QMAKE_TARGET_DESCRIPTION = Simple sequence diagrams
-QMAKE_TARGET_COPYRIGHT = 2020 github.com/rsouth
+QMAKE_TARGET_COPYRIGHT = Copyright (C) 2020 github.com/rsouth
+win32:DEFINES += BUILDDATE=$$system(date /t)
 
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
