@@ -30,7 +30,7 @@ Q_OBJECT
 public:
 	explicit RenderingThread(QObject* parent = nullptr);
 
-	auto render(RenderingJob rendering_job) -> void;
+	auto render(const RenderingJob& rendering_job) -> void;
 
 	auto push(RenderingJob const& value) -> void;
 

@@ -29,11 +29,25 @@
 
 Sequencer::Sequencer(QWidget* parent) : QMainWindow(parent)
 {
-	ui.setupUi(this);
+	qDebug() << "Starting " << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion();
 
+	ui.setupUi(this);
+	
+	// main UI splitter between source and diagram views
 	ui.splitter->setStretchFactor(0, 1);
 	ui.splitter->setStretchFactor(1, 20);
 
+	// add version label to toolbar
+	QWidget* empty = new QWidget();
+	empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+	ui.toolBar->addWidget(empty);
+
+	QLabel* version_label = new QLabel("Sequencer version\n" + QCoreApplication::applicationVersion());
+	version_label->setMargin(10);
+	version_label->setAlignment(Qt::AlignRight | Qt::AlignBottom);
+	ui.toolBar->addWidget(version_label);
+
+	// hook up Sequencer::update_diagram to the RenderingThread::render_completed signal
 	connect(&this->worker_thread_, &RenderingThread::render_completed, this, &Sequencer::update_diagram);
 }
 
@@ -151,20 +165,24 @@ void Sequencer::on_actionGrammar_triggered() const
 
 void Sequencer::on_actionExample_File_triggered()
 {
-	const auto text =
-		"# metadata\n"
-		":title Example Sequence Diagram\n"
-		":author Mr. Sequence Diagram\n"
-		":date\n"
-		"\n"
-		"# diagram\n"
-		"Client -> Server: Request\n"
-		"Server -> Server: Parses request\n"
-		"Server ->> Service: Query\n"
-		"Service -->> Server: Data\n"
-		"Server --> Client: Response\n";
+	if (dirty_check())
+	{
+		const auto text =
+			"# metadata\n"
+			":title Example Sequence Diagram\n"
+			":author Mr. Sequence Diagram\n"
+			":date\n"
+			"\n"
+			"# diagram\n"
+			"Client -> Server: Request\n"
+			"Server -> Server: Parses request\n"
+			"Server ->> Service: Query\n"
+			"Service -->> Server: Data\n"
+			"Server --> Client: Response\n";
 
-	this->ui.textBrowser->setText(text);
+		this->ui.textBrowser->setText(text);
+		this->ui.textBrowser->setDocumentTitle(QString());
+	}
 }
 
 void Sequencer::on_actionAbout_triggered() const
@@ -270,6 +288,13 @@ void Sequencer::replace_header_token(const std::string& token, const std::string
 	const auto joinedLines = StringUtils::join(lines, "\n");
 	this->ui.textBrowser->setText(QString(joinedLines.c_str()));
 	this->ui.textBrowser->document()->setModified(true);
+}
+
+void Sequencer::closeEvent(QCloseEvent* evt)
+{
+	if (!dirty_check()) {
+		evt->ignore();
+	}
 }
 
 // slot: update_diagram

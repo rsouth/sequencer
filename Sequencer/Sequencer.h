@@ -78,16 +78,25 @@ public slots:
 private:
 	Ui::SequencerClass ui;
 
+	// background thread for rendering
 	RenderingThread worker_thread_;
 
+	// 'save' implementation; save to the existing file
 	bool do_action_save();
 
+	// 'save as' implementation; prompt the user for the filename and save
 	bool do_action_save_as();
 
+	// check if the source is modified and save/prompt to save if so
 	bool dirty_check();
 
+	// write out the source to file_name
 	bool save_source_to_file(const std::string& file_name);
 
+	// replace ":token" values in the header/metadata
 	void replace_header_token(const std::string& token, const std::string& replacement);
+
+	// override closeEvent to allow the user to save any changes before quitting
+	void closeEvent(QCloseEvent* evt);
 	
 };
