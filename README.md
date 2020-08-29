@@ -81,7 +81,21 @@ https://github.com/rsouth/sequencer/wiki/Building
 
 Please download the [latest](https://github.com/rsouth/sequencer/releases/latest) release.
 
-#### [v0.0.1 pre-alpha](https://github.com/rsouth/sequencer/releases/tag/v0.0.1-pre-alpha) :cherries:
+#### [v0.0.2 pre-alpha](https://github.com/rsouth/sequencer/releases/tag/v0.0.2-pre-alpha) :cherries:
+
+ - Rendering is now done in Qt QPainter on a QPixmap rather than using CImg
+ - More functional UI
+   - Dirty checks before New, Open
+   - Create New button works
+   - Undo/redo functionality in text editor
+ - Code review items since last release
+ - Rendering changes:
+   - Default font sizes are now smaller
+   - Smaller arrow-heads
+   - Rounded boxes around participant headers
+   
+   
+#### [v0.0.1 pre-alpha](https://github.com/rsouth/sequencer/releases/tag/v0.0.1-pre-alpha)
 
  - Grammar parity with jSequencer
     - Participants and messages
