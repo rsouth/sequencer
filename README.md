@@ -28,6 +28,16 @@ Sequencer allows you to create **simple and clear sequence diagrams**, based on 
 
 Sequencer is **free** and **open-source**, distributed as a **single .exe (no installer)**, and has just the features you need to share and document your idea quickly.
 
+
+## :movie_camera: Demo
+
+<div align="center" style="display: flex; flex-direction: column;">
+  <p>
+    <img src="https://i.ibb.co/Hr8jqg0/sequencer-test-rec2.gif" alt="sequence-gizmo-6.gif" border="0" />
+  </p>
+</div>
+
+
 ## :zap: Simple to get started
 
 #### :speech_balloon: Describe your sequence
@@ -50,17 +60,6 @@ Server -> Client: Response
  - share the source, or better yet - version control it!
 
 See the [wiki](https://github.com/rsouth/sequencer/wiki/Grammar) for the current grammar.
-
-
-## :movie_camera: Demo
-
-<div align="center" style="display: flex; flex-direction: column;">
-  <p>
-    <img src="https://s7.gifyu.com/images/sequence-gizmo-6.gif" alt="sequence-gizmo-6.gif" border="0" />
-  </p>
-</div>
-
-_(Demo is recorded from jSequencer, I will replace with a recording of the Sequencer C++ re-write soon)_
 
 
 ## :hammer: Building
