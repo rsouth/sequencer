@@ -33,7 +33,7 @@ Sequencer is **free** and **open-source**, distributed as a **single .exe (no in
 
 <div align="center" style="display: flex; flex-direction: column;">
   <p>
-    <img src="https://s8.gifyu.com/images/sequencer-test-rec2.gif" alt="sequence-gizmo-6.gif" border="0" />
+    <img src="https://s8.gifyu.com/images/sequencer-0-0-2-0-demo.gif" alt="sequence-gizmo-6.gif" border="0" />
   </p>
 </div>
 
