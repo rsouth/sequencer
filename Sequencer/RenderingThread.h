@@ -40,14 +40,8 @@ signals:
 	void render_completed(const QPixmap& image);
 
 protected:
-	void run() override
-	{
-		while (!isInterruptionRequested())
-		{
-			auto job = pop();
-			emit render_completed(job.render_diagram());
-		}
-	}
+	void run() override;
+	
 
 private:
 	std::mutex d_mutex;

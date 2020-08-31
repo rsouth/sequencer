@@ -53,3 +53,12 @@ auto RenderingThread::pop() -> RenderingJob
 	this->d_queue.pop_back();
 	return rc;
 }
+
+void RenderingThread::run()
+{
+	while (!isInterruptionRequested())
+	{
+		auto job = pop();
+		emit render_completed(job.render_diagram());
+	}
+}
