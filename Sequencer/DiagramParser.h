@@ -22,5 +22,5 @@
 class DiagramParser
 {
 public:
-	static Diagram parse(const std::string& input);
+  static Diagram parse(const std::string& input);
 };

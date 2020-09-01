@@ -24,8 +24,8 @@ class Participant;
 class InteractionParser
 {
 public:
-	static std::list<Interaction> parse(const std::list<Participant>& participants, const std::string& input);
+  static std::list<Interaction> parse(const std::list<Participant>& participants, const std::string& input);
 
 private:
-	static Participant lane_by_name(const std::list<Participant>& participants, const std::string& name);
+  static Participant lane_by_name(const std::list<Participant>& participants, const std::string& name);
 };

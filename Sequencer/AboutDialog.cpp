@@ -16,11 +16,11 @@
  */
 #include "AboutDialog.h"
 
-AboutDialog::AboutDialog(QWidget *parent)
-	: QWidget(parent)
+AboutDialog::AboutDialog(QWidget* parent)
+  : QWidget(parent)
 {
-	ui.setupUi(this);
-	ui.versionLabel->setText("v" + QCoreApplication::applicationVersion());
+  ui.setupUi(this);
+  ui.versionLabel->setText("v" + QCoreApplication::applicationVersion());
 }
 
 AboutDialog::~AboutDialog()

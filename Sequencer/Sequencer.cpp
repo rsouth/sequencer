@@ -26,282 +26,278 @@
 #include "RenderingJob.h"
 #include "StringUtils.h"
 
-
 Sequencer::Sequencer(QWidget* parent) : QMainWindow(parent)
 {
-	qDebug() << "Starting " << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion();
+  qDebug() << "Starting " << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion();
 
-	ui.setupUi(this);
-	
-	// main UI splitter between source and diagram views
-	ui.splitter->setStretchFactor(0, 1);
-	ui.splitter->setStretchFactor(1, 20);
+  ui.setupUi(this);
 
-	// add version label to toolbar
-	QWidget* empty = new QWidget();
-	empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-	ui.toolBar->addWidget(empty);
+  // main UI splitter between source and diagram views
+  ui.splitter->setStretchFactor(0, 1);
+  ui.splitter->setStretchFactor(1, 20);
 
-	QLabel* version_label = new QLabel("Sequencer version\n" + QCoreApplication::applicationVersion());
-	version_label->setMargin(10);
-	version_label->setAlignment(Qt::AlignRight | Qt::AlignBottom);
-	ui.toolBar->addWidget(version_label);
+  // add version label to toolbar
+  QWidget* empty = new QWidget();
+  empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  ui.toolBar->addWidget(empty);
 
-	// hook up Sequencer::update_diagram to the RenderingThread::render_completed signal
-	connect(&this->worker_thread_, &RenderingThread::render_completed, this, &Sequencer::update_diagram);
+  QLabel* version_label = new QLabel("Sequencer version\n" + QCoreApplication::applicationVersion());
+  version_label->setMargin(10);
+  version_label->setAlignment(Qt::AlignRight | Qt::AlignBottom);
+  ui.toolBar->addWidget(version_label);
+
+  // hook up Sequencer::update_diagram to the RenderingThread::render_completed signal
+  connect(&this->worker_thread_, &RenderingThread::render_completed, this, &Sequencer::update_diagram);
 }
 
 Sequencer::~Sequencer()
 {
-	disconnect(&this->worker_thread_, &RenderingThread::render_completed, this, &Sequencer::update_diagram);
+  disconnect(&this->worker_thread_, &RenderingThread::render_completed, this, &Sequencer::update_diagram);
 
-	this->worker_thread_.requestInterruption();
-	if (!this->worker_thread_.wait(100))
-	{
-		this->worker_thread_.terminate();
-	}
+  this->worker_thread_.requestInterruption();
+  if (!this->worker_thread_.wait(100))
+  {
+    this->worker_thread_.terminate();
+  }
 }
-
 
 void Sequencer::on_actionCreate_New_triggered()
 {
-	qDebug() << "on_actionCreate_New_triggered";
-	if(dirty_check())
-	{
-		qDebug() << "creating new document";
-		this->ui.textBrowser->setText(QString());
-		this->ui.textBrowser->setDocumentTitle(QString());
-	}
+  qDebug() << "on_actionCreate_New_triggered";
+  if (dirty_check())
+  {
+    qDebug() << "creating new document";
+    this->ui.textBrowser->setText(QString());
+    this->ui.textBrowser->setDocumentTitle(QString());
+  }
 }
 
 void Sequencer::on_actionOpen_triggered()
 {
-	const auto file_name = QFileDialog::getOpenFileName(this, tr("Open File"), nullptr, tr("Sequencer Files (*.seq)"));
-	if (!file_name.isEmpty() && dirty_check())
-	{
-		QFile input_file(file_name);
-		if (input_file.open(QIODevice::ReadOnly))
-		{
-			std::vector<std::string> lines;
-			QTextStream in(&input_file);
-			while (!in.atEnd())
-			{
-				auto line = in.readLine();
-				lines.push_back(line.toStdString());
-			}
-			input_file.close();
+  const auto file_name = QFileDialog::getOpenFileName(this, tr("Open File"), nullptr, tr("Sequencer Files (*.seq)"));
+  if (!file_name.isEmpty() && dirty_check())
+  {
+    QFile input_file(file_name);
+    if (input_file.open(QIODevice::ReadOnly))
+    {
+      std::vector<std::string> lines;
+      QTextStream in(&input_file);
+      while (!in.atEnd())
+      {
+        auto line = in.readLine();
+        lines.push_back(line.toStdString());
+      }
+      input_file.close();
 
-			// concat the lines
-			const auto joinedLines = StringUtils::join(lines, "\n");
+      // concat the lines
+      const auto joinedLines = StringUtils::join(lines, "\n");
 
-			// give lines to the textArea
-			this->ui.textBrowser->setText(QString(joinedLines.c_str()));
-			this->ui.textBrowser->setDocumentTitle(file_name);
-		}
-	}
-	
+      // give lines to the textArea
+      this->ui.textBrowser->setText(QString(joinedLines.c_str()));
+      this->ui.textBrowser->setDocumentTitle(file_name);
+    }
+  }
 }
 
 void Sequencer::on_actionSave_triggered()
 {
-	do_action_save();
+  do_action_save();
 }
 
 void Sequencer::on_actionSave_As_triggered()
 {
-	do_action_save_as();
+  do_action_save_as();
 }
 
 void Sequencer::on_actionAdd_Title_triggered()
 {
-	bool ok;
-	QString text = QInputDialog::getText(this, tr("Diagram Title"), tr("Diagram title:"), QLineEdit::Normal, "", &ok);
-	if (ok && !text.isEmpty()) {
-		replace_header_token(":title ", text.toStdString());
-	}
+  bool ok;
+  QString text = QInputDialog::getText(this, tr("Diagram Title"), tr("Diagram title:"), QLineEdit::Normal, "", &ok);
+  if (ok && !text.isEmpty()) {
+    replace_header_token(":title ", text.toStdString());
+  }
 }
 
 void Sequencer::on_actionAdd_Author_triggered()
 {
-	bool ok;
-	QString text = QInputDialog::getText(this, tr("Author Name"),
-		tr("Author name:"), QLineEdit::Normal, "", &ok);
-	if (ok && !text.isEmpty())
-	{
-		replace_header_token(":author ", text.toStdString());
-	}
+  bool ok;
+  QString text = QInputDialog::getText(this, tr("Author Name"),
+    tr("Author name:"), QLineEdit::Normal, "", &ok);
+  if (ok && !text.isEmpty())
+  {
+    replace_header_token(":author ", text.toStdString());
+  }
 }
-
 
 void Sequencer::on_actionAdd_Date_triggered()
 {
-	replace_header_token(":date", "");
+  replace_header_token(":date", "");
 }
 
 void Sequencer::on_actionCopy_Diagram_to_Clipboard_triggered() const
 {
-	const QPixmap pixmap = this->ui.label->pixmap(Qt::ReturnByValueConstant::ReturnByValue);
-	if (!pixmap.isNull())
-	{
-		QImage image(pixmap.toImage());
-		QClipboard* clipboard = QApplication::clipboard();
-		if (clipboard && !image.isNull()) {
-			clipboard->setImage(image, QClipboard::Mode::Clipboard);
-		}
-	}
+  const QPixmap pixmap = this->ui.label->pixmap(Qt::ReturnByValueConstant::ReturnByValue);
+  if (!pixmap.isNull())
+  {
+    QImage image(pixmap.toImage());
+    QClipboard* clipboard = QApplication::clipboard();
+    if (clipboard && !image.isNull()) {
+      clipboard->setImage(image, QClipboard::Mode::Clipboard);
+    }
+  }
 }
 
 void Sequencer::on_actionExport_Diagram_As_triggered()
 {
-	QString file_name = QFileDialog::getSaveFileName(this, tr("Export File"), nullptr, tr("Portable Network Graphics (PNG) (*.png)"));
-	QPixmap pic = this->ui.label->pixmap(Qt::ReturnByValueConstant::ReturnByValue);
-	pic.save(file_name, "PNG");
+  QString file_name = QFileDialog::getSaveFileName(this, tr("Export File"), nullptr, tr("Portable Network Graphics (PNG) (*.png)"));
+  QPixmap pic = this->ui.label->pixmap(Qt::ReturnByValueConstant::ReturnByValue);
+  pic.save(file_name, "PNG");
 }
 
 void Sequencer::on_actionGrammar_triggered() const
 {
-	QDesktopServices::openUrl(QUrl(QString("https://github.com/rsouth/sequencer/wiki/Grammar")));
+  QDesktopServices::openUrl(QUrl(QString("https://github.com/rsouth/sequencer/wiki/Grammar")));
 }
 
 void Sequencer::on_actionExample_File_triggered()
 {
-	if (dirty_check())
-	{
-		const auto text =
-			"# metadata\n"
-			":title Example Sequence Diagram\n"
-			":author Mr. Sequence Diagram\n"
-			":date\n"
-			"\n"
-			"# diagram\n"
-			"Client -> Server: Request\n"
-			"Server -> Server: Parses request\n"
-			"Server ->> Service: Query\n"
-			"Service -->> Server: Data\n"
-			"Server --> Client: Response\n";
+  if (dirty_check())
+  {
+    const auto text =
+      "# metadata\n"
+      ":title Example Sequence Diagram\n"
+      ":author Mr. Sequence Diagram\n"
+      ":date\n"
+      "\n"
+      "# diagram\n"
+      "Client -> Server: Request\n"
+      "Server -> Server: Parses request\n"
+      "Server ->> Service: Query\n"
+      "Service -->> Server: Data\n"
+      "Server --> Client: Response\n";
 
-		this->ui.textBrowser->setText(text);
-		this->ui.textBrowser->setDocumentTitle(QString());
-	}
+    this->ui.textBrowser->setText(text);
+    this->ui.textBrowser->setDocumentTitle(QString());
+  }
 }
 
 void Sequencer::on_actionAbout_triggered() const
 {
-	AboutDialog* about_dialog = new AboutDialog();
-	about_dialog->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint & ~Qt::WindowMinimizeButtonHint);
-	about_dialog->setAttribute(Qt::WA_DeleteOnClose);
-	about_dialog->show();
+  AboutDialog* about_dialog = new AboutDialog();
+  about_dialog->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint & ~Qt::WindowMinimizeButtonHint);
+  about_dialog->setAttribute(Qt::WA_DeleteOnClose);
+  about_dialog->show();
 }
 
 void Sequencer::on_textBrowser_textChanged()
 {
-	const auto input_text = ui.textBrowser->toPlainText().toStdString();
-	const auto rendering_job = RenderingJob(this->parent(), input_text);
-	this->worker_thread_.render(rendering_job);
+  const auto input_text = ui.textBrowser->toPlainText().toStdString();
+  const auto rendering_job = RenderingJob(this->parent(), input_text);
+  this->worker_thread_.render(rendering_job);
 }
 
 bool Sequencer::do_action_save()
 {
-	QString document_title = this->ui.textBrowser->documentTitle();
-	if (document_title.isEmpty())
-	{
-		return this->do_action_save_as();
-	}
-	else
-	{
-		return this->save_source_to_file(document_title.toStdString());
-	}
+  QString document_title = this->ui.textBrowser->documentTitle();
+  if (document_title.isEmpty())
+  {
+    return this->do_action_save_as();
+  }
+  else
+  {
+    return this->save_source_to_file(document_title.toStdString());
+  }
 }
 
 bool Sequencer::do_action_save_as()
 {
-	QString file_name = QFileDialog::getSaveFileName(this, tr("Save File"), nullptr, tr("Sequencer Files (*.seq)"));
-	if (!file_name.isEmpty()) {
-		return this->save_source_to_file(file_name.toStdString());
-	}
-	return !file_name.isEmpty();
+  QString file_name = QFileDialog::getSaveFileName(this, tr("Save File"), nullptr, tr("Sequencer Files (*.seq)"));
+  if (!file_name.isEmpty()) {
+    return this->save_source_to_file(file_name.toStdString());
+  }
+  return !file_name.isEmpty();
 }
 
 bool Sequencer::dirty_check()
 {
-	if (this->ui.textBrowser->document()->isModified())
-	{
-		qDebug() << "document is dirty; asking user if they want to save";
-		int ret = QMessageBox::information(this, tr("Save File?"),
-			tr("The Sequencer file has been modified.\nDo you want to save your changes?"),
-			QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel,
-			QMessageBox::Save);
-		switch (ret)
-		{
-		case QMessageBox::Save:
-			qDebug() << "user selected to save before creating new";
-			return do_action_save();
+  if (this->ui.textBrowser->document()->isModified())
+  {
+    qDebug() << "document is dirty; asking user if they want to save";
+    int ret = QMessageBox::information(this, tr("Save File?"),
+      tr("The Sequencer file has been modified.\nDo you want to save your changes?"),
+      QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel,
+      QMessageBox::Save);
+    switch (ret)
+    {
+    case QMessageBox::Save:
+      qDebug() << "user selected to save before creating new";
+      return do_action_save();
 
-		case QMessageBox::Discard:
-			qDebug() << "user selected to discard changes and create new";
-			return true;
+    case QMessageBox::Discard:
+      qDebug() << "user selected to discard changes and create new";
+      return true;
 
-		case QMessageBox::Cancel:
-			qDebug() << "user selected to cancel creating new";
-			return false;
+    case QMessageBox::Cancel:
+      qDebug() << "user selected to cancel creating new";
+      return false;
 
-		default:
-			qWarning() << "user somehow selected invalid option: " << ret << " so cancelling create_new to be safe";
-			return false;
-		}
-	}
+    default:
+      qWarning() << "user somehow selected invalid option: " << ret << " so cancelling create_new to be safe";
+      return false;
+    }
+  }
 
-	return true;
+  return true;
 }
 
 bool Sequencer::save_source_to_file(const std::string& file_name)
 {
-	QFile output_file(file_name.c_str());
-	if (output_file.open(QIODevice::WriteOnly))
-	{
-		// get source text from UI
-		auto text = this->ui.textBrowser->toPlainText();
+  QFile output_file(file_name.c_str());
+  if (output_file.open(QIODevice::WriteOnly))
+  {
+    // get source text from UI
+    auto text = this->ui.textBrowser->toPlainText();
 
-		// write out to the file
-		QTextStream out(&output_file);
-		out << text;
-		output_file.close();
+    // write out to the file
+    QTextStream out(&output_file);
+    out << text;
+    output_file.close();
 
-		// update the document's title with the file name
-		this->ui.textBrowser->setDocumentTitle(file_name.c_str());
-		return true;
-	}
+    // update the document's title with the file name
+    this->ui.textBrowser->setDocumentTitle(file_name.c_str());
+    return true;
+  }
 
-	return false;
+  return false;
 }
 
 void Sequencer::replace_header_token(const std::string& token, const std::string& replacement)
 {
-	// get source text from the UI
-	auto text = this->ui.textBrowser->toPlainText();
-	auto lines = StringUtils::split(text.toStdString(), "\n");
-	
-	// add or replace the token line, using replacement as the value
-	StringUtils::replace_token_and_value(lines, token, replacement);
+  // get source text from the UI
+  auto text = this->ui.textBrowser->toPlainText();
+  auto lines = StringUtils::split(text.toStdString(), "\n");
 
-	// join the lines back to a string and push back to the UI
-	const auto joinedLines = StringUtils::join(lines, "\n");
-	this->ui.textBrowser->setText(QString(joinedLines.c_str()));
-	this->ui.textBrowser->document()->setModified(true);
+  // add or replace the token line, using replacement as the value
+  StringUtils::replace_token_and_value(lines, token, replacement);
+
+  // join the lines back to a string and push back to the UI
+  const auto joinedLines = StringUtils::join(lines, "\n");
+  this->ui.textBrowser->setText(QString(joinedLines.c_str()));
+  this->ui.textBrowser->document()->setModified(true);
 }
 
 void Sequencer::closeEvent(QCloseEvent* evt)
 {
-	if (!dirty_check()) {
-		evt->ignore();
-	}
+  if (!dirty_check()) {
+    evt->ignore();
+  }
 }
 
 // slot: update_diagram
 // updates the UI with the new QPixmap holding the diagram
 void Sequencer::update_diagram(const QPixmap& img)
 {
-	ui.label->setPixmap(img);
-	ui.label->setFixedSize(img.width(), img.height());
-	QApplication::processEvents();
+  ui.label->setPixmap(img);
+  ui.label->setFixedSize(img.width(), img.height());
+  QApplication::processEvents();
 }

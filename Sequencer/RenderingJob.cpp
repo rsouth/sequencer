@@ -19,41 +19,38 @@
 #include "qpixmap.h"
 #include "qpainter.h"
 
-
 #include "Diagram.h"
 #include "DiagramParser.h"
 #include "RenderableDiagram.h"
 
-
 const QPixmap RenderingJob::do_render_diagram(const std::string& input) const
 {
-	const auto diagram = DiagramParser::parse(input);
-	
-	QPixmap temp_pixmap(1000, 1000);
-	QPainter temp_painter(&temp_pixmap);
+  const auto diagram = DiagramParser::parse(input);
 
-	RenderableDiagram renderable_diagram(diagram, &temp_painter);
-	int hxw[2];
-	renderable_diagram.calculate_diagram_size(hxw);
+  QPixmap temp_pixmap(1000, 1000);
+  QPainter temp_painter(&temp_pixmap);
 
+  RenderableDiagram renderable_diagram(diagram, &temp_painter);
+  int hxw[2];
+  renderable_diagram.calculate_diagram_size(hxw);
 
-	QPixmap pix(hxw[1], hxw[0]);
-	QPainter paint(&pix);
-	RenderableDiagram renderable(diagram, &paint);
+  QPixmap pix(hxw[1], hxw[0]);
+  QPainter paint(&pix);
+  RenderableDiagram renderable(diagram, &paint);
 
 #ifdef NDEBUG
-	// fill white for release build
-	QColor background(Qt::GlobalColor::white);
+  // fill white for release build
+  QColor background(Qt::GlobalColor::white);
 #else
-	// fill grey for debug build
-	QColor background(Qt::GlobalColor::lightGray);
+  // fill grey for debug build
+  QColor background(Qt::GlobalColor::lightGray);
 #endif
 
-	paint.fillRect(pix.rect(), Qt::BrushStyle::SolidPattern);
+  paint.fillRect(pix.rect(), Qt::BrushStyle::SolidPattern);
 
-	pix.fill(background);
+  pix.fill(background);
 
-	renderable.draw();
+  renderable.draw();
 
-	return pix;
+  return pix;
 }
