@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Sequencer - simple sequence diagrams</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/railscasts.min.css">
+      <link rel="stylesheet" href="scribbler-global.css">
+      <link rel="stylesheet" href="scribbler-landing.css">
+      <link rel="author" href="humans.txt">
+  </head>
+  <body>
+    <nav>
+      <div class="logo"></div>
+      <ul class="menu">
+        <div class="menu__item toggle"><span></span></div>
+        <li class="menu__item"><a href="https://github.com/rsouth/sequencer/releases" class="link link--dark"><i class="fa fa-download"></i> Download</a></li>
+        <li class="menu__item"><a href="https://github.com/rsouth/sequencer/wiki/Grammar" class="link link--dark"><i class="fa fa-book"></i> Documentation</a></li>
+        <li class="menu__item"><a href="https://github.com/rsouth/sequencer" class="link link--dark"><i class="fa fa-github"></i> Github</a></li>
+      </ul>
+    </nav>
+    <div class="hero">
+      <h1 class="hero__title">Sequencer</h1>
+      <p class="hero__description">simple sequence diagrams</p>
+    </div>
+    <div class="hero__terminal">
+      <img src="assets/sequencer-0-0-2-0-demo.gif" />
+    </div>
+    <div class="wrapper">
+      <div class="installation">
+        <h3 class="section__title">Getting Started</h3>
+        <div class="tab__container">
+          <ul class="tab__menu">
+            <li class="tab active" data-tab="simple-example">Simple Example</li>
+            <li class="tab" data-tab="cash-withdrawal-example">Cash Withdrawal</li>
+            <li class="tab" data-tab="oms-example">Trading System</li>
+          </ul>
+          <pre class="nohighlight code">
+
+          <!-- Simple Example -->
+          <div class="tab__pane simple-example active">
+            <div class="keybinding">
+              <ul class="keybinding__detail">
+                <h3 class="keybinding__title">Source</h3>
+                <pre class="nohighlight code__block code__block--notabs">
+                  <code>
+Client -> Server: Request
+Server -> Service: Query
+Service --> Server: Data
+Server --> Client: Response
+                  </code>
+                </pre>
+              </ul>
+              <ul class="keybinding__detail">
+                <h3 class="keybinding__title">Resulting Diagram</h3>
+                <img src="assets/simple-example.png" width="400px" height="auto"/>
+              </ul>
+            </div>
+          </div>
+          <!-- /Simple -->
+
+          <!-- Cash Withdrawal Example -->
+          <div class="tab__pane cash-withdrawal-example">
+            <div class="keybinding">
+              <ul class="keybinding__detail">
+                <h3 class="keybinding__title">Source</h3>
+                <pre class="nohighlight code__block code__block--notabs">
+                  <code>
+Customer -> ATM: withdrawCash
+ATM -> BigBank: getBalance
+BigBank --> ATM: balance
+ATM -> BigBank: debit
+BigBank --> ATM: success
+ATM --> Customer: $$$
+                  </code>
+                </pre>
+              </ul>
+              <ul class="keybinding__detail">
+                <h3 class="keybinding__title">Resulting Diagram</h3>
+                <img src="assets/atm-example.png" width="400px" height="auto"/>
+              </ul>
+            </div>
+          </div>
+          <!-- /Cash Withdrawal -->
+
+          <!-- Trading System Example -->
+          <div class="tab__pane oms-example">
+            <div class="keybinding">
+              <ul class="keybinding__detail">
+                <h3 class="keybinding__title">Source</h3>
+                <pre class="nohighlight code__block code__block--notabs">
+                  <code>
+Trader -> OMS: Buy Order
+OMS -> Exchange: Buy Order
+Other Trader -> Exchange: Sell Order
+Exchange -> Exchange: Matches orders
+Exchange --> OMS: Trade (bought)
+Exchange --> Other Trader: Trade (sold)
+OMS --> Trader: Position (long)
+                  </code>
+                </pre>
+              </ul>
+              <ul class="keybinding__detail">
+                <h3 class="keybinding__title">Resulting Diagram</h3>
+                <img src="assets/oms-example.png" width="400px" height="auto"/>
+              </ul>
+            </div>
+          </div>
+          <!-- /Trading System -->
+
+      </div>
+      <div class="feature">
+        <div class="feature__item">
+          <h3 class="section__title">Fast & Easy</h3>
+          <p>Quickly and easily draw and share your idea, no fiddly drag-and-drop, just type out your thoughts.</p>
+        </div>
+        <div class="feature__item">
+          <h3 class="section__title">Simple Sharing</h3>
+          <p>Copy either the diagram or the source straight to your favourite chat client, email or wiki page.</p>
+        </div>
+        <div class="feature__item">
+          <h3 class="section__title">Version Control</h3>
+          <p>Since Sequencer documents are simple text files, they fit right in your repositories <span class="code code--inline">/docs</span> folder.</p>
+        </div>
+        <div class="feature__item">
+          <h3 class="section__title">Comprehensive Grammar</h3>
+          <p>Comprehensive and expanding, see the full documentation for details or make suggestions in GitHub (pull requests are also welcome!).</p>
+        </div>
+        <div class="feature__item">
+          <h3 class="section__title">100% Offline</h3>
+          <p>Sequencer works on your local machine and doesn't require your data to hit a 3rd-party server.</p>
+        </div>
+        <div class="feature__item">
+          <h3 class="section__title">No Installation</h3>
+          <p>No need to install, no pesky corporate restriction. Download and go!</p>
+        </div>
+      </div>
+      <div class="callout">
+        <p>Sequencer is <strong>free</strong> and <strong>open-source</strong>. Download the latest version to get started, or see the code on <a href="https://github.com/rsouth/sequencer" target="_blank" class="link link--light">GitHub</a></p>
+        <a href="https://github.com/rsouth/sequencer/releases" class="button--primary">Download Now</a>
+      </div>
+    </div>
+    <footer class="footer">Sequencer &copy; 2020 <a href="https://github.com/rsouth" target="_blank" class="link link--light">github.com/rsouth</a>.<br/>Website template "Scribbler" from <a href="https://tympanus.net/codrops/" target="_blank" class="link link--light">Codrops</a>.</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="scribbler.js"></script>
+  </body>
+</html>
