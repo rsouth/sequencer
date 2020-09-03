@@ -68,8 +68,51 @@ public:
     {
       canvas.setPen(Qt::PenStyle::DashLine);
     }
-    canvas.drawLine(from, to);
+    draw_sketchy_line(from, to, canvas);
+    //canvas.drawLine(from, to);
     canvas.restore();
+  }
+
+  static void draw_sketchy_line(QPoint from, QPoint to, QPainter& canvas)
+  {
+    QBrush brush(Qt::black, Qt::BrushStyle::SolidPattern);
+    QPen pen(brush, 2);
+    canvas.setPen(pen);
+    canvas.setRenderHints(QPainter::Antialiasing);
+
+    if (from.x() == to.x()) {
+      // vertical line
+      double len = abs(from.y() - to.y());
+      double first_skew_point = 0.5 * len;
+      double second_skeq_point = 0.75 * len;
+
+      QPainterPath myPath;
+      myPath.moveTo(from);
+      double skew_1 = ((rand() % 10) + ((len / 100.0))) - (len / 100.0) / 2;
+      double skew_2 = ((rand() % 10) + ((len / 100.0))) - (len / 100.0) / 2;
+      myPath.cubicTo(QPoint(from.x() + skew_1, from.y() + first_skew_point), QPoint(from.x() + skew_2, from.y() + second_skeq_point), to);
+
+      canvas.drawPath(myPath);
+    }
+    else
+    {
+      // horizontal line
+      double len = abs(from.x() - to.x());
+      double first_skew_point = to.x() > from.x() ? 0.5 * len : -0.5 * len;
+      double second_skeq_point = to.x() > from.x() ? 0.75 * len : -0.75 * len;
+
+      QPainterPath myPath;
+      myPath.moveTo(from);
+      double skew_1 = ((rand() % 5) + ((len / 100.0))) - (len / 100.0) / 2;
+      double skew_2 = ((rand() % 5) + ((len / 100.0))) - (len / 100.0) / 2;
+      myPath.cubicTo(
+        QPointF(from.x() + first_skew_point, from.y() + skew_1),
+        QPointF(from.x() + second_skeq_point, from.y() + skew_2),
+        to
+      );
+
+      canvas.drawPath(myPath);
+    }
   }
 
   static void RenderingUtils::draw_arrowhead(QPoint point_at, QPainter& canvas, ArrowDirection direction, ArrowStyle filled)
