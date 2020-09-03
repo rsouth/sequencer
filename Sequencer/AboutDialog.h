@@ -21,12 +21,12 @@
 
 class AboutDialog : public QWidget
 {
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	AboutDialog(QWidget *parent = Q_NULLPTR);
-	~AboutDialog();
+  AboutDialog(QWidget* parent = Q_NULLPTR);
+  ~AboutDialog();
 
 private:
-	Ui::AboutDialog ui;
+  Ui::AboutDialog ui;
 };

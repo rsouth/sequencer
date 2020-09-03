@@ -22,43 +22,43 @@ RenderingThread::RenderingThread(QObject* parent) : QThread(parent)
 
 auto RenderingThread::render(const RenderingJob& rendering_job) -> void
 {
-	push(rendering_job);
-	if (!isRunning())
-	{
-		qDebug() << " starting thread";
-		start(LowPriority);
-	}
+  push(rendering_job);
+  if (!isRunning())
+  {
+    qDebug() << " starting thread";
+    start(LowPriority);
+  }
 }
 
 auto RenderingThread::push(RenderingJob const& value) -> void
 {
-	{
-		std::scoped_lock<std::mutex> lock(this->d_mutex);
-		qDebug() << " currently " << d_queue.size() << " jobs";
-		d_queue.clear();
-		qDebug() << " cleared, now have " << d_queue.size() << " jobs";
+  {
+    std::scoped_lock<std::mutex> lock(this->d_mutex);
+    qDebug() << " currently " << d_queue.size() << " jobs";
+    d_queue.clear();
+    qDebug() << " cleared, now have " << d_queue.size() << " jobs";
 
-		d_queue.push_front(value);
+    d_queue.push_front(value);
 
-		qDebug() << " added job, not have " << d_queue.size() << " jobs";
-	}
-	this->d_condition.notify_one();
+    qDebug() << " added job, not have " << d_queue.size() << " jobs";
+  }
+  this->d_condition.notify_one();
 }
 
 auto RenderingThread::pop() -> RenderingJob
 {
-	std::unique_lock<std::mutex> lock(this->d_mutex);
-	this->d_condition.wait(lock, [=] { return !this->d_queue.empty(); });
-	auto rc(std::move(this->d_queue.back()));
-	this->d_queue.pop_back();
-	return rc;
+  std::unique_lock<std::mutex> lock(this->d_mutex);
+  this->d_condition.wait(lock, [=] { return !this->d_queue.empty(); });
+  auto rc(std::move(this->d_queue.back()));
+  this->d_queue.pop_back();
+  return rc;
 }
 
 void RenderingThread::run()
 {
-	while (!isInterruptionRequested())
-	{
-		auto job = pop();
-		emit render_completed(job.render_diagram());
-	}
+  while (!isInterruptionRequested())
+  {
+    auto job = pop();
+    emit render_completed(job.render_diagram());
+  }
 }

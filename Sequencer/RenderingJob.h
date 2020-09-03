@@ -22,20 +22,19 @@ class RenderingJob
 {
 public:
 
-	RenderingJob(QObject*, std::string input_text) : input_text_(input_text) { }
+  RenderingJob(QObject*, std::string input_text) : input_text_(input_text) { }
 
-	/* call render_diagram when thread runs */
-	QPixmap render_diagram()
-	{
-		return do_render_diagram(input_text_);
-	}
-
+  /* call render_diagram when thread runs */
+  QPixmap render_diagram()
+  {
+    return do_render_diagram(input_text_);
+  }
 
 signals:
-	void update_gui_diagram(QPixmap& image_data);
+  void update_gui_diagram(QPixmap& image_data);
 
 private:
-	std::string input_text_;
+  std::string input_text_;
 
-	const QPixmap do_render_diagram(const std::string& input) const;
+  const QPixmap do_render_diagram(const std::string& input) const;
 };

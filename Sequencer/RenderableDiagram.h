@@ -23,29 +23,28 @@
 
 #include "RenderingUtils.h"
 
-
 #include "qpainter.h"
 
 class RenderableDiagram
 {
 public:
-	RenderableDiagram(const Diagram& diagram, QPainter* img);
+  RenderableDiagram(const Diagram& diagram, QPainter* img);
 
-	~RenderableDiagram();
+  ~RenderableDiagram();
 
-	auto draw() -> void;
-	auto max_interaction_index() -> int;
-	
-	auto calculate_diagram_size(int hxw[]) -> void;
+  auto draw() -> void;
+  auto max_interaction_index() -> int;
+
+  auto calculate_diagram_size(int hxw[]) -> void;
 
 private:
-	Diagram diagram_;
-	QPainter* img_;
+  Diagram diagram_;
+  QPainter* img_;
 
-	auto initialise_renderables() -> void;
+  auto initialise_renderables() -> void;
 
-	// Renderables
-	RenderableMetaData* renderable_metadata_; // = RenderableMetaData();
-	std::list<RenderableParticipant*> renderable_participants_ = std::list<RenderableParticipant*>();
-	std::list<RenderableInteraction*> renderable_interactions_ = std::list<RenderableInteraction*>();
+  // Renderables
+  RenderableMetaData* renderable_metadata_; // = RenderableMetaData();
+  std::list<RenderableParticipant*> renderable_participants_ = std::list<RenderableParticipant*>();
+  std::list<RenderableInteraction*> renderable_interactions_ = std::list<RenderableInteraction*>();
 };

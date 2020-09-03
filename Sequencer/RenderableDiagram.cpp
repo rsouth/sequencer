@@ -18,120 +18,117 @@
 
 #include <numeric>
 
-
 #include "qpainter.h"
 
 #include "LayoutConstants.h"
 #include "RenderableMetaData.h"
 #include "RenderableParticipant.h"
 
-
 RenderableDiagram::RenderableDiagram(const Diagram& diagram, QPainter* img) : diagram_(diagram), img_(img)
 {
-	initialise_renderables();
+  initialise_renderables();
 }
 
 RenderableDiagram::~RenderableDiagram()
 {
-	delete this->renderable_metadata_;
-	for (auto renderable_participant : this->renderable_participants_)
-	{
-		delete renderable_participant;
-	}
-	for(auto renderable_interaction : this->renderable_interactions_)
-	{
-		delete renderable_interaction;
-	}
+  delete this->renderable_metadata_;
+  for (auto renderable_participant : this->renderable_participants_)
+  {
+    delete renderable_participant;
+  }
+  for (auto renderable_interaction : this->renderable_interactions_)
+  {
+    delete renderable_interaction;
+  }
 }
 
 void RenderableDiagram::draw()
 {
-	const auto meta_data = this->diagram_.get_meta_data();
+  const auto meta_data = this->diagram_.get_meta_data();
 
-	// Draw Header
-	this->renderable_metadata_->draw();
+  // Draw Header
+  this->renderable_metadata_->draw();
 
-	const auto header_y_offset = this->renderable_metadata_->calculate_height();
+  const auto header_y_offset = this->renderable_metadata_->calculate_height();
 
-	// Draw all participants
-	for (auto participant : this->renderable_participants_)
-	{
-		const int max_index = max_interaction_index();
-		participant->draw(header_y_offset, max_index);
-	}
+  // Draw all participants
+  for (auto participant : this->renderable_participants_)
+  {
+    const int max_index = max_interaction_index();
+    participant->draw(header_y_offset, max_index);
+  }
 
-	// Draw all interactions
-	const auto interaction_y_offset = header_y_offset + LayoutConstants::LANE_HEIGHT + LayoutConstants::V_GAP;
-	for (auto interaction : this->renderable_interactions_)
-	{
-		interaction->draw(interaction_y_offset);
-	}
+  // Draw all interactions
+  const auto interaction_y_offset = header_y_offset + LayoutConstants::LANE_HEIGHT + LayoutConstants::V_GAP;
+  for (auto interaction : this->renderable_interactions_)
+  {
+    interaction->draw(interaction_y_offset);
+  }
 }
 
 auto RenderableDiagram::max_interaction_index() -> int
 {
-	int max_index = this->diagram_.get_interactions().empty() ? 0 : this->diagram_.get_interactions().size() == 1 ? this->diagram_.get_interactions().front().get_index() : 0;
-	if (this->diagram_.get_interactions().size() >= 2) {
-		std::list<Interaction> interactions = this->diagram_.get_interactions();
-		max_index = std::max_element(interactions.begin(), interactions.end(),
-			[](const Interaction& a, const Interaction& b)
-			{
-				return a.get_index() < b.get_index();
-			})->get_index();
-	}
-	return max_index + 1;
+  int max_index = this->diagram_.get_interactions().empty() ? 0 : this->diagram_.get_interactions().size() == 1 ? this->diagram_.get_interactions().front().get_index() : 0;
+  if (this->diagram_.get_interactions().size() >= 2) {
+    std::list<Interaction> interactions = this->diagram_.get_interactions();
+    max_index = std::max_element(interactions.begin(), interactions.end(),
+      [](const Interaction& a, const Interaction& b)
+      {
+        return a.get_index() < b.get_index();
+      })->get_index();
+  }
+  return max_index + 1;
 }
 
- void RenderableDiagram::calculate_diagram_size(int hxw[])
+void RenderableDiagram::calculate_diagram_size(int hxw[])
 {
-	const int header_width = this->renderable_metadata_->calculate_width();
+  const int header_width = this->renderable_metadata_->calculate_width();
 
-	int participant_width = std::accumulate(this->renderable_participants_.begin(), this->renderable_participants_.end(), 0,
-		[](int acc_, const RenderableParticipant* rp) {
-			return acc_ + rp->calculate_width();
-		}
-	);
+  int participant_width = std::accumulate(this->renderable_participants_.begin(), this->renderable_participants_.end(), 0,
+    [](int acc_, const RenderableParticipant* rp) {
+      return acc_ + rp->calculate_width();
+    }
+  );
 
-	// get farthest right x of all interaction messages
-	int rightmost_message_x = 0;
-	for (auto renderable_interaction : this->renderable_interactions_)
-	{
-		if(renderable_interaction->get_rightmost_x() > rightmost_message_x)
-		{
-			rightmost_message_x = renderable_interaction->get_rightmost_x();
-		}
-	}
+  // get farthest right x of all interaction messages
+  int rightmost_message_x = 0;
+  for (auto renderable_interaction : this->renderable_interactions_)
+  {
+    if (renderable_interaction->get_rightmost_x() > rightmost_message_x)
+    {
+      rightmost_message_x = renderable_interaction->get_rightmost_x();
+    }
+  }
 
-	const int diagram_width = std::max(std::max(rightmost_message_x, participant_width), header_width);
+  const int diagram_width = std::max(std::max(rightmost_message_x, participant_width), header_width);
 
-	const int max_height = (2 * LayoutConstants::DIAGRAM_MARGIN) +
-		this->renderable_metadata_->calculate_height() +
-		(this->renderable_participants_.empty() ? 0 : LayoutConstants::LANE_HEIGHT + LayoutConstants::V_GAP) +
-		(this->renderable_interactions_.empty()
-			 ? 0
-			 : (this->max_interaction_index() + 1) * (LayoutConstants::INTERACTION_GAP + LayoutConstants::V_GAP));
+  const int max_height = (2 * LayoutConstants::DIAGRAM_MARGIN) +
+    this->renderable_metadata_->calculate_height() +
+    (this->renderable_participants_.empty() ? 0 : LayoutConstants::LANE_HEIGHT + LayoutConstants::V_GAP) +
+    (this->renderable_interactions_.empty()
+      ? 0
+      : (this->max_interaction_index() + 1) * (LayoutConstants::INTERACTION_GAP + LayoutConstants::V_GAP));
 
-	hxw[0] = max_height;
-	hxw[1] = std::max(header_width, diagram_width);
+  hxw[0] = max_height;
+  hxw[1] = std::max(header_width, diagram_width);
 }
-
 
 void RenderableDiagram::initialise_renderables()
 {
-	// MetaData
-	this->renderable_metadata_ = new RenderableMetaData(this->diagram_.get_meta_data(), this->img_);
+  // MetaData
+  this->renderable_metadata_ = new RenderableMetaData(this->diagram_.get_meta_data(), this->img_);
 
-	// Participants
-	const auto participants = this->diagram_.get_participants();
-	for (const auto& participant : participants)
-	{
-		this->renderable_participants_.emplace_back(new RenderableParticipant(participant, this->img_));
-	}
+  // Participants
+  const auto participants = this->diagram_.get_participants();
+  for (const auto& participant : participants)
+  {
+    this->renderable_participants_.emplace_back(new RenderableParticipant(participant, this->img_));
+  }
 
-	// Interactions
-	const auto interactions = this->diagram_.get_interactions();
-	for (const auto& interaction : interactions)
-	{
-		this->renderable_interactions_.emplace_back(new RenderableInteraction(interaction, this->img_));
-	}
+  // Interactions
+  const auto interactions = this->diagram_.get_interactions();
+  for (const auto& interaction : interactions)
+  {
+    this->renderable_interactions_.emplace_back(new RenderableInteraction(interaction, this->img_));
+  }
 }

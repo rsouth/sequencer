@@ -21,34 +21,31 @@
 
 #include "qpainter.h"
 
-
 class RenderableInteraction
 {
 public:
-	RenderableInteraction(const Interaction& interaction, QPainter* img);
+  RenderableInteraction(const Interaction& interaction, QPainter* img);
 
-	auto draw(int y_offset) const -> void;
-	auto get_rightmost_x() const -> int;
+  auto draw(int y_offset) const -> void;
+  auto get_rightmost_x() const -> int;
 
 private:
 
-	Interaction interaction_;
-	QPainter* img_;
-	unsigned int text_font_height_ = 10;
+  Interaction interaction_;
+  QPainter* img_;
+  unsigned int text_font_height_ = 10;
 
+  auto draw_self_referential_interaction(int y_offset) const -> void;
 
-	auto draw_self_referential_interaction(int y_offset) const -> void;
+  auto draw_arrowhead(const int line_end_x, const int line_end_y) const -> void;
 
-	auto draw_arrowhead(const int line_end_x, const int line_end_y) const -> void;
+  static auto get_participant_x(const Participant& participant) -> int;
 
-	static auto get_participant_x(const Participant& participant) -> int;
+  auto draw_point_to_point_interaction(int y_offset) const -> void;
 
-	auto draw_point_to_point_interaction(int y_offset) const -> void;
+  auto render_interaction_message(int interaction_from_x,
+    int interaction_from_y,
+    int interaction_to_x) const -> void;
 
-	auto render_interaction_message(int interaction_from_x,
-	                                int interaction_from_y,
-	                                int interaction_to_x) const -> void;
-
-	auto is_pointing_right() const -> bool;
+  auto is_pointing_right() const -> bool;
 };
-

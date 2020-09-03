@@ -25,26 +25,25 @@
 
 class RenderingThread final : public QThread
 {
-Q_OBJECT
+  Q_OBJECT
 
 public:
-	explicit RenderingThread(QObject* parent = nullptr);
+  explicit RenderingThread(QObject* parent = nullptr);
 
-	auto render(const RenderingJob& rendering_job) -> void;
+  auto render(const RenderingJob& rendering_job) -> void;
 
-	auto push(RenderingJob const& value) -> void;
+  auto push(RenderingJob const& value) -> void;
 
-	auto pop() -> RenderingJob;
+  auto pop()->RenderingJob;
 
 signals:
-	void render_completed(const QPixmap& image);
+  void render_completed(const QPixmap& image);
 
 protected:
-	void run() override;
-	
+  void run() override;
 
 private:
-	std::mutex d_mutex;
-	std::condition_variable d_condition;
-	std::deque<RenderingJob> d_queue;
+  std::mutex d_mutex;
+  std::condition_variable d_condition;
+  std::deque<RenderingJob> d_queue;
 };
