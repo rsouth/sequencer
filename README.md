@@ -62,6 +62,13 @@ Server -> Client: Response
 See the [wiki](https://github.com/rsouth/sequencer/wiki/Grammar) for the current grammar.
 
 
+## :art: Themes
+
+Support for basic themes is progressing, the "Sketchy" theme is available on the `develop` branch and expect to be included in the next release.
+
+<img src="https://i.ibb.co/rFv8X7V/image.png" alt="image" border="0">
+
+
 ## :hammer: Building
 
 ```Batchfile
@@ -113,7 +120,7 @@ Please download the [latest](https://github.com/rsouth/sequencer/releases/latest
 
 ## :pray: Credits / Attributions
 
-#### :art: Icons
+#### :framed_picture: Icons
 
 Toolbar icons made by [Dave Gandy](https://www.flaticon.com/authors/dave-gandy) from [www.flaticon.com](https://www.flaticon.com/).
 
