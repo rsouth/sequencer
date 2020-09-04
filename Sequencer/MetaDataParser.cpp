@@ -24,17 +24,20 @@
 #include <iomanip>
 
 #include "StringUtils.h"
+#include "RenderingUtils.h"
 
 const char* MetaDataParser::TITLE_TOKEN = ":title ";
 const char* MetaDataParser::AUTHOR_TOKEN = ":author ";
 const char* MetaDataParser::DATE_TOKEN = ":date";
 const char* MetaDataParser::FONT_SIZE_TOKEN = ":fontsize ";
+const char* MetaDataParser::THEME_TOKEN = ":theme ";
 
 MetaData MetaDataParser::parse(const std::string& input)
 {
   std::string title;
   std::string author;
   std::string date;
+  RenderingUtils::Theme theme = RenderingUtils::Theme::Default;
   try
   {
     auto lines = StringUtils::split(input, "\n");
@@ -62,6 +65,15 @@ MetaData MetaDataParser::parse(const std::string& input)
         std::strftime(buffer, sizeof(buffer), "%F", &t);
         date = buffer;
       }
+
+      if (StringUtils::starts_with(line, THEME_TOKEN))
+      {
+        // :theme Sketchy
+        std::string theme_name = StringUtils::get_token_value(line, THEME_TOKEN);
+        if ("Sketchy" == theme_name) {
+          theme = RenderingUtils::Theme::Sketchy;
+        }
+      }
     }
   }
   catch (const std::exception& e)
@@ -69,5 +81,5 @@ MetaData MetaDataParser::parse(const std::string& input)
     /* */
   }
 
-  return MetaData(title, author, date);
+  return MetaData(title, author, date, theme);
 }

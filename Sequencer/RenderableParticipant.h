@@ -26,7 +26,7 @@ class RenderableParticipant
 public:
   RenderableParticipant(const Participant& participant, QPainter* img);
 
-  auto draw(int header_y_offset, int total_interactions) -> void;
+  auto draw(int header_y_offset, int total_interactions, RenderingUtils::Theme theme) -> void;
   auto calculate_width() const -> int;
 
 private:
