@@ -187,7 +187,7 @@ void Sequencer::on_actionExample_File_triggered()
   if (dirty_check())
   {
     const auto text =
-      "# metadata\n"
+      ":theme Default\n"
       ":title Example Sequence Diagram\n"
       ":author Mr. Sequence Diagram\n"
       ":date\n"
