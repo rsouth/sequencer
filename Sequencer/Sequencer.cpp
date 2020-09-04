@@ -21,6 +21,7 @@
 #include "qdesktopservices.h"
 #include "qinputdialog.h"
 #include "qmessagebox.h"
+#include "qcombobox.h"
 
 #include "RenderableDiagram.h"
 #include "RenderingJob.h"
@@ -36,6 +37,21 @@ Sequencer::Sequencer(QWidget* parent) : QMainWindow(parent)
   ui.splitter->setStretchFactor(0, 1);
   ui.splitter->setStretchFactor(1, 20);
 
+  // theme selector
+  QComboBox* theme_selector = new QComboBox();
+  theme_selector->setObjectName("themeSelector");
+  theme_selector->setEditable(false);
+  theme_selector->addItem("Default");
+  theme_selector->addItem("Sketchy");
+
+  QBoxLayout* box_layout = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
+  box_layout->addWidget(theme_selector);
+
+  QGroupBox* group_box = new QGroupBox("Theme Selector");
+  group_box->setLayout(box_layout);
+  ui.toolBar->insertWidget(ui.actionCopy_Diagram_to_Clipboard, group_box);
+  ui.toolBar->insertSeparator(ui.actionCopy_Diagram_to_Clipboard);
+
   // add version label to toolbar
   QWidget* empty = new QWidget();
   empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -45,6 +61,8 @@ Sequencer::Sequencer(QWidget* parent) : QMainWindow(parent)
   version_label->setMargin(10);
   version_label->setAlignment(Qt::AlignRight | Qt::AlignBottom);
   ui.toolBar->addWidget(version_label);
+
+  connect(theme_selector, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(on_themeSelector_currentTextChanged(const QString&)));
 
   // hook up Sequencer::update_diagram to the RenderingThread::render_completed signal
   connect(&this->worker_thread_, &RenderingThread::render_completed, this, &Sequencer::update_diagram);
@@ -134,6 +152,11 @@ void Sequencer::on_actionAdd_Date_triggered()
   replace_header_token(":date", "");
 }
 
+void Sequencer::on_themeSelector_currentTextChanged(const QString& text)
+{
+  replace_header_token(":theme ", text.toStdString());
+}
+
 void Sequencer::on_actionCopy_Diagram_to_Clipboard_triggered() const
 {
   const QPixmap pixmap = this->ui.label->pixmap(Qt::ReturnByValueConstant::ReturnByValue);
@@ -164,7 +187,7 @@ void Sequencer::on_actionExample_File_triggered()
   if (dirty_check())
   {
     const auto text =
-      "# metadata\n"
+      ":theme Default\n"
       ":title Example Sequence Diagram\n"
       ":author Mr. Sequence Diagram\n"
       ":date\n"
@@ -193,6 +216,25 @@ void Sequencer::on_textBrowser_textChanged()
 {
   const auto input_text = ui.textBrowser->toPlainText().toStdString();
   const auto rendering_job = RenderingJob(this->parent(), input_text);
+
+  // update theme selector
+  auto lines = StringUtils::split(input_text, "\n");
+  for (const auto& line : lines)
+  {
+    if (StringUtils::starts_with(line, ":theme "))
+    {
+      std::string theme_name = StringUtils::get_token_value(line, ":theme ");
+      auto found = ui.toolBar->window()->findChild<QComboBox*>("themeSelector");
+      if (theme_name.length() > 1 && found)
+      {
+        int comboIdx = found->findText(theme_name.c_str());
+        if (comboIdx > -1) {
+          found->setCurrentIndex(comboIdx);
+        }
+      }
+    }
+  }
+
   this->worker_thread_.render(rendering_job);
 }
 

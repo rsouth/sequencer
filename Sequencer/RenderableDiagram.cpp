@@ -47,7 +47,7 @@ void RenderableDiagram::draw()
   const auto meta_data = this->diagram_.get_meta_data();
 
   // Draw Header
-  this->renderable_metadata_->draw();
+  this->renderable_metadata_->draw(meta_data.get_theme());
 
   const auto header_y_offset = this->renderable_metadata_->calculate_height();
 
@@ -55,14 +55,14 @@ void RenderableDiagram::draw()
   for (auto participant : this->renderable_participants_)
   {
     const int max_index = max_interaction_index();
-    participant->draw(header_y_offset, max_index);
+    participant->draw(header_y_offset, max_index, meta_data.get_theme());
   }
 
   // Draw all interactions
   const auto interaction_y_offset = header_y_offset + LayoutConstants::LANE_HEIGHT + LayoutConstants::V_GAP;
   for (auto interaction : this->renderable_interactions_)
   {
-    interaction->draw(interaction_y_offset);
+    interaction->draw(interaction_y_offset, meta_data.get_theme());
   }
 }
 

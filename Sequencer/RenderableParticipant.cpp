@@ -34,28 +34,28 @@ int RenderableParticipant::get_participant_x() const
     (this->participant_.get_index() * LayoutConstants::LANE_GAP);
 }
 
-void RenderableParticipant::draw(const int header_y_offset, const int total_interactions)
+void RenderableParticipant::draw(const int header_y_offset, const int total_interactions, RenderingUtils::Theme theme)
 {
   int participant_x0 = this->get_participant_x();
   int participant_y0 = LayoutConstants::V_GAP + header_y_offset;
 
   // render rectangle...
-  this->img_->drawRoundedRect(participant_x0, participant_y0, LayoutConstants::LANE_WIDTH, LayoutConstants::LANE_HEIGHT, 5, 5, Qt::SizeMode::AbsoluteSize);
+  RenderingUtils::draw_rectangle(QPoint(participant_x0, participant_y0), QPoint(LayoutConstants::LANE_WIDTH, LayoutConstants::LANE_HEIGHT), *this->img_, theme);
   const std::string partic_name = this->participant_.get_name();
 
-  QFont title_font("Arial", this->participant_font_height_);
+  QFont title_font(RenderingUtils::get_font_name(theme), this->participant_font_height_);
   const int text_x = get_participant_x() + (LayoutConstants::LANE_WIDTH / 2) - (RenderingUtils::get_font_rendered_width(partic_name, title_font) / 2);
 
   const int text_y = header_y_offset + LayoutConstants::V_GAP + (LayoutConstants::LANE_HEIGHT / 2) - (RenderingUtils::get_font_rendered_height(title_font) / 2);
 
-  RenderingUtils::draw_text(text_x, text_y, partic_name.c_str(), *this->img_, this->participant_font_height_);
+  RenderingUtils::draw_text(text_x, text_y, partic_name.c_str(), *this->img_, this->participant_font_height_, theme);
 
   // draw vertical line
   const int y1 = header_y_offset + LayoutConstants::LANE_HEIGHT + LayoutConstants::V_GAP;
   const int y2 = y1 + LayoutConstants::INTERACTION_GAP + (total_interactions * (LayoutConstants::INTERACTION_GAP + LayoutConstants::V_GAP));
 
   // last VGAP should be a 'lane height padding' type.
-  RenderingUtils::draw_line(QPoint(participant_x0 + LayoutConstants::LANE_WIDTH / 2, y1), QPoint(participant_x0 + LayoutConstants::LANE_WIDTH / 2, y2), *this->img_);
+  RenderingUtils::draw_line(QPoint(participant_x0 + LayoutConstants::LANE_WIDTH / 2, y1), QPoint(participant_x0 + LayoutConstants::LANE_WIDTH / 2, y2), *this->img_, false, theme);
 }
 
 int RenderableParticipant::calculate_width() const

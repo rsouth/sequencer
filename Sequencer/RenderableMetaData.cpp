@@ -25,8 +25,9 @@ RenderableMetaData::RenderableMetaData(const MetaData& meta_data, QPainter* img)
 {
 }
 
-void RenderableMetaData::draw() const
+void RenderableMetaData::draw(RenderingUtils::Theme theme) const
 {
+  std::string font_name = RenderingUtils::get_font_name(theme);
   int titleheight = 0;
   if (!this->meta_data_.get_title().empty())
   {
@@ -35,10 +36,11 @@ void RenderableMetaData::draw() const
       LayoutConstants::DIAGRAM_MARGIN,
       this->meta_data_.get_title().c_str(),
       *this->img_,
-      this->title_font_height_
+      this->title_font_height_,
+      theme
     );
 
-    titleheight = RenderingUtils::get_font_rendered_height(QFont("Arial", this->title_font_height_));
+    titleheight = RenderingUtils::get_font_rendered_height(QFont(font_name.c_str(), this->title_font_height_));
   }
 
   int authorheight = 0;
@@ -53,10 +55,11 @@ void RenderableMetaData::draw() const
       author_y,
       this->meta_data_.get_author().c_str(),
       *this->img_,
-      this->text_font_height_
+      this->text_font_height_,
+      theme
     );
 
-    authorheight = RenderingUtils::get_font_rendered_height(QFont("Arial", this->text_font_height_));
+    authorheight = RenderingUtils::get_font_rendered_height(QFont(font_name.c_str(), this->text_font_height_));
   }
 
   if (!this->meta_data_.get_date().empty())
@@ -67,7 +70,8 @@ void RenderableMetaData::draw() const
       date_y,
       this->meta_data_.get_date().c_str(),
       *this->img_,
-      this->text_font_height_
+      this->text_font_height_,
+      theme
     );
   }
 }

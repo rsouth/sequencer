@@ -72,6 +72,9 @@ public slots:
   // ReSharper disable once CppInconsistentNaming
   void on_textBrowser_textChanged();
 
+  // ReSharper disable once CppInconsistentNaming
+  void on_themeSelector_currentTextChanged(const QString& text);
+
   // update the UI with the new diagram
   void update_diagram(const QPixmap& img);
 

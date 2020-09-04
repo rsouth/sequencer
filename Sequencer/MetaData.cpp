@@ -18,11 +18,14 @@
 
 #include <utility>
 
+#include "RenderingUtils.h"
+
 MetaData::MetaData() = default;
 
-MetaData::MetaData(std::string title, std::string author, std::string date) : title_(std::move(title)),
+MetaData::MetaData(std::string title, std::string author, std::string date, RenderingUtils::Theme theme) : title_(std::move(title)),
 author_(std::move(author)),
-date_(std::move(date))
+date_(std::move(date)),
+theme_(theme)
 {
 }
 
@@ -39,4 +42,9 @@ std::string MetaData::get_author() const
 std::string MetaData::get_date() const
 {
   return this->date_;
+}
+
+RenderingUtils::Theme MetaData::get_theme() const
+{
+  return this->theme_;
 }

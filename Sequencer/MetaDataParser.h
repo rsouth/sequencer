@@ -29,4 +29,5 @@ private:
   static const char* AUTHOR_TOKEN;
   static const char* DATE_TOKEN;
   static const char* FONT_SIZE_TOKEN;
+  static const char* THEME_TOKEN;
 };
