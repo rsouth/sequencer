@@ -84,15 +84,31 @@ public:
 
     if (from.x() == to.x()) {
       // vertical line
-      double len = abs(from.y() - to.y());
-      double first_skew_point = 0.5 * len;
-      double second_skew_point = 0.75 * len;
+      double line_length = abs(from.y() - to.y());
+      double first_skew_point = 0.5 * line_length;
+      double second_skew_point = 0.75 * line_length;
+
+      if (dashed)
+      {
+        QPen pen(canvas.pen());
+        QVector<qreal> dashes;
+        for (int i = 0; i <= line_length; i++)
+        {
+          int dash_len = random_dash_length(line_length, 10, 20);
+          int gap_len = random_dash_length(line_length, 10, 20);
+          dashes << dash_len << gap_len;
+
+          i += dash_len + gap_len;
+        }
+        pen.setDashPattern(dashes);
+        canvas.setPen(pen);
+      }
 
       QPainterPath myPath;
       myPath.moveTo(from);
       myPath.cubicTo(
-        QPoint(from.x() + random_skew(len), from.y() + first_skew_point),
-        QPoint(from.x() + random_skew(len), from.y() + second_skew_point),
+        QPoint(from.x() + random_skew(line_length), from.y() + first_skew_point),
+        QPoint(from.x() + random_skew(line_length), from.y() + second_skew_point),
         to
       );
 
@@ -105,6 +121,22 @@ public:
       double first_skew_point = to.x() > from.x() ? 0.5 * line_length : -0.5 * line_length;
       double second_skeq_point = to.x() > from.x() ? 0.75 * line_length : -0.75 * line_length;
 
+      if (dashed)
+      {
+        QPen pen(canvas.pen());
+        QVector<qreal> dashes;
+        for (int i = 0; i <= line_length; i++)
+        {
+          int dash_len = random_dash_length(line_length, 10, 20);
+          int gap_len = random_dash_length(line_length, 10, 20);
+          dashes << dash_len << gap_len;
+
+          i += dash_len + gap_len;
+        }
+        pen.setDashPattern(dashes);
+        canvas.setPen(pen);
+      }
+
       QPainterPath myPath;
       myPath.moveTo(from);
       myPath.cubicTo(
@@ -115,6 +147,14 @@ public:
 
       canvas.drawPath(myPath);
     }
+  }
+
+  static double random_dash_length(double line_length, double min_skew = -10, double max_skew = 10) {
+    static std::default_random_engine re{};
+    using Dist = std::uniform_real_distribution<double>;
+    static Dist uid{};
+
+    return uid(re, Dist::param_type{ min_skew, max_skew }) * (0.5 * (line_length / 100.0));
   }
 
   static double random_skew(double line_length, double min_skew = -10, double max_skew = 10) {
