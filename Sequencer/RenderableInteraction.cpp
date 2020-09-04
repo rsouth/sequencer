@@ -26,19 +26,19 @@ RenderableInteraction::RenderableInteraction(const Interaction& interaction, QPa
 {
 }
 
-auto RenderableInteraction::draw(const int y_offset) const -> void
+auto RenderableInteraction::draw(const int y_offset, RenderingUtils::Theme theme) const -> void
 {
   if (this->interaction_.is_self_referential())
   {
-    this->draw_self_referential_interaction(y_offset);
+    this->draw_self_referential_interaction(y_offset, theme);
   }
   else
   {
-    this->draw_point_to_point_interaction(y_offset);
+    this->draw_point_to_point_interaction(y_offset, theme);
   }
 }
 
-auto RenderableInteraction::draw_point_to_point_interaction(const int y_offset) const -> void
+auto RenderableInteraction::draw_point_to_point_interaction(const int y_offset, RenderingUtils::Theme theme) const -> void
 {
   const auto line_from_x = get_participant_x(this->interaction_.get_from());
   const auto line_to_x = get_participant_x(this->interaction_.get_to());
@@ -46,16 +46,16 @@ auto RenderableInteraction::draw_point_to_point_interaction(const int y_offset) 
   const auto line_y = y_offset + (this->interaction_.get_index() * LayoutConstants::INTERACTION_GAP) + LayoutConstants::INTERACTION_GAP;
 
   // draw line
-  RenderingUtils::draw_line(QPoint(line_from_x, line_y), QPoint(line_to_x, line_y), *this->img_, this->interaction_.is_reply());
+  RenderingUtils::draw_line(QPoint(line_from_x, line_y), QPoint(line_to_x, line_y), *this->img_, this->interaction_.is_reply(), theme);
 
   // draw message
-  this->render_interaction_message(line_from_x, line_y, line_to_x);
+  this->render_interaction_message(line_from_x, line_y, line_to_x, theme);
 
   // Arrow head
   draw_arrowhead(line_to_x, line_y);
 }
 
-auto RenderableInteraction::draw_self_referential_interaction(const int y_offset) const -> void
+auto RenderableInteraction::draw_self_referential_interaction(const int y_offset, RenderingUtils::Theme theme) const -> void
 {
   const int line_from_x = get_participant_x(this->interaction_.get_from());
   const int line_to_x = line_from_x + (LayoutConstants::LANE_WIDTH / 2);
@@ -64,16 +64,16 @@ auto RenderableInteraction::draw_self_referential_interaction(const int y_offset
   const int to_line_y = from_line_y + (LayoutConstants::INTERACTION_GAP);
 
   // render line
-  RenderingUtils::draw_line(QPoint(line_from_x, from_line_y), QPoint(line_to_x, from_line_y), *this->img_, this->interaction_.is_reply());
+  RenderingUtils::draw_line(QPoint(line_from_x, from_line_y), QPoint(line_to_x, from_line_y), *this->img_, this->interaction_.is_reply(), theme);
 
   // vertical line
-  RenderingUtils::draw_line(QPoint(line_to_x, from_line_y), QPoint(line_to_x, to_line_y), *this->img_, this->interaction_.is_reply());
+  RenderingUtils::draw_line(QPoint(line_to_x, from_line_y), QPoint(line_to_x, to_line_y), *this->img_, this->interaction_.is_reply(), theme);
 
   // second line
-  RenderingUtils::draw_line(QPoint(line_from_x, to_line_y), QPoint(line_to_x, to_line_y), *this->img_, this->interaction_.is_reply());
+  RenderingUtils::draw_line(QPoint(line_from_x, to_line_y), QPoint(line_to_x, to_line_y), *this->img_, this->interaction_.is_reply(), theme);
 
   // Render message
-  this->render_interaction_message(line_from_x, from_line_y, line_to_x);
+  this->render_interaction_message(line_from_x, from_line_y, line_to_x, theme);
 
   // draw arrowhead
   this->draw_arrowhead(line_from_x, to_line_y);
@@ -110,18 +110,18 @@ auto RenderableInteraction::draw_arrowhead(const int line_end_x, const int line_
 }
 
 auto RenderableInteraction::render_interaction_message(const int interaction_from_x, const int interaction_from_y,
-  const int interaction_to_x) const -> void
+  const int interaction_to_x, RenderingUtils::Theme theme) const -> void
 {
   if (!this->interaction_.get_message().empty())
   {
     const bool right_facing = interaction_from_x < interaction_to_x;
-    const int message_width = RenderingUtils::get_font_rendered_width(this->interaction_.get_message(), QFont("Arial", this->text_font_height_));
+    const int message_width = RenderingUtils::get_font_rendered_width(this->interaction_.get_message(), QFont(RenderingUtils::get_font_name(theme), this->text_font_height_));
     const int label_x = right_facing
       ? interaction_from_x + LayoutConstants::MESSAGE_X_PADDING
       : interaction_from_x - message_width - LayoutConstants::MESSAGE_X_PADDING;
 
-    int height = LayoutConstants::MESSAGE_X_PADDING + RenderingUtils::get_font_rendered_height(QFont("Arial", this->text_font_height_));
-    RenderingUtils::draw_text(label_x, interaction_from_y - height, this->interaction_.get_message().c_str(), *this->img_, this->text_font_height_);
+    int height = LayoutConstants::MESSAGE_X_PADDING + RenderingUtils::get_font_rendered_height(QFont(RenderingUtils::get_font_name(theme), this->text_font_height_));
+    RenderingUtils::draw_text(label_x, interaction_from_y - height, this->interaction_.get_message().c_str(), *this->img_, this->text_font_height_, theme);
   }
 }
 

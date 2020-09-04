@@ -26,7 +26,7 @@ class RenderableMetaData
 public:
   RenderableMetaData(const MetaData& meta_data, QPainter* img);
 
-  auto draw() const -> void;
+  auto draw(RenderingUtils::Theme theme) const -> void;
   auto calculate_height() const -> int;
   auto calculate_width() const -> int;
 

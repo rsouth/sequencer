@@ -18,18 +18,22 @@
 
 #include <string>
 
+#include "RenderingUtils.h"
+
 class MetaData
 {
 public:
   MetaData();
-  MetaData(std::string title, std::string author, std::string date);
+  MetaData(std::string title, std::string author, std::string date, RenderingUtils::Theme theme = RenderingUtils::Theme::Default);
 
   auto get_title() const->std::string;
   auto get_author() const->std::string;
   auto get_date() const->std::string;
+  auto get_theme() const->RenderingUtils::Theme;
 
 private:
   std::string title_ = std::string();
   std::string author_ = std::string();
   std::string date_ = std::string();
+  RenderingUtils::Theme theme_ = RenderingUtils::Theme::Default;
 };

@@ -630,6 +630,9 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -657,7 +660,6 @@
    <addaction name="actionAdd_Title"/>
    <addaction name="actionAdd_Author"/>
    <addaction name="actionAdd_Date"/>
-   <addaction name="separator"/>
    <addaction name="actionCopy_Diagram_to_Clipboard"/>
    <addaction name="actionExport_Diagram_As"/>
    <addaction name="separator"/>

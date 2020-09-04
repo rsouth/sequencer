@@ -29,6 +29,10 @@ class RenderingUtils
 {
 public:
 
+  const enum class Theme {
+    Default, Sketchy
+  };
+
   const enum class ArrowDirection {
     Right, Left
   };
@@ -37,23 +41,38 @@ public:
     Open, Closed
   };
 
-  static auto RenderingUtils::get_font_rendered_height(const QFont font) -> int
+  static auto get_font_rendered_height(const QFont font) -> int
   {
     QFontMetrics fm(font);
     return fm.ascent();
   }
 
-  static auto RenderingUtils::get_font_rendered_width(const std::string& input, const QFont font) -> int
+  static auto get_font_rendered_width(const std::string& input, const QFont font) -> int
   {
     QFontMetrics fm(font);
     return fm.horizontalAdvance(input.c_str());
   }
 
-  static void RenderingUtils::draw_text(int x, int y, const std::string& text, QPainter& canvas, const int font_size = 12)
+  static const char* get_font_name(Theme theme = Theme::Default)
+  {
+    switch (theme) {
+    case Theme::Sketchy:
+      return "Ink Free";
+    case Theme::Default:
+    default:
+      return "Arial";
+    }
+  }
+
+  //
+  // Drawing Functions
+  //
+
+  static void draw_text(int x, int y, const std::string& text, QPainter& canvas, const int font_size = 12, Theme theme = Theme::Default)
   {
     canvas.save();
 
-    QFont font("Arial", font_size);
+    QFont font(get_font_name(theme), font_size);
     int offset = get_font_rendered_height(font);
 
     canvas.setFont(font);
@@ -63,15 +82,46 @@ public:
     canvas.restore();
   }
 
-  static void RenderingUtils::draw_line(QPoint from, QPoint to, QPainter& canvas, bool dashed = false)
+  static void draw_rectangle(QPoint top_left, QPoint bottom_right, QPainter& canvas, Theme theme)
+  {
+    switch (theme)
+    {
+    case Theme::Sketchy:
+      // line from top_left.x to top_left.x + LANE_WIDTH
+      draw_line(
+        QPoint(top_left.x(), top_left.y() + (LayoutConstants::LANE_HEIGHT * 0.85) + random_skew(LayoutConstants::LANE_WIDTH, 0.0, 10.0)),
+        QPoint(top_left.x() + LayoutConstants::LANE_WIDTH, top_left.y() + (LayoutConstants::LANE_HEIGHT * 0.85) + random_skew(LayoutConstants::LANE_WIDTH, -10.0, 0.0)),
+        canvas,
+        false,
+        theme
+      );
+      break;
+    case Theme::Default:
+    default:
+      canvas.drawRoundedRect(top_left.x(), top_left.y(), LayoutConstants::LANE_WIDTH, LayoutConstants::LANE_HEIGHT, 5, 5, Qt::SizeMode::AbsoluteSize);
+      break;
+    }
+  }
+
+  static void RenderingUtils::draw_line(QPoint from, QPoint to, QPainter& canvas, bool dashed = false, Theme theme = Theme::Default)
   {
     canvas.save();
-    if (dashed)
-    {
-      canvas.setPen(Qt::PenStyle::DashLine);
+
+    switch (theme) {
+    case Theme::Sketchy:
+      draw_sketchy_line(from, to, canvas, dashed);
+      break;
+
+    case Theme::Default:
+    default:
+      if (dashed)
+      {
+        canvas.setPen(Qt::PenStyle::DashLine);
+      }
+      canvas.drawLine(from, to);
+      break;
     }
-    draw_sketchy_line(from, to, canvas, dashed);
-    //canvas.drawLine(from, to);
+
     canvas.restore();
   }
 
@@ -88,22 +138,6 @@ public:
       double first_skew_point = 0.5 * line_length;
       double second_skew_point = 0.75 * line_length;
 
-      if (dashed)
-      {
-        QPen pen(canvas.pen());
-        QVector<qreal> dashes;
-        for (int i = 0; i <= line_length; i++)
-        {
-          int dash_len = random_dash_length(line_length, 10, 20);
-          int gap_len = random_dash_length(line_length, 10, 20);
-          dashes << dash_len << gap_len;
-
-          i += dash_len + gap_len;
-        }
-        pen.setDashPattern(dashes);
-        canvas.setPen(pen);
-      }
-
       QPainterPath myPath;
       myPath.moveTo(from);
       myPath.cubicTo(
@@ -112,6 +146,10 @@ public:
         to
       );
 
+      if (dashed)
+      {
+        set_dashed_pen(line_length, canvas);
+      }
       canvas.drawPath(myPath);
     }
     else
@@ -121,22 +159,6 @@ public:
       double first_skew_point = to.x() > from.x() ? 0.5 * line_length : -0.5 * line_length;
       double second_skeq_point = to.x() > from.x() ? 0.75 * line_length : -0.75 * line_length;
 
-      if (dashed)
-      {
-        QPen pen(canvas.pen());
-        QVector<qreal> dashes;
-        for (int i = 0; i <= line_length; i++)
-        {
-          int dash_len = random_dash_length(line_length, 10, 20);
-          int gap_len = random_dash_length(line_length, 10, 20);
-          dashes << dash_len << gap_len;
-
-          i += dash_len + gap_len;
-        }
-        pen.setDashPattern(dashes);
-        canvas.setPen(pen);
-      }
-
       QPainterPath myPath;
       myPath.moveTo(from);
       myPath.cubicTo(
@@ -145,8 +167,29 @@ public:
         to
       );
 
+      if (dashed)
+      {
+        set_dashed_pen(line_length, canvas);
+      }
+
       canvas.drawPath(myPath);
     }
+  }
+
+  static void set_dashed_pen(double line_length, QPainter& canvas)
+  {
+    QPen pen(canvas.pen());
+    QVector<qreal> dashes;
+    for (int i = 0; i <= line_length; i++)
+    {
+      int dash_len = random_dash_length(line_length, 10, 15);
+      int gap_len = random_dash_length(line_length, 10, 15);
+      dashes << dash_len << gap_len;
+
+      i += dash_len + gap_len;
+    }
+    pen.setDashPattern(dashes);
+    canvas.setPen(pen);
   }
 
   static double random_dash_length(double line_length, double min_skew = -10, double max_skew = 10) {
@@ -165,7 +208,7 @@ public:
     return uid(re, Dist::param_type{ min_skew, max_skew }) * (0.25 * (line_length / 100.0));
   }
 
-  static void RenderingUtils::draw_arrowhead(QPoint point_at, QPainter& canvas, ArrowDirection direction, ArrowStyle filled)
+  static void RenderingUtils::draw_arrowhead(QPoint point_at, QPainter& canvas, ArrowDirection direction, ArrowStyle filled, Theme theme = Theme::Default)
   {
     QPolygonF polygon;
     if (direction == ArrowDirection::Right) {
