@@ -12,6 +12,7 @@
   <a href="#white_check_mark-what-is-sequencer">Highlights</a> •
   <a href="#zap-simple-to-get-started">Get Started</a> •
   <a href="#movie_camera-demo">Demo</a> •
+  <a href="#art-themes">Themes</a> •
   <a href="#rocket-download">Download</a> •
   <a href="#thumbsup-contributing">Contributing</a> •
   <a href="#pray-credits--attributions">Credits</a> •
