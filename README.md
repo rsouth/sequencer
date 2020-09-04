@@ -60,7 +60,7 @@ Server -> Client: Response
  - export as a .png file
  - share the source, or better yet - version control it!
 
-See the [wiki](https://github.com/rsouth/sequencer/wiki/Grammar) for the current grammar.
+See the [Grammar page on the wiki](https://github.com/rsouth/sequencer/wiki/Grammar) for details of the current grammar.
 
 
 ## :art: Themes
@@ -68,6 +68,8 @@ See the [wiki](https://github.com/rsouth/sequencer/wiki/Grammar) for the current
 Support for basic themes is progressing, the "Sketchy" theme is available on the `develop` branch and expect to be included in the next release.
 
 <img src="https://i.ibb.co/rFv8X7V/image.png" alt="image" border="0">
+
+Theme information can be found on the [Themes wiki page](https://github.com/rsouth/sequencer/wiki/Themes).
 
 
 ## :hammer: Building
