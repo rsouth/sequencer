@@ -23,7 +23,7 @@ class DefaultRenderer : public Renderer
 {
 public:
 
-  DefaultRenderer(QPainter* canvas) : Renderer(canvas)
+  explicit DefaultRenderer(QPainter* canvas) : Renderer(canvas)
   {
     title_font_ = QFont("Arial", 26);
     metadata_font_ = QFont("Arial", 10);

@@ -23,7 +23,7 @@ class SketchyRenderer :
 {
 public:
 
-  SketchyRenderer(QPainter* canvas) : Renderer(canvas) {
+  explicit SketchyRenderer(QPainter* canvas) : Renderer(canvas) {
     title_font_ = QFont("Ink Free", 26);
     metadata_font_ = QFont("Ink Free", 10);
     header_font_ = QFont("Ink Free", 12);

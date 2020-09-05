@@ -590,3 +590,4 @@ MigrationBackup/
 *.diagsession
 .qmake.stash
 Sequencer/Sequencer_resource.rc
+*.cppcheck
