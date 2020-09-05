@@ -25,6 +25,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 # Input
 HEADERS += AboutDialog.h \
+           DefaultRenderer.h \
            Diagram.h \
            DiagramParser.h \
            Interaction.h \
@@ -42,11 +43,13 @@ HEADERS += AboutDialog.h \
            RenderingThread.h \
            RenderingUtils.h \
            Sequencer.h \
+           SketchyRenderer.h \
            stdafx.h \
            StringUtils.h
 FORMS += Sequencer.ui
 FORMS += AboutDialog.ui
 SOURCES += AboutDialog.cpp \
+           DefaultRenderer.cpp \
            Diagram.cpp \
            DiagramParser.cpp \
            Interaction.cpp \
@@ -63,6 +66,7 @@ SOURCES += AboutDialog.cpp \
            RenderingJob.cpp \
            RenderingThread.cpp \
            Sequencer.cpp \
+           SketchyRenderer.cpp \
            stdafx.cpp
 
 RESOURCES += Sequencer.qrc

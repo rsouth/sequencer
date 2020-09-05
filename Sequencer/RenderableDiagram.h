@@ -39,7 +39,7 @@ public:
 
 private:
   Diagram diagram_;
-  QPainter* img_;
+  QPainter* canvas_;
 
   auto initialise_renderables() -> void;
 

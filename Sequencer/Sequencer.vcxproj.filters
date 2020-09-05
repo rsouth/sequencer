@@ -46,6 +46,12 @@
     <Filter Include="Source Files\gui">
       <UniqueIdentifier>{1d1b2716-1f61-40c7-baba-4818fa60aa9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\rendering\themes">
+      <UniqueIdentifier>{3dae5a0a-76ad-4399-9fe4-72bfc0957d83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rendering\themes">
+      <UniqueIdentifier>{41f9591e-670b-4e15-aa02-b44dee062898}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="Sequencer.qrc">
@@ -110,6 +116,15 @@
     <ClCompile Include="Sequencer.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="DefaultRenderer.cpp">
+      <Filter>Source Files\rendering\themes</Filter>
+    </ClCompile>
+    <ClCompile Include="SketchyRenderer.cpp">
+      <Filter>Source Files\rendering\themes</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files\rendering\themes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DiagramParser.h">
@@ -165,6 +180,18 @@
     </ClInclude>
     <ClInclude Include="ParsingUtils.h">
       <Filter>Header Files\parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultRenderer.h">
+      <Filter>Header Files\rendering\themes</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererFactory.h">
+      <Filter>Header Files\rendering\themes</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files\rendering\themes</Filter>
+    </ClInclude>
+    <ClInclude Include="SketchyRenderer.h">
+      <Filter>Header Files\rendering\themes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

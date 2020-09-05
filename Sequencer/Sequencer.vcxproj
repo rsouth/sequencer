@@ -116,6 +116,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtMoc Include="AboutDialog.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="DefaultRenderer.h" />
     <ClInclude Include="Diagram.h" />
     <ClInclude Include="Interaction.h" />
     <ClInclude Include="InteractionParser.h" />
@@ -127,16 +129,19 @@
     <ClInclude Include="RenderableInteraction.h" />
     <ClInclude Include="RenderableMetaData.h" />
     <ClInclude Include="RenderableParticipant.h" />
+    <ClInclude Include="RendererFactory.h" />
     <ClInclude Include="RenderingJob.h" />
     <QtMoc Include="RenderingThread.h" />
     <ClInclude Include="RenderingUtils.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SketchyRenderer.h" />
     <ClInclude Include="StringUtils.h" />
     <QtRcc Include="Sequencer.qrc" />
     <QtUic Include="AboutDialog.ui" />
     <QtUic Include="Sequencer.ui" />
     <QtMoc Include="Sequencer.h" />
     <ClCompile Include="AboutDialog.cpp" />
+    <ClCompile Include="DefaultRenderer.cpp" />
     <ClCompile Include="Diagram.cpp" />
     <ClCompile Include="DiagramParser.cpp" />
     <ClCompile Include="Interaction.cpp" />
@@ -149,6 +154,7 @@
     <ClCompile Include="RenderableInteraction.cpp" />
     <ClCompile Include="RenderableMetaData.cpp" />
     <ClCompile Include="RenderableParticipant.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderingJob.cpp" />
     <ClCompile Include="RenderingThread.cpp" />
     <ClCompile Include="Sequencer.cpp">
@@ -162,6 +168,7 @@
     <ClInclude Include="MetaData.h" />
     <ClInclude Include="MetaDataParser.h" />
     <ClInclude Include="stdafx.h" />
+    <ClCompile Include="SketchyRenderer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">Create</PrecompiledHeader>

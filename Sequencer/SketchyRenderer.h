@@ -15,38 +15,22 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 #pragma once
-
-#include "Interaction.h"
-#include "RenderingUtils.h"
 #include "Renderer.h"
 #include "qpainter.h"
 
-class RenderableInteraction
+class SketchyRenderer :
+  public Renderer
 {
 public:
-  RenderableInteraction(const Interaction& interaction, Renderer* renderer);
 
-  auto draw(int y_offset) const -> void;
-  auto get_rightmost_x() const -> int;
+  SketchyRenderer(QPainter* canvas) : Renderer(canvas) {
+    title_font_ = QFont("Ink Free", 26);
+    metadata_font_ = QFont("Ink Free", 10);
+    header_font_ = QFont("Ink Free", 12);
+    message_font_ = QFont("Ink Free", 10);
+  }
 
-private:
+  virtual void draw_rectangle(QPoint top_left, QPoint bottom_right) override;
 
-  Interaction interaction_;
-  Renderer* renderer_;
-
-  unsigned int text_font_height_ = 10;
-
-  auto draw_self_referential_interaction(int y_offset) const -> void;
-
-  auto draw_arrowhead(const int line_end_x, const int line_end_y) const -> void;
-
-  static auto get_participant_x(const Participant& participant) -> int;
-
-  auto draw_point_to_point_interaction(int y_offset) const -> void;
-
-  auto render_interaction_message(int interaction_from_x,
-    int interaction_from_y,
-    int interaction_to_x) const -> void;
-
-  auto is_pointing_right() const -> bool;
+  virtual void draw_line(QPoint from, QPoint to, bool dashed = false) override;
 };
