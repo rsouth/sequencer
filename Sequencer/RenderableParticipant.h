@@ -35,7 +35,6 @@ private:
 
   Participant participant_;
   Renderer* renderer_;
-  const int participant_font_height_ = 12;
 
   auto get_participant_x() const -> int;
 };

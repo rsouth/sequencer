@@ -34,8 +34,6 @@ private:
   Interaction interaction_;
   Renderer* renderer_;
 
-  unsigned int text_font_height_ = 10;
-
   auto draw_self_referential_interaction(int y_offset) const -> void;
 
   auto draw_arrowhead(const int line_end_x, const int line_end_y) const -> void;
