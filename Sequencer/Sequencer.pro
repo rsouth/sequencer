@@ -9,7 +9,7 @@ QT += core gui widgets
 
 RC_ICONS = resources/sequencer.ico
 
-VERSION = 0.0.2.0
+VERSION = 0.0.3.0
 QMAKE_TARGET_COMPANY = https://github.com/rsouth
 QMAKE_TARGET_PRODUCT = Sequencer
 QMAKE_TARGET_DESCRIPTION = Simple sequence diagrams
