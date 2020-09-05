@@ -65,7 +65,7 @@ See the [Grammar page on the wiki](https://github.com/rsouth/sequencer/wiki/Gram
 
 ## :art: Themes
 
-Support for basic themes is progressing, the "Sketchy" theme is available on the `develop` branch and expect to be included in the next release.
+Support for basic themes is progressing, the "Sketchy" theme is available since v0.0.3-pre-alpha.
 
 <img src="https://i.ibb.co/rFv8X7V/image.png" alt="image" border="0">
 
@@ -90,7 +90,12 @@ https://github.com/rsouth/sequencer/wiki/Building
 
 Please download the [latest](https://github.com/rsouth/sequencer/releases/latest) release.
 
-#### [v0.0.2 pre-alpha](https://github.com/rsouth/sequencer/releases/tag/v0.0.2-pre-alpha) :cherries:
+#### [v0.0.3 pre-alpha](https://github.com/rsouth/sequencer/releases/tag/v0.0.3-pre-alpha) :cherries:
+
+ - Significant refactoring of rendering
+ - Added ['Sketchy'](https://github.com/rsouth/sequencer/wiki/Themes#sketchy) theme
+
+#### [v0.0.2 pre-alpha](https://github.com/rsouth/sequencer/releases/tag/v0.0.2-pre-alpha)
 
  - Rendering is now done in Qt QPainter on a QPixmap rather than using CImg
  - More functional UI
