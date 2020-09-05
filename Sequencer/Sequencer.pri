@@ -3,7 +3,6 @@
 # ------------------------------------------------------
 
 HEADERS += ./AboutDialog.h \
-    ./DefaultRenderer.h \
     ./StringUtils.h \
     ./stdafx.h \
     ./RenderingThread.h \
@@ -23,9 +22,11 @@ HEADERS += ./AboutDialog.h \
     ./RenderableParticipant.h \
     ./RenderingJob.h \
     ./RenderingUtils.h \
-    ./SketchyRenderer.h
+    ./Renderer.h \
+    ./DefaultRenderer.h \
+    ./SketchyRenderer.h \
+    ./RendererFactory.h
 SOURCES += ./AboutDialog.cpp \
-    ./DefaultRenderer.cpp \
     ./RenderingThread.cpp \
     ./Sequencer.cpp \
     ./main.cpp \
@@ -43,6 +44,8 @@ SOURCES += ./AboutDialog.cpp \
     ./RenderableMetaData.cpp \
     ./RenderableParticipant.cpp \
     ./RenderingJob.cpp \
+    ./Renderer.cpp \
+    ./DefaultRenderer.cpp \
     ./SketchyRenderer.cpp
 FORMS += ./Sequencer.ui
 FORMS += ./AboutDialog.ui

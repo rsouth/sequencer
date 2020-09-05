@@ -85,33 +85,4 @@ public:
 
     return uid(re, Dist::param_type{ min_skew, max_skew }) * (0.25 * (line_length / 100.0));
   }
-
-  //static void RenderingUtils::draw_arrowhead(QPoint point_at, QPainter& canvas, ArrowDirection direction, ArrowStyle filled, Theme theme = Theme::Default)
-  //{
-  //  QPolygonF polygon;
-  //  if (direction == ArrowDirection::Right) {
-  //    polygon << QPoint(point_at.x() - LayoutConstants::ARROWHEAD_LINE_LENGTH, point_at.y() - LayoutConstants::ARROWHEAD_LINE_LENGTH)
-  //      << QPoint(point_at.x(), point_at.y())
-  //      << QPoint(point_at.x() - LayoutConstants::ARROWHEAD_LINE_LENGTH, point_at.y() + LayoutConstants::ARROWHEAD_LINE_LENGTH);
-  //  }
-  //  else
-  //  {
-  //    polygon << QPoint(point_at.x() + LayoutConstants::ARROWHEAD_LINE_LENGTH, point_at.y() + LayoutConstants::ARROWHEAD_LINE_LENGTH)
-  //      << QPoint(point_at.x(), point_at.y())
-  //      << QPoint(point_at.x() + LayoutConstants::ARROWHEAD_LINE_LENGTH, point_at.y() - LayoutConstants::ARROWHEAD_LINE_LENGTH);
-  //  }
-
-  //  canvas.save();
-  //  if (ArrowStyle::Closed == filled) {
-  //    // fill the arrowhead
-  //    QBrush brush(Qt::black, Qt::SolidPattern);
-  //    QPainterPath path;
-  //    path.addPolygon(polygon);
-  //    canvas.fillPath(path, brush);
-  //  }
-
-  //  // Draw polygon
-  //  canvas.drawPolyline(polygon);
-  //  canvas.restore();
-  //}
 };
