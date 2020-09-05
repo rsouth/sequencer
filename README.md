@@ -90,7 +90,12 @@ https://github.com/rsouth/sequencer/wiki/Building
 
 Please download the [latest](https://github.com/rsouth/sequencer/releases/latest) release.
 
-#### [v0.0.2 pre-alpha](https://github.com/rsouth/sequencer/releases/tag/v0.0.2-pre-alpha) :cherries:
+#### [v0.0.3 pre-alpha](https://github.com/rsouth/sequencer/releases/tag/v0.0.3-pre-alpha) :cherries:
+
+ - Significant refactoring of rendering
+ - Added ['Sketchy'](https://github.com/rsouth/sequencer/wiki/Themes#sketchy) theme
+
+#### [v0.0.2 pre-alpha](https://github.com/rsouth/sequencer/releases/tag/v0.0.2-pre-alpha)
 
  - Rendering is now done in Qt QPainter on a QPixmap rather than using CImg
  - More functional UI
