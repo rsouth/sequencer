@@ -43,10 +43,9 @@ void RenderableParticipant::draw(const int header_y_offset, const int total_inte
   this->renderer_->draw_rectangle(QPoint(participant_x0, participant_y0), QPoint(LayoutConstants::LANE_WIDTH, LayoutConstants::LANE_HEIGHT));
   const std::string partic_name = this->participant_.get_name();
 
-  QFont title_font = renderer_->get_title_font();
-  const int text_x = get_participant_x() + (LayoutConstants::LANE_WIDTH / 2) - (RenderingUtils::get_font_rendered_width(partic_name, title_font) / 2);
+  const int text_x = get_participant_x() + (LayoutConstants::LANE_WIDTH / 2) - (RenderingUtils::get_font_rendered_width(partic_name, renderer_->get_header_font()) / 2);
 
-  const int text_y = header_y_offset + LayoutConstants::V_GAP + (LayoutConstants::LANE_HEIGHT / 2) - (RenderingUtils::get_font_rendered_height(title_font) / 2);
+  const int text_y = header_y_offset + LayoutConstants::V_GAP + (LayoutConstants::LANE_HEIGHT / 2) - (RenderingUtils::get_font_rendered_height(renderer_->get_header_font()) / 2);
 
   renderer_->draw_text(text_x, text_y, partic_name.c_str(), renderer_->get_header_font());
 
