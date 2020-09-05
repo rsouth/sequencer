@@ -43,7 +43,10 @@ HEADERS += AboutDialog.h \
            RenderingUtils.h \
            Sequencer.h \
            stdafx.h \
-           StringUtils.h
+           StringUtils.h \
+           Renderer.h \
+           DefaultRenderer.h \
+           SketchyRenderer.h
 FORMS += Sequencer.ui
 FORMS += AboutDialog.ui
 SOURCES += AboutDialog.cpp \
@@ -63,7 +66,10 @@ SOURCES += AboutDialog.cpp \
            RenderingJob.cpp \
            RenderingThread.cpp \
            Sequencer.cpp \
-           stdafx.cpp
+           stdafx.cpp \
+           Renderer.cpp \
+           DefaultRenderer.cpp \
+           SketchyRenderer.cpp
 
 RESOURCES += Sequencer.qrc
 

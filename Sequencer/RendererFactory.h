@@ -16,22 +16,23 @@
  */
 #pragma once
 
-#include "MetaData.h"
 #include "RenderingUtils.h"
 #include "Renderer.h"
+#include "DefaultRenderer.h"
+#include "SketchyRenderer.h"
 
-#include "qpainter.h"
-
-class RenderableMetaData
+class RendererFactory
 {
 public:
-  RenderableMetaData(const MetaData& meta_data, Renderer* renderer);
 
-  auto draw() const -> void;
-  auto calculate_height() const -> int;
-  auto calculate_width() const -> int;
-
-private:
-  MetaData meta_data_ = MetaData();
-  Renderer* renderer_;
+  static Renderer* make_renderer(QPainter* canvas, const RenderingUtils::Theme theme)
+  {
+    switch (theme) {
+    case RenderingUtils::Theme::Sketchy:
+      return new SketchyRenderer(canvas);
+    case RenderingUtils::Theme::Default:
+    default:
+      return new DefaultRenderer(canvas);
+    }
+  }
 };

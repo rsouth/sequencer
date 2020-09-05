@@ -24,7 +24,9 @@
 #include "RenderableMetaData.h"
 #include "RenderableParticipant.h"
 
-RenderableDiagram::RenderableDiagram(const Diagram& diagram, QPainter* img) : diagram_(diagram), img_(img)
+#include "RendererFactory.h"
+
+RenderableDiagram::RenderableDiagram(const Diagram& diagram, QPainter* canvas) : diagram_(diagram), canvas_(canvas)
 {
   initialise_renderables();
 }
@@ -47,7 +49,7 @@ void RenderableDiagram::draw()
   const auto meta_data = this->diagram_.get_meta_data();
 
   // Draw Header
-  this->renderable_metadata_->draw(meta_data.get_theme());
+  this->renderable_metadata_->draw();
 
   const auto header_y_offset = this->renderable_metadata_->calculate_height();
 
@@ -55,14 +57,14 @@ void RenderableDiagram::draw()
   for (auto participant : this->renderable_participants_)
   {
     const int max_index = max_interaction_index();
-    participant->draw(header_y_offset, max_index, meta_data.get_theme());
+    participant->draw(header_y_offset, max_index);
   }
 
   // Draw all interactions
   const auto interaction_y_offset = header_y_offset + LayoutConstants::LANE_HEIGHT + LayoutConstants::V_GAP;
   for (auto interaction : this->renderable_interactions_)
   {
-    interaction->draw(interaction_y_offset, meta_data.get_theme());
+    interaction->draw(interaction_y_offset);
   }
 }
 
@@ -115,20 +117,23 @@ void RenderableDiagram::calculate_diagram_size(int hxw[])
 
 void RenderableDiagram::initialise_renderables()
 {
+  // Theme
+  Renderer* renderer = RendererFactory::make_renderer(this->canvas_, this->diagram_.get_meta_data().get_theme());
+
   // MetaData
-  this->renderable_metadata_ = new RenderableMetaData(this->diagram_.get_meta_data(), this->img_);
+  this->renderable_metadata_ = new RenderableMetaData(this->diagram_.get_meta_data(), renderer);
 
   // Participants
   const auto participants = this->diagram_.get_participants();
   for (const auto& participant : participants)
   {
-    this->renderable_participants_.emplace_back(new RenderableParticipant(participant, this->img_));
+    this->renderable_participants_.emplace_back(new RenderableParticipant(participant, renderer));
   }
 
   // Interactions
   const auto interactions = this->diagram_.get_interactions();
   for (const auto& interaction : interactions)
   {
-    this->renderable_interactions_.emplace_back(new RenderableInteraction(interaction, this->img_));
+    this->renderable_interactions_.emplace_back(new RenderableInteraction(interaction, renderer));
   }
 }

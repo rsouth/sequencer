@@ -21,7 +21,11 @@ HEADERS += ./AboutDialog.h \
     ./RenderableMetaData.h \
     ./RenderableParticipant.h \
     ./RenderingJob.h \
-    ./RenderingUtils.h
+    ./RenderingUtils.h \
+    ./Renderer.h \
+    ./DefaultRenderer.h \
+    ./SketchyRenderer.h \
+    ./RendererFactory.h
 SOURCES += ./AboutDialog.cpp \
     ./RenderingThread.cpp \
     ./Sequencer.cpp \
@@ -39,7 +43,10 @@ SOURCES += ./AboutDialog.cpp \
     ./RenderableInteraction.cpp \
     ./RenderableMetaData.cpp \
     ./RenderableParticipant.cpp \
-    ./RenderingJob.cpp
+    ./RenderingJob.cpp \
+    ./Renderer.cpp \
+    ./DefaultRenderer.cpp \
+    ./SketchyRenderer.cpp
 FORMS += ./Sequencer.ui
 FORMS += ./AboutDialog.ui
 RESOURCES += Sequencer.qrc
