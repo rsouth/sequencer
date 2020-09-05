@@ -14,24 +14,21 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#pragma once
+#include "DefaultRenderer.h"
+#include "LayoutConstants.h"
 
-#include "MetaData.h"
-#include "RenderingUtils.h"
-#include "Renderer.h"
-
-#include "qpainter.h"
-
-class RenderableMetaData
+void DefaultRenderer::draw_rectangle(QPoint top_left, QPoint bottom_right)
 {
-public:
-  RenderableMetaData(const MetaData& meta_data, Renderer* renderer);
+  canvas_->drawRoundedRect(top_left.x(), top_left.y(), LayoutConstants::LANE_WIDTH, LayoutConstants::LANE_HEIGHT, 5, 5, Qt::SizeMode::AbsoluteSize);
+}
 
-  auto draw() const -> void;
-  auto calculate_height() const -> int;
-  auto calculate_width() const -> int;
-
-private:
-  MetaData meta_data_ = MetaData();
-  Renderer* renderer_;
-};
+void DefaultRenderer::draw_line(QPoint from, QPoint to, bool dashed)
+{
+  canvas_->save();
+  if (dashed)
+  {
+    canvas_->setPen(Qt::PenStyle::DashLine);
+  }
+  canvas_->drawLine(from, to);
+  canvas_->restore();
+}

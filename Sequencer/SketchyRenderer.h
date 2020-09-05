@@ -15,23 +15,22 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 #pragma once
-
-#include "MetaData.h"
-#include "RenderingUtils.h"
 #include "Renderer.h"
-
 #include "qpainter.h"
 
-class RenderableMetaData
+class SketchyRenderer :
+  public Renderer
 {
 public:
-  RenderableMetaData(const MetaData& meta_data, Renderer* renderer);
 
-  auto draw() const -> void;
-  auto calculate_height() const -> int;
-  auto calculate_width() const -> int;
+  SketchyRenderer(QPainter* canvas) : Renderer(canvas) {
+    title_font_ = QFont("Ink Free", 26);
+    metadata_font_ = QFont("Ink Free", 10);
+    header_font_ = QFont("Ink Free", 12);
+    message_font_ = QFont("Ink Free", 10);
+  }
 
-private:
-  MetaData meta_data_ = MetaData();
-  Renderer* renderer_;
+  virtual void draw_rectangle(QPoint top_left, QPoint bottom_right) override;
+
+  virtual void draw_line(QPoint from, QPoint to, bool dashed = false) override;
 };
