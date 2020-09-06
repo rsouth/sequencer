@@ -44,7 +44,7 @@ RenderableDiagram::~RenderableDiagram()
   }
 }
 
-void RenderableDiagram::draw()
+void RenderableDiagram::draw() const
 {
   const auto meta_data = this->diagram_.get_meta_data();
 
@@ -68,9 +68,9 @@ void RenderableDiagram::draw()
   }
 }
 
-auto RenderableDiagram::max_interaction_index() -> int
+int RenderableDiagram::max_interaction_index() const
 {
-  int max_index = this->diagram_.get_interactions().empty() ? 0 : this->diagram_.get_interactions().size() == 1 ? this->diagram_.get_interactions().front().get_index() : 0;
+  int max_index = this->diagram_.get_interactions().empty() ? 0 : this->diagram_.get_interactions().front().get_index();
   if (this->diagram_.get_interactions().size() >= 2) {
     std::list<Interaction> interactions = this->diagram_.get_interactions();
     max_index = std::max_element(interactions.begin(), interactions.end(),

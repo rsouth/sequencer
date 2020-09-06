@@ -76,7 +76,7 @@ void SketchyRenderer::draw_line(QPoint from, QPoint to, bool dashed)
     }
 
     canvas_->drawPath(myPath);
-
-    canvas_->restore();
   }
+
+  canvas_->restore();
 }

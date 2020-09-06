@@ -32,14 +32,15 @@ public:
 
   ~RenderableDiagram();
 
-  auto draw() -> void;
-  auto max_interaction_index() -> int;
+  void draw() const;
 
   auto calculate_diagram_size(int hxw[]) -> void;
 
 private:
   Diagram diagram_;
   QPainter* canvas_;
+
+  int max_interaction_index() const;
 
   auto initialise_renderables() -> void;
 
