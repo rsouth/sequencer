@@ -56,7 +56,7 @@ std::list<Participant> ParticipantsParser::parse(const std::string& input)
 
     // create a Participant for each found Participant
     auto it = known_participants.begin();
-    for (unsigned long long ii = 0; ii < known_participants.size(); ii++)
+    for (int ii = 0; ii < known_participants.size(); ii++)
     {
       // add new Participant
       found_participants.emplace_back(Participant(ii, *it));

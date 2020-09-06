@@ -225,7 +225,7 @@ void Sequencer::on_textBrowser_textChanged()
     {
       std::string theme_name = StringUtils::get_token_value(line, ":theme ");
       auto found = ui.toolBar->window()->findChild<QComboBox*>("themeSelector");
-      if (theme_name.length() > 1 && found)
+      if (found && theme_name.length() > 1)
       {
         int comboIdx = found->findText(theme_name.c_str());
         if (comboIdx > -1) {
