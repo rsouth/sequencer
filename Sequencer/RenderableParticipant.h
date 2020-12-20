@@ -23,7 +23,8 @@
 
 #include "qpainter.h"
 
-class RenderableParticipant {
+class RenderableParticipant
+{
 public:
   RenderableParticipant(const Participant& participant, Renderer* renderer);
 

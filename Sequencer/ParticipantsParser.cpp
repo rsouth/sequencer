@@ -25,12 +25,15 @@
 auto ParticipantsParser::parse(const std::vector<std::string>& input) -> std::list<Participant> {
   std::list<Participant> found_participants;
 
-  try {
+  try
+  {
     std::list<std::string> known_participants;
 
     // iterate input, parsing [FirstLane] -> [SecondLane] : Message
-    for (const auto& line : input) {
-      if (StringUtils::contains(line, "->")) {
+    for (const auto& line : input)
+    {
+      if (StringUtils::contains(line, "->"))
+      {
         auto token = ParsingUtils::parse_token(line);
         auto participant_names = parse_lane_lanes(line, token);
         known_participants.insert(known_participants.end(), participant_names.begin(), participant_names.end());
@@ -40,14 +43,19 @@ auto ParticipantsParser::parse(const std::vector<std::string>& input) -> std::li
     // remove duplicate names found (keeping the order they were seen in the source)
     std::list<std::string>::iterator i, j;
     std::set<std::string> t_set;
-    for (i = known_participants.begin(), j = known_participants.begin(); i != known_participants.end(); ++i) {
-      if (t_set.insert(*i).second) { *j++ = *i; }
+    for (i = known_participants.begin(), j = known_participants.begin(); i != known_participants.end(); ++i)
+    {
+      if (t_set.insert(*i).second)
+      {
+        *j++ = *i;
+      }
     }
     known_participants.erase(j, known_participants.end());
 
     // create a Participant for each found Participant
     auto it = known_participants.begin();
-    for (int ii = 0; ii < known_participants.size(); ii++) {
+    for (int ii = 0; ii < known_participants.size(); ii++)
+    {
       // add new Participant
       found_participants.emplace_back(Participant(ii, *it));
 
@@ -55,7 +63,8 @@ auto ParticipantsParser::parse(const std::vector<std::string>& input) -> std::li
       std::advance(it, 1);
     }
   }
-  catch (const std::exception& e) {
+  catch (const std::exception& e)
+  {
     // logger.atWarning().log("Exception while parsing lanes, exception: " + ex.getMessage());
   }
 
@@ -63,25 +72,35 @@ auto ParticipantsParser::parse(const std::vector<std::string>& input) -> std::li
   return found_participants;
 }
 
-std::list<std::string> ParticipantsParser::parse_lane_lanes(const std::string& line, const std::string& token) {
+std::list<std::string> ParticipantsParser::parse_lane_lanes(const std::string& line, const std::string& token)
+{
   std::list<std::string> lane_names;
-  try {
+  try
+  {
     auto lanes_split = StringUtils::split(line, token);
 
     // 'from' lane is the first entry
-    if (!lanes_split.empty()) {
+    if (!lanes_split.empty())
+    {
       const auto from_node = lanes_split.at(0);
       lane_names.emplace_back(StringUtils::trim_copy(from_node));
     }
 
     // 'to' lane is the second entry, but any message_ (":msg") must be removed first
-    if (lanes_split.size() == 2) {
+    if (lanes_split.size() == 2)
+    {
       const auto second_part = lanes_split.at(1);
       auto to_node_and_msg = StringUtils::split(second_part, ":");
-      if (!to_node_and_msg.empty()) { lane_names.emplace_back(StringUtils::trim_copy(to_node_and_msg.at(0))); }
+      if (!to_node_and_msg.empty())
+      {
+        lane_names.emplace_back(StringUtils::trim_copy(to_node_and_msg.at(0)));
+      }
     }
   }
-  catch (const std::exception& e) { return lane_names; }
+  catch (const std::exception& e)
+  {
+    return lane_names;
+  }
 
   return lane_names;
 }

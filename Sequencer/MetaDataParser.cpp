@@ -37,19 +37,24 @@ auto MetaDataParser::parse(const std::vector<std::string>& input) -> MetaData {
   std::string author;
   std::string date;
   RenderingUtils::Theme theme = RenderingUtils::Theme::Default;
-  try {
-    for (const auto& line : input) {
-      if (StringUtils::starts_with(line, TITLE_TOKEN)) {
+  try
+  {
+    for (const auto& line : input)
+    {
+      if (StringUtils::starts_with(line, TITLE_TOKEN))
+      {
         // :title My Title
         title = StringUtils::get_token_value(line, TITLE_TOKEN);
       }
 
-      if (StringUtils::starts_with(line, AUTHOR_TOKEN)) {
+      if (StringUtils::starts_with(line, AUTHOR_TOKEN))
+      {
         // :author Joe Diagram
         author = StringUtils::get_token_value(line, AUTHOR_TOKEN);
       }
 
-      if (StringUtils::trim_copy(line) == DATE_TOKEN) {
+      if (StringUtils::trim_copy(line) == DATE_TOKEN)
+      {
         // :date
         std::time_t t_t = std::time(nullptr);
         tm t;
@@ -59,14 +64,18 @@ auto MetaDataParser::parse(const std::vector<std::string>& input) -> MetaData {
         date = buffer;
       }
 
-      if (StringUtils::starts_with(line, THEME_TOKEN)) {
+      if (StringUtils::starts_with(line, THEME_TOKEN))
+      {
         // :theme Sketchy
         std::string theme_name = StringUtils::get_token_value(line, THEME_TOKEN);
-        if ("Sketchy" == theme_name) { theme = RenderingUtils::Theme::Sketchy; }
+        if ("Sketchy" == theme_name) {
+          theme = RenderingUtils::Theme::Sketchy;
+        }
       }
     }
   }
-  catch (const std::exception& e) {
+  catch (const std::exception& e)
+  {
     /* */
   }
 

@@ -26,38 +26,40 @@
 #include "qpainterpath.h"
 #include "qdebug.h"
 
-class RenderingUtils {
+class RenderingUtils
+{
 public:
 
   const enum class Theme {
-    Default,
-    Sketchy
+    Default, Sketchy
   };
 
   const enum class ArrowDirection {
-    Right,
-    Left
+    Right, Left
   };
 
   const enum class ArrowStyle {
-    Open,
-    Closed
+    Open, Closed
   };
 
-  static auto get_font_rendered_height(const QFont font) -> int {
+  static auto get_font_rendered_height(const QFont font) -> int
+  {
     QFontMetrics fm(font);
     return fm.ascent();
   }
 
-  static auto get_font_rendered_width(const std::string& input, const QFont font) -> int {
+  static auto get_font_rendered_width(const std::string& input, const QFont font) -> int
+  {
     QFontMetrics fm(font);
     return fm.horizontalAdvance(input.c_str());
   }
 
-  static void set_dashed_pen(double line_length, QPainter& canvas) {
+  static void set_dashed_pen(double line_length, QPainter& canvas)
+  {
     QPen pen(canvas.pen());
     QVector<qreal> dashes;
-    for (int i = 0; i <= line_length; i++) {
+    for (int i = 0; i <= line_length; i++)
+    {
       int dash_len = random_dash_length(line_length, 10, 15);
       int gap_len = random_dash_length(line_length, 10, 15);
       dashes << dash_len << gap_len;
@@ -73,7 +75,7 @@ public:
     using Dist = std::uniform_real_distribution<double>;
     static Dist uid{};
 
-    return uid(re, Dist::param_type{min_skew, max_skew}) * (0.5 * (line_length / 100.0));
+    return uid(re, Dist::param_type{ min_skew, max_skew }) * (0.5 * (line_length / 100.0));
   }
 
   static double random_skew(double line_length, double min_skew = -10, double max_skew = 10) {
@@ -81,6 +83,6 @@ public:
     using Dist = std::uniform_real_distribution<double>;
     static Dist uid{};
 
-    return uid(re, Dist::param_type{min_skew, max_skew}) * (0.25 * (line_length / 100.0));
+    return uid(re, Dist::param_type{ min_skew, max_skew }) * (0.25 * (line_length / 100.0));
   }
 };
