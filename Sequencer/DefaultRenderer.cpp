@@ -17,18 +17,14 @@
 #include "DefaultRenderer.h"
 #include "LayoutConstants.h"
 
-void DefaultRenderer::draw_rectangle(QPoint top_left, QPoint bottom_right)
-{
-  canvas_->drawRoundedRect(top_left.x(), top_left.y(), LayoutConstants::LANE_WIDTH, LayoutConstants::LANE_HEIGHT, 5, 5, Qt::SizeMode::AbsoluteSize);
+void DefaultRenderer::draw_rectangle(QPoint top_left, QPoint bottom_right) {
+  canvas_->drawRoundedRect(top_left.x(), top_left.y(), LayoutConstants::LANE_WIDTH, LayoutConstants::LANE_HEIGHT, 5, 5,
+                           Qt::SizeMode::AbsoluteSize);
 }
 
-void DefaultRenderer::draw_line(QPoint from, QPoint to, bool dashed)
-{
+void DefaultRenderer::draw_line(QPoint from, QPoint to, bool dashed) {
   canvas_->save();
-  if (dashed)
-  {
-    canvas_->setPen(Qt::PenStyle::DashLine);
-  }
+  if (dashed) { canvas_->setPen(Qt::PenStyle::DashLine); }
   canvas_->drawLine(from, to);
   canvas_->restore();
 }

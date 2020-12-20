@@ -23,8 +23,7 @@
 
 class Participant;
 
-class Diagram
-{
+class Diagram {
 public:
   Diagram(const MetaData& meta_data, std::list<Participant> participants, std::list<Interaction> interactions);
 

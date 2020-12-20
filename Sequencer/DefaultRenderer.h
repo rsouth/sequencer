@@ -19,19 +19,17 @@
 #include "Renderer.h"
 #include "qpainter.h"
 
-class DefaultRenderer : public Renderer
-{
+class DefaultRenderer : public Renderer {
 public:
 
-  explicit DefaultRenderer(QPainter* canvas) : Renderer(canvas)
-  {
+  explicit DefaultRenderer(QPainter* canvas) : Renderer(canvas) {
     title_font_ = QFont("Arial", 26);
     metadata_font_ = QFont("Arial", 10);
     header_font_ = QFont("Arial", 12);
     message_font_ = QFont("Arial", 10);
   }
 
-  virtual void draw_rectangle(QPoint top_left, QPoint bottom_right) override;
+  void draw_rectangle(QPoint top_left, QPoint bottom_right) override;
 
-  virtual void draw_line(QPoint from, QPoint to, bool dashed = false) override;
+  void draw_line(QPoint from, QPoint to, bool dashed = false) override;
 };

@@ -18,17 +18,13 @@
 
 #include <qpixmap.h>
 
-class RenderingJob
-{
+class RenderingJob {
 public:
 
   RenderingJob(QObject*, std::string input_text) : input_text_(input_text) { }
 
   /* call render_diagram when thread runs */
-  QPixmap render_diagram()
-  {
-    return do_render_diagram(input_text_);
-  }
+  QPixmap render_diagram() { return do_render_diagram(input_text_); }
 
 signals:
   void update_gui_diagram(QPixmap& image_data);

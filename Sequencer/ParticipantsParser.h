@@ -21,8 +21,7 @@
 
 class Participant;
 
-class ParticipantsParser
-{
+class ParticipantsParser {
 public:
   static auto parse(const std::vector<std::string>& input) -> std::list<Participant>;
 

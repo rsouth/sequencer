@@ -21,15 +21,12 @@
 
 #include "qpainter.h"
 
-RenderableMetaData::RenderableMetaData(const MetaData& meta_data, Renderer* renderer) : meta_data_(meta_data), renderer_(renderer)
-{
-}
+RenderableMetaData::RenderableMetaData(const MetaData& meta_data, Renderer* renderer) : meta_data_(meta_data),
+  renderer_(renderer) {}
 
-void RenderableMetaData::draw() const
-{
+void RenderableMetaData::draw() const {
   int titleheight = 0;
-  if (!this->meta_data_.get_title().empty())
-  {
+  if (!this->meta_data_.get_title().empty()) {
     renderer_->draw_text(
       LayoutConstants::DIAGRAM_MARGIN,
       LayoutConstants::DIAGRAM_MARGIN,
@@ -41,8 +38,7 @@ void RenderableMetaData::draw() const
   }
 
   int authorheight = 0;
-  if (!this->meta_data_.get_author().empty())
-  {
+  if (!this->meta_data_.get_author().empty()) {
     // calculate offset needed due to presence/absence of title
     const int author_y = LayoutConstants::DIAGRAM_MARGIN + titleheight;
 
@@ -57,9 +53,8 @@ void RenderableMetaData::draw() const
     authorheight = RenderingUtils::get_font_rendered_height(renderer_->get_metadata_font());
   }
 
-  if (!this->meta_data_.get_date().empty())
-  {
-    const int date_y = LayoutConstants::DIAGRAM_MARGIN + (titleheight)+(authorheight);
+  if (!this->meta_data_.get_date().empty()) {
+    const int date_y = LayoutConstants::DIAGRAM_MARGIN + (titleheight) + (authorheight);
     renderer_->draw_text(
       LayoutConstants::DIAGRAM_MARGIN,
       date_y,
@@ -69,19 +64,30 @@ void RenderableMetaData::draw() const
   }
 }
 
-int RenderableMetaData::calculate_height() const
-{
+int RenderableMetaData::calculate_height() const {
   return LayoutConstants::DIAGRAM_MARGIN +
     (this->meta_data_.get_title().empty() ? 0 : RenderingUtils::get_font_rendered_height(renderer_->get_title_font())) +
-    (this->meta_data_.get_author().empty() ? 0 : RenderingUtils::get_font_rendered_height(renderer_->get_metadata_font())) +
-    (this->meta_data_.get_date().empty() ? 0 : RenderingUtils::get_font_rendered_height(renderer_->get_metadata_font()));
+    (this->meta_data_.get_author().empty()
+       ? 0
+       : RenderingUtils::get_font_rendered_height(renderer_->get_metadata_font())) +
+    (this->meta_data_.get_date().empty()
+       ? 0
+       : RenderingUtils::get_font_rendered_height(renderer_->get_metadata_font()));
 }
 
-int RenderableMetaData::calculate_width() const
-{
-  const auto title_width = (this->meta_data_.get_title().empty() ? 0 : RenderingUtils::get_font_rendered_width(this->meta_data_.get_title(), renderer_->get_title_font()));
-  const auto author_width = (this->meta_data_.get_author().empty() ? 0 : RenderingUtils::get_font_rendered_width(this->meta_data_.get_author(), renderer_->get_metadata_font()));
-  const auto date_width = (this->meta_data_.get_date().empty() ? 0 : RenderingUtils::get_font_rendered_width(this->meta_data_.get_date(), renderer_->get_metadata_font()));
+int RenderableMetaData::calculate_width() const {
+  const auto title_width = (this->meta_data_.get_title().empty()
+                              ? 0
+                              : RenderingUtils::get_font_rendered_width(this->meta_data_.get_title(),
+                                                                        renderer_->get_title_font()));
+  const auto author_width = (this->meta_data_.get_author().empty()
+                               ? 0
+                               : RenderingUtils::get_font_rendered_width(
+                                 this->meta_data_.get_author(), renderer_->get_metadata_font()));
+  const auto date_width = (this->meta_data_.get_date().empty()
+                             ? 0
+                             : RenderingUtils::get_font_rendered_width(this->meta_data_.get_date(),
+                                                                       renderer_->get_metadata_font()));
 
   return (2 * LayoutConstants::DIAGRAM_MARGIN) + std::max(std::max(title_width, author_width), date_width);
 }

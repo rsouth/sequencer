@@ -23,9 +23,8 @@
 
 #include "ui_Sequencer.h"
 
-class Sequencer final : public QMainWindow
-{
-  Q_OBJECT
+class Sequencer final : public QMainWindow {
+Q_OBJECT
 
 public:
   explicit Sequencer(QWidget* parent = Q_NULLPTR);
@@ -100,5 +99,5 @@ private:
   void replace_header_token(const std::string& token, const std::string& replacement);
 
   // override closeEvent to allow the user to save any changes before quitting
-  void closeEvent(QCloseEvent* evt);
+  void closeEvent(QCloseEvent* evt) override;
 };

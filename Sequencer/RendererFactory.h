@@ -21,12 +21,10 @@
 #include "DefaultRenderer.h"
 #include "SketchyRenderer.h"
 
-class RendererFactory
-{
+class RendererFactory {
 public:
 
-  static Renderer* make_renderer(QPainter* canvas, const RenderingUtils::Theme theme)
-  {
+  static Renderer* make_renderer(QPainter* canvas, const RenderingUtils::Theme theme) {
     switch (theme) {
     case RenderingUtils::Theme::Sketchy:
       return new SketchyRenderer(canvas);

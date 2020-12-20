@@ -18,17 +18,19 @@
 #include "LayoutConstants.h"
 #include "RenderingUtils.h"
 
-void SketchyRenderer::draw_rectangle(QPoint top_left, QPoint bottom_right)
-{
+void SketchyRenderer::draw_rectangle(QPoint top_left, QPoint bottom_right) {
   draw_line(
-    QPoint(top_left.x(), top_left.y() + (LayoutConstants::LANE_HEIGHT * 0.85) + RenderingUtils::random_skew(LayoutConstants::LANE_WIDTH, 0.0, 10.0)),
-    QPoint(top_left.x() + LayoutConstants::LANE_WIDTH, top_left.y() + (LayoutConstants::LANE_HEIGHT * 0.85) + RenderingUtils::random_skew(LayoutConstants::LANE_WIDTH, -10.0, 0.0)),
+    QPoint(top_left.x(),
+           top_left.y() + (LayoutConstants::LANE_HEIGHT * 0.85) + RenderingUtils::random_skew(
+             LayoutConstants::LANE_WIDTH, 0.0, 10.0)),
+    QPoint(top_left.x() + LayoutConstants::LANE_WIDTH,
+           top_left.y() + (LayoutConstants::LANE_HEIGHT * 0.85) + RenderingUtils::random_skew(
+             LayoutConstants::LANE_WIDTH, -10.0, 0.0)),
     false
   );
 }
 
-void SketchyRenderer::draw_line(QPoint from, QPoint to, bool dashed)
-{
+void SketchyRenderer::draw_line(QPoint from, QPoint to, bool dashed) {
   canvas_->save();
   QBrush brush(Qt::black, Qt::BrushStyle::SolidPattern);
   QPen pen(brush, 2);
@@ -49,14 +51,10 @@ void SketchyRenderer::draw_line(QPoint from, QPoint to, bool dashed)
       to
     );
 
-    if (dashed)
-    {
-      RenderingUtils::set_dashed_pen(line_length, *canvas_);
-    }
+    if (dashed) { RenderingUtils::set_dashed_pen(line_length, *canvas_); }
     canvas_->drawPath(myPath);
   }
-  else
-  {
+  else {
     // horizontal line
     double line_length = abs(from.x() - to.x());
     double first_skew_point = to.x() > from.x() ? 0.5 * line_length : -0.5 * line_length;
@@ -70,10 +68,7 @@ void SketchyRenderer::draw_line(QPoint from, QPoint to, bool dashed)
       to
     );
 
-    if (dashed)
-    {
-      RenderingUtils::set_dashed_pen(line_length, *canvas_);
-    }
+    if (dashed) { RenderingUtils::set_dashed_pen(line_length, *canvas_); }
 
     canvas_->drawPath(myPath);
   }

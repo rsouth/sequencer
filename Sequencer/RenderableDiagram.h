@@ -25,8 +25,7 @@
 
 #include "qpainter.h"
 
-class RenderableDiagram
-{
+class RenderableDiagram {
 public:
   RenderableDiagram(const Diagram& diagram, QPainter* img);
 

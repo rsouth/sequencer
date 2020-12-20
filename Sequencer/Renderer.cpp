@@ -16,8 +16,7 @@
  */
 #include "Renderer.h"
 
-void Renderer::draw_text(int x, int y, const std::string& text, const QFont font)
-{
+void Renderer::draw_text(int x, int y, const std::string& text, const QFont font) {
   canvas_->save();
 
   int offset = RenderingUtils::get_font_rendered_height(font);
@@ -29,19 +28,22 @@ void Renderer::draw_text(int x, int y, const std::string& text, const QFont font
   canvas_->restore();
 }
 
-void Renderer::draw_arrowhead(QPoint point_at, RenderingUtils::ArrowDirection direction, RenderingUtils::ArrowStyle filled)
-{
+void Renderer::draw_arrowhead(QPoint point_at, RenderingUtils::ArrowDirection direction,
+                              RenderingUtils::ArrowStyle filled) {
   QPolygonF polygon;
   if (direction == RenderingUtils::ArrowDirection::Right) {
-    polygon << QPoint(point_at.x() - LayoutConstants::ARROWHEAD_LINE_LENGTH, point_at.y() - LayoutConstants::ARROWHEAD_LINE_LENGTH)
+    polygon << QPoint(point_at.x() - LayoutConstants::ARROWHEAD_LINE_LENGTH,
+                      point_at.y() - LayoutConstants::ARROWHEAD_LINE_LENGTH)
       << QPoint(point_at.x(), point_at.y())
-      << QPoint(point_at.x() - LayoutConstants::ARROWHEAD_LINE_LENGTH, point_at.y() + LayoutConstants::ARROWHEAD_LINE_LENGTH);
+      << QPoint(point_at.x() - LayoutConstants::ARROWHEAD_LINE_LENGTH,
+                point_at.y() + LayoutConstants::ARROWHEAD_LINE_LENGTH);
   }
-  else
-  {
-    polygon << QPoint(point_at.x() + LayoutConstants::ARROWHEAD_LINE_LENGTH, point_at.y() + LayoutConstants::ARROWHEAD_LINE_LENGTH)
+  else {
+    polygon << QPoint(point_at.x() + LayoutConstants::ARROWHEAD_LINE_LENGTH,
+                      point_at.y() + LayoutConstants::ARROWHEAD_LINE_LENGTH)
       << QPoint(point_at.x(), point_at.y())
-      << QPoint(point_at.x() + LayoutConstants::ARROWHEAD_LINE_LENGTH, point_at.y() - LayoutConstants::ARROWHEAD_LINE_LENGTH);
+      << QPoint(point_at.x() + LayoutConstants::ARROWHEAD_LINE_LENGTH,
+                point_at.y() - LayoutConstants::ARROWHEAD_LINE_LENGTH);
   }
 
   canvas_->save();

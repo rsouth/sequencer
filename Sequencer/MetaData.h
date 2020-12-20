@@ -20,16 +20,16 @@
 
 #include "RenderingUtils.h"
 
-class MetaData
-{
+class MetaData {
 public:
   MetaData();
-  MetaData(std::string title, std::string author, std::string date, RenderingUtils::Theme theme = RenderingUtils::Theme::Default);
+  MetaData(std::string title, std::string author, std::string date,
+           RenderingUtils::Theme theme = RenderingUtils::Theme::Default);
 
-  auto get_title() const->std::string;
-  auto get_author() const->std::string;
-  auto get_date() const->std::string;
-  auto get_theme() const->RenderingUtils::Theme;
+  auto get_title() const -> std::string;
+  auto get_author() const -> std::string;
+  auto get_date() const -> std::string;
+  auto get_theme() const -> RenderingUtils::Theme;
 
 private:
   std::string title_ = std::string();

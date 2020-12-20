@@ -24,14 +24,11 @@ auto InteractionParser::parse(const std::list<Participant>& participants,
                               const std::vector<std::string>& input) -> std::list<Interaction> {
   std::list<Interaction> interactions;
 
-  try
-  {
+  try {
     auto interaction_count = 0;
-    for (const auto& line : input)
-    {
+    for (const auto& line : input) {
       // lines with -> are 'interactions'
-      if (StringUtils::contains(line, "->"))
-      {
+      if (StringUtils::contains(line, "->")) {
         std::string token = ParsingUtils::parse_token(line);
         auto line_split = StringUtils::split(line, token);
         auto from_name = StringUtils::trim_copy(line_split[0]);
@@ -39,10 +36,8 @@ auto InteractionParser::parse(const std::list<Participant>& participants,
 
         // parse interaction message
         std::string message;
-        try
-        {
-          if (StringUtils::contains(to_name, ":"))
-          {
+        try {
+          if (StringUtils::contains(to_name, ":")) {
             auto message_start_index = to_name.find_first_of(':');
             auto name = StringUtils::trim_copy(to_name.substr(0, message_start_index));
             message = StringUtils::trim_copy(
@@ -50,13 +45,11 @@ auto InteractionParser::parse(const std::list<Participant>& participants,
             to_name = name;
           }
         }
-        catch (std::exception& ex)
-        {
+        catch (std::exception& ex) {
           // logger.atWarning().log("Interaction message_ is incomplete, not parsing");
         }
 
-        if (from_name.length() > 0 && to_name.length() > 0)
-        {
+        if (from_name.length() > 0 && to_name.length() > 0) {
           auto from_lane = lane_by_name(participants, from_name);
           auto to_lane = lane_by_name(participants, to_name);
 
@@ -66,8 +59,7 @@ auto InteractionParser::parse(const std::list<Participant>& participants,
           interactions.emplace_back(interaction);
           interaction_count++;
 
-          if (interaction.is_self_referential())
-          {
+          if (interaction.is_self_referential()) {
             // self-referential so increment interaction count one more time, for the interaction back to self
             interaction_count++;
           }
@@ -75,8 +67,7 @@ auto InteractionParser::parse(const std::list<Participant>& participants,
       }
     }
   }
-  catch (std::exception& ex)
-  {
+  catch (std::exception& ex) {
     // logger.atWarning().log("Exception while parsing interactions, exception: " + ex.getMessage());
   }
 
@@ -84,9 +75,11 @@ auto InteractionParser::parse(const std::list<Participant>& participants,
   return interactions;
 }
 
-Participant InteractionParser::lane_by_name(const std::list<Participant>& participants, const std::string& name)
-{
-  auto participant_iter = std::find_if(participants.begin(), participants.end(), [name](const Participant& participant) { return participant.get_name().compare(name) == 0;});
+Participant InteractionParser::lane_by_name(const std::list<Participant>& participants, const std::string& name) {
+  auto participant_iter = std::find_if(participants.begin(), participants.end(),
+                                       [name](const Participant& participant) {
+                                         return participant.get_name().compare(name) == 0;
+                                       });
   if (participant_iter == end(participants)) {
     const std::string msg("No participant found with name " + name + "]");
     throw std::exception(msg.c_str());

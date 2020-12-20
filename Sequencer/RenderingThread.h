@@ -23,9 +23,8 @@
 
 #include "RenderingJob.h"
 
-class RenderingThread final : public QThread
-{
-  Q_OBJECT
+class RenderingThread final : public QThread {
+Q_OBJECT
 
 public:
   explicit RenderingThread(QObject* parent = nullptr);
@@ -34,7 +33,7 @@ public:
 
   auto push(RenderingJob const& value) -> void;
 
-  auto pop()->RenderingJob;
+  auto pop() -> RenderingJob;
 
 signals:
   void render_completed(const QPixmap& image);

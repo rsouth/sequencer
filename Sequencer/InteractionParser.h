@@ -22,8 +22,7 @@
 class Interaction;
 class Participant;
 
-class InteractionParser
-{
+class InteractionParser {
 public:
   static auto parse(const std::list<Participant>& participants,
                     const std::vector<std::string>& input) -> std::list<Interaction>;

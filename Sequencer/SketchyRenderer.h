@@ -19,8 +19,7 @@
 #include "qpainter.h"
 
 class SketchyRenderer :
-  public Renderer
-{
+  public Renderer {
 public:
 
   explicit SketchyRenderer(QPainter* canvas) : Renderer(canvas) {
@@ -30,7 +29,7 @@ public:
     message_font_ = QFont("Ink Free", 10);
   }
 
-  virtual void draw_rectangle(QPoint top_left, QPoint bottom_right) override;
+  void draw_rectangle(QPoint top_left, QPoint bottom_right) override;
 
-  virtual void draw_line(QPoint from, QPoint to, bool dashed = false) override;
+  void draw_line(QPoint from, QPoint to, bool dashed = false) override;
 };

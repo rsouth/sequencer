@@ -17,8 +17,7 @@
 #pragma once
 #include <string>
 
-class Participant
-{
+class Participant {
 public:
   Participant(int index, std::string name);
 

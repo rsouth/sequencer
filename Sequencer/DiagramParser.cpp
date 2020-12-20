@@ -21,8 +21,7 @@
 #include "ParticipantsParser.h"
 #include "StringUtils.h"
 
-Diagram DiagramParser::parse(const std::string& input)
-{
+Diagram DiagramParser::parse(const std::string& input) {
   // sanitise the input
   auto lines = StringUtils::split(input, "\n");
   std::vector<std::string> filtered_input;

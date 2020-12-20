@@ -19,13 +19,10 @@
 #include "qpainter.h"
 #include "RenderingUtils.h"
 
-class Renderer
-{
+class Renderer {
 public:
 
-  Renderer(QPainter* canvas) : canvas_(canvas)
-  {
-  }
+  Renderer(QPainter* canvas) : canvas_(canvas) { }
 
   //
   // Drawing functions
@@ -35,29 +32,22 @@ public:
 
   virtual void draw_line(QPoint from, QPoint to, bool dashed = false) = 0;
 
-  virtual void draw_text(int x, int y, const std::string& text, const QFont font);
+  virtual void draw_text(int x, int y, const std::string& text, QFont font);
 
-  virtual void draw_arrowhead(QPoint point_at, RenderingUtils::ArrowDirection direction, RenderingUtils::ArrowStyle filled);
+  virtual void draw_arrowhead(QPoint point_at, RenderingUtils::ArrowDirection direction,
+                              RenderingUtils::ArrowStyle filled);
 
   //
   // Fonts
   //
 
-  QFont get_title_font() {
-    return title_font_;
-  }
+  QFont get_title_font() { return title_font_; }
 
-  QFont get_metadata_font() {
-    return metadata_font_;
-  }
+  QFont get_metadata_font() { return metadata_font_; }
 
-  QFont get_header_font() {
-    return header_font_;
-  }
+  QFont get_header_font() { return header_font_; }
 
-  QFont get_message_font() {
-    return message_font_;
-  }
+  QFont get_message_font() { return message_font_; }
 
 protected:
 

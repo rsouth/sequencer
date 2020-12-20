@@ -20,8 +20,7 @@
 
 class MetaData;
 
-class MetaDataParser
-{
+class MetaDataParser {
 public:
   static MetaData parse(const std::vector<std::string>& input);
 

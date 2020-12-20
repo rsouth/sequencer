@@ -16,8 +16,7 @@
  */
 #pragma once
 
-struct LayoutConstants
-{
+struct LayoutConstants {
 public:
 
   // constants

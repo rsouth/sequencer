@@ -22,8 +22,7 @@
 
 #include "qpainter.h"
 
-class RenderableMetaData
-{
+class RenderableMetaData {
 public:
   RenderableMetaData(const MetaData& meta_data, Renderer* renderer);
 

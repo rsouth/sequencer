@@ -17,10 +17,10 @@
 #pragma once
 #include "Participant.h"
 
-class Interaction
-{
+class Interaction {
 public:
-  Interaction(int index, Participant& from_participant, Participant& to_participant, const std::string& message, bool is_reply = false, bool is_async = false);
+  Interaction(int index, Participant& from_participant, Participant& to_participant, const std::string& message,
+              bool is_reply = false, bool is_async = false);
 
   std::string get_message() const;
 

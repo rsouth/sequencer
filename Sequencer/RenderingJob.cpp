@@ -23,8 +23,7 @@
 #include "DiagramParser.h"
 #include "RenderableDiagram.h"
 
-const QPixmap RenderingJob::do_render_diagram(const std::string& input) const
-{
+const QPixmap RenderingJob::do_render_diagram(const std::string& input) const {
   const auto diagram = DiagramParser::parse(input);
 
   QPixmap temp_pixmap(1000, 1000);
