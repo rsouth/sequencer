@@ -22,17 +22,15 @@
 #include "StringUtils.h"
 #include "ParsingUtils.h"
 
-std::list<Participant> ParticipantsParser::parse(const std::string& input)
-{
+auto ParticipantsParser::parse(const std::vector<std::string>& input) -> std::list<Participant> {
   std::list<Participant> found_participants;
 
   try
   {
     std::list<std::string> known_participants;
-    auto input_lines = StringUtils::split(input, "\n");
 
     // iterate input, parsing [FirstLane] -> [SecondLane] : Message
-    for (const auto& line : input_lines)
+    for (const auto& line : input)
     {
       if (StringUtils::contains(line, "->"))
       {

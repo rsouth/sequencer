@@ -17,13 +17,14 @@
 #pragma once
 #include <list>
 #include <string>
+#include <vector>
 
 class Participant;
 
 class ParticipantsParser
 {
 public:
-  static std::list<Participant> parse(const std::string& input);
+  static auto parse(const std::vector<std::string>& input) -> std::list<Participant>;
 
 private:
   static std::list<std::string> parse_lane_lanes(const std::string& line, const std::string& token);

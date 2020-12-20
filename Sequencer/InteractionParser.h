@@ -17,6 +17,7 @@
 #pragma once
 #include <list>
 #include <string>
+#include <vector>
 
 class Interaction;
 class Participant;
@@ -24,7 +25,8 @@ class Participant;
 class InteractionParser
 {
 public:
-  static std::list<Interaction> parse(const std::list<Participant>& participants, const std::string& input);
+  static auto parse(const std::list<Participant>& participants,
+                    const std::vector<std::string>& input) -> std::list<Interaction>;
 
 private:
   static Participant lane_by_name(const std::list<Participant>& participants, const std::string& name);
