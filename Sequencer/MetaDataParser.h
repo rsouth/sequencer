@@ -16,13 +16,14 @@
  */
 #pragma once
 #include <string>
+#include <vector>
 
 class MetaData;
 
 class MetaDataParser
 {
 public:
-  static MetaData parse(const std::string& input);
+  static MetaData parse(const std::vector<std::string>& input);
 
 private:
   static const char* TITLE_TOKEN;

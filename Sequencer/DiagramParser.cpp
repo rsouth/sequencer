@@ -19,12 +19,22 @@
 #include "InteractionParser.h"
 #include "Participant.h"
 #include "ParticipantsParser.h"
+#include "StringUtils.h"
 
 Diagram DiagramParser::parse(const std::string& input)
 {
-  const MetaData meta_data = MetaDataParser::parse(input);
-  const std::list<Participant> participants = ParticipantsParser::parse(input);
-  const std::list<Interaction> interactions = InteractionParser::parse(participants, input);
+  // sanitise the input
+  auto lines = StringUtils::split(input, "\n");
+  std::vector<std::string> filtered_input;
+  for (const std::string& line : lines) {
+    if (StringUtils::starts_with(line, "#")) { continue; }
+
+    filtered_input.push_back(line);
+  }
+
+  const MetaData meta_data = MetaDataParser::parse(filtered_input);
+  const std::list<Participant> participants = ParticipantsParser::parse(filtered_input);
+  const std::list<Interaction> interactions = InteractionParser::parse(participants, filtered_input);
 
   return Diagram(meta_data, participants, interactions);
 }

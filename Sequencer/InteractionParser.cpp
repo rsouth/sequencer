@@ -20,15 +20,14 @@
 #include "StringUtils.h"
 #include "ParsingUtils.h"
 
-std::list<Interaction> InteractionParser::parse(const std::list<Participant>& participants, const std::string& input)
-{
+auto InteractionParser::parse(const std::list<Participant>& participants,
+                              const std::vector<std::string>& input) -> std::list<Interaction> {
   std::list<Interaction> interactions;
 
   try
   {
-    auto all_lines_split = StringUtils::split(input, "\n");
     auto interaction_count = 0;
-    for (const auto& line : all_lines_split)
+    for (const auto& line : input)
     {
       // lines with -> are 'interactions'
       if (StringUtils::contains(line, "->"))

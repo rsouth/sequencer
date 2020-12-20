@@ -32,16 +32,14 @@ const char* MetaDataParser::DATE_TOKEN = ":date";
 const char* MetaDataParser::FONT_SIZE_TOKEN = ":fontsize ";
 const char* MetaDataParser::THEME_TOKEN = ":theme ";
 
-MetaData MetaDataParser::parse(const std::string& input)
-{
+auto MetaDataParser::parse(const std::vector<std::string>& input) -> MetaData {
   std::string title;
   std::string author;
   std::string date;
   RenderingUtils::Theme theme = RenderingUtils::Theme::Default;
   try
   {
-    auto lines = StringUtils::split(input, "\n");
-    for (const auto& line : lines)
+    for (const auto& line : input)
     {
       if (StringUtils::starts_with(line, TITLE_TOKEN))
       {
